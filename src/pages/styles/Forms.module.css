@@ -1,0 +1,58 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.form-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: 10px 0;
+}
+
+.form-line > div {
+    display: flex;
+    column-gap: 1em;
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.form label {
+    text-align: left;
+}
+
+.form input,
+.form select {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: var(--light);
+    background-color: transparent;
+    border: 1px solid var(--light);
+    border-radius: 4px;
+}
+
+.form input:focus,
+.form select:focus {
+    outline: 2px solid var(--medium);
+}
+
+.form input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 2px;
+    opacity: 0.6;
+    filter: invert(0.8);
+}
+
+.form input::-webkit-calendar-picker-indicator:hover {
+    opacity: 1
+}
+
+

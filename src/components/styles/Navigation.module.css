@@ -1,0 +1,68 @@
+.nav {
+    padding: 0 1em;
+}
+
+.nav > div:last-child {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.logo,
+.links {
+    display: flex;
+    font-size: 1.3em;
+    align-items: center;
+
+}
+
+.logo a,
+.links a,
+.links button {
+    margin: 0 30px;
+    padding: 3px 5px;
+    text-decoration: none;
+    color: var(--medium);
+}
+
+.logo a {
+    margin: 0 5px;
+}
+
+.links button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.logo a:hover,
+.links a:hover,
+.links button:hover {
+    color: var(--light);
+}
+
+.logo a:focus {
+    outline: none;
+    color: var(--light);
+}
+
+.links a:focus,
+.links button:focus {
+    outline: 2px solid var(--medium);
+    border-radius: 3px;
+    color: var(--light);
+}
+
+
+@media only screen and (min-width: 600px) {
+
+    .nav {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .nav > div:last-child {
+        justify-content: flex-end;
+    }
+}
