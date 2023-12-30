@@ -62,9 +62,9 @@ export default function Modal({ children, handleClose, showModal }) {
     }, [])
 
     return ReactDOM.createPortal((
-        <div className={styles.modalbackdrop}>
-            <div className={styles.modal} id="modal" tabIndex={-1}>
-                <button onClick={handleClose} className={styles.close}>
+        <div className={styles.Modalbackdrop}>
+            <div className={styles.Modal} id="modal" tabIndex={-1}>
+                <button onClick={handleClose} className={styles.Close}>
                     <span className="material-symbols-outlined">
                         close
                     </span>

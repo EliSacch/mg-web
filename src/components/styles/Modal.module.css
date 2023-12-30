@@ -1,14 +1,13 @@
-.modalbackdrop {
+.Modalbackdrop {
     position: fixed;
     inset: 0;
-    color: var(--dark);
     background-color: rgba(40, 39, 42, .4);
     isolation: isolate;
     backdrop-filter: blur(2px);
     z-index: 1;
 }
 
-.modal {
+.Modal {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -25,30 +24,11 @@
     justify-content: center;
 }
 
-.modal:focus {
-    outline: solid 1px var(--light);
+.Modal:focus {
+    outline: solid 1px var(--primary200);
 }
 
-.btn {
-    margin: 10px 0;
-    padding: 15px 40px;
-    font-size: 1.1em;
-    text-transform: uppercase;
-    color: var(--dark);
-    background-color: transparent;
-    border: 1px solid var(--dark);
-    border-radius: 4px;
-    cursor: pointer;
-    transition-duration: 1s;
-}
-
-.btn:hover,
-.btn:focus {
-    background-color: var(--dark);
-    color: var(--light);
-}
-
-.modal button.close {
+.Modal button.Close {
     padding: 2px;
     border-radius: 3px;
     cursor: pointer;
@@ -59,21 +39,22 @@
     background-color: transparent;
 }
 
-.modal button.close:hover > span {
+.Modal button.Close:hover > span {
     font-weight: 900;
     color: var(--error);
 }
 
-.modal button:focus {
+.Modal button:focus {
     box-shadow: none;
-    outline: 1px solid var(--medium);
+    outline: 1px solid var(--primary200);
 }
 
-.modal button:focus > span {
+.Modal button:focus > span {
     font-weight: 900;
     color: var(--error);
 }
 
-.modal button > span {
+.Modal button > span {
     font-size: 3em;
+    color: var(--primary200);
 }

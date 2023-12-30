@@ -1,23 +1,23 @@
-.btn {
+.Btn {
     margin: 10px 0;
     padding: 15px 40px;
     font-size: 1.1em;
     text-transform: uppercase;
-    color: var(--light);
+    color: var(--primary400);
     background-color: transparent;
-    border: 1px solid var(--light);
+    border: 1px solid var(--primary300);
     border-radius: 4px;
     cursor: pointer;
-    transition-duration: 1s;
+    transition-duration: .5s;
 }
 
-.btn:hover {
-    background-color: var(--light);
-    color: var(--dark);
+.Btn:hover {
+    background-color: var(--primary300);
+    color: var(--light);
 }
 
-.btn:focus {
-    outline: 1px solid var(--light);
-    background-color: var(--light);
-    color: var(--dark);
+.Btn:focus {
+    outline: 1px solid var(--primary300);
+    background-color: var(--primary300);
+    color: var(--light);
 }

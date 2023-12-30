@@ -1,9 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Carattere&display=swap');
+
 :root {
+  --logo: 'Carattere', cursive;
+
   --light: rgb(254, 252, 250);
-  --medium: rgb(224, 174, 208);
-  --dark: black;
-  --success: green;
-  --error: red;
+  --dark: rgb(36, 35, 35);
+
+  --primary100: rgb(246, 199, 192);
+  --primary200: rgb(224, 181, 174);
+  --primary300: rgb(199, 161, 156);
+  --primary400: rgb(143, 115, 111);
+  --primary500: rgb(107, 73, 68);
+
+  --success: rgb(168, 224, 168);
+  --error: rgb(224, 99, 136);
+  --alert: rgb(255, 228, 178);
 }
 
 body {
@@ -15,6 +26,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--light);
+  color: var(--primary400);
 }
 
 code {
