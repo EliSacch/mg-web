@@ -19,15 +19,40 @@ export default function Login({ setJwtToken }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email == "test@admin.com") {
-      setJwtToken("abc")
-      setCurrentMessage("Logged in")
-      setCurrentMessageType("success")
-      navigate("/")
-    } else {
-      setCurrentMessage("could not log in")
-      setCurrentMessageType("error")
+    // build the request payload
+    let payload = {
+      email: email,
+      password: password,
     }
+
+    // set request options
+    const requestOption = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify(payload),
+    }
+
+    // send the request
+    fetch('/authenticate', requestOption)
+    .then(res => res.json())
+    .then(data => {
+      if(data.error) {
+        setCurrentMessageType("error")
+        setCurrentMessage("Non è stato possibile fare il login! Per favore riprova.")
+      } else {
+        setJwtToken(data.access_token)
+        setCurrentMessageType("success")
+        setCurrentMessage("Login effettuato con successo!")
+      }
+    })
+    .catch(error => {
+      setCurrentMessageType("error")
+      setCurrentMessage("Non è stato possibile fare il login!")
+      console.log(error)
+    })
   }
 
   return (

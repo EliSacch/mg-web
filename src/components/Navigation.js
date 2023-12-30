@@ -8,6 +8,8 @@ export default function Navigation(props) {
 
     const handleLogout = () => {
         props.handleClose();
+        props.setCurrentMessage("Logged out");
+        props.setCurrentMessageType("success");
         props.setJwtToken("");
     }
 

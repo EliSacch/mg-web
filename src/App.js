@@ -1,5 +1,7 @@
 // hooks
 import { useState } from 'react';
+import { useSetCurrentMessage, useSetCurrentMessageType } from './context/MessageContext';
+
 // components
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
@@ -17,7 +19,8 @@ function App() {
   const [jwtToken, setJwtToken] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalChildren, setModalChildren] = useState(<p>hi</p>);
-
+  const setCurrentMessage = useSetCurrentMessage();
+  const setCurrentMessageType = useSetCurrentMessageType();
 
 
   const handleClose = () => {
@@ -40,6 +43,8 @@ function App() {
               setModalChildren={setModalChildren}
               jwtToken={jwtToken}
               setJwtToken={setJwtToken}
+              setCurrentMessage={setCurrentMessage}
+              setCurrentMessageType={setCurrentMessageType}
             />
           </header>
           <main>
