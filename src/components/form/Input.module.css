@@ -1,0 +1,36 @@
+.InputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.Label {
+    text-align: left;
+}
+
+input,
+select {
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: var(--primary400);
+    background-color: transparent;
+    border: 1px solid var(--primary300);
+    border-radius: 4px;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid var(--primary300);
+}
+
+input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 2px;
+    opacity: 0.6;
+    filter: invert(0.8);
+}
+
+input::-webkit-calendar-picker-indicator:hover {
+    opacity: 1
+}

@@ -1,0 +1,24 @@
+.FormContainer {
+    text-align: center;
+}
+
+.Form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 auto;
+    width: 96%;
+    max-width: 600px;
+}
+
+.FormLine {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: 10px 0;
+}
+
+.FormLine > div {
+    display: flex;
+    column-gap: 1em;
+}

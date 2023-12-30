@@ -1,0 +1,23 @@
+.Btn {
+    margin: 10px 0;
+    padding: 15px 40px;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    color: var(--primary400);
+    background-color: transparent;
+    border: 1px solid var(--primary300);
+    border-radius: 4px;
+    cursor: pointer;
+    transition-duration: .5s;
+}
+
+.Btn:hover {
+    background-color: var(--primary300);
+    color: var(--light);
+}
+
+.Btn:focus {
+    outline: 1px solid var(--primary300);
+    background-color: var(--primary300);
+    color: var(--light);
+}
