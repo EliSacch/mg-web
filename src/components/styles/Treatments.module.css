@@ -1,0 +1,6 @@
+.TreatmentsContainer {
+    display: grid;
+    margin: 100px 30px;
+    gap: 3em;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}

@@ -1,3 +1,78 @@
-.Home {
-    padding: 1em;
+.CallToAction {
+    padding: 2em;
+    background-color: var(--primary700);
+    color: var(--primary100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.CallToActionContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    min-height: 200px;
+    width: 80%;
+}
+
+.CallToAction h2 {
+    font-family: var(--serif);
+    font-size: 1.5em;
+    color: var(--secondary300);
+    margin: 0;
+}
+
+.CallToAction p {
+    margin-top: 0;
+    color: var(--primary300);
+    font-size: 2em;
+}
+
+.CallToAction a.Link {
+    margin-top: 0;
+    color: var(--primary300);
+    text-decoration: none;
+}
+
+.CallToAction a.Link:hover,
+.CallToAction a.Link:focus {
+    color: var(--primary200);
+}
+
+.Section {
+    padding: 2em;
+}
+
+.Section:has(> div:nth-child(2)) {
+    margin: 80px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+}
+
+.Section:has(> div:nth-child(2)) > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Section h2 {
+    font-family: var(--serif);
+    font-size: 3em;
+    font-weight: 400;
+    text-align: center;
+}
+
+.SideImage {
+max-width: 600px;
+overflow: hidden;
+transform: rotate(-10deg);
+}
+
+.SideImage img {
+    width: 100%;
 }

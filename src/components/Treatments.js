@@ -1,21 +1,24 @@
+// componenets
+import Card from "./Card";
+// style
+import styles from './styles/Treatments.module.css'
+
 export default function Treatments({ treatments }) {
 
     return (
-        <>
+        <div className={styles.TreatmentsContainer}>
             {
-                treatments.map(treatment => (
-                    <div key={treatments.indexOf(treatment)}>
+                treatments.filter(treatment => treatment.isActive==true).map(treatment => (
+                    <Card>
+                        <div key={treatments.indexOf(treatment)}>
                         <h3>{treatment.name}</h3>
                         <p>{treatment.description}</p>
                         <p>€{treatment.price}</p>
-                        <p>{treatment.duration} min</p>
-                        <p>{treatment.image}</p>
-                        <p>{treatment.isActive}</p>
-                        <p>{treatment.createdAt}</p>
                     </div>
+                    </Card>
                 )
                 )
             }
-        </>
+        </div>
     )
 }

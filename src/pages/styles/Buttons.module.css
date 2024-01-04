@@ -1,4 +1,5 @@
-.Btn {
+.Btn,
+.BtnInverted {
     margin: 10px 0;
     padding: 15px 40px;
     font-size: 1.1em;
@@ -9,14 +10,21 @@
     border-radius: 4px;
     cursor: pointer;
     transition-duration: .5s;
+    text-decoration: none;
 }
 
-.Btn:hover {
+.BtnInverted {
+    color: var(--primary200)
+}
+
+.Btn:hover,
+.BtnInverted:hover {
     background-color: var(--primary300);
     color: var(--light);
 }
 
-.Btn:focus {
+.Btn:focus,
+.BtnInverted:focus {
     outline: 1px solid var(--primary300);
     background-color: var(--primary300);
     color: var(--light);

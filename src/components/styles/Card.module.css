@@ -1,0 +1,14 @@
+.Card {
+    width: 100%;
+    padding: 2em 1.5em;
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    box-shadow: 5px 5px 25px grey;
+}
+
+.Card h3 {
+    font-family: serif;
+    font-size: 2em;
+    font-weight: 300;
+    text-align: center;
+}
