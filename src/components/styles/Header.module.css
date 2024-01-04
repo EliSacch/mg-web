@@ -1,0 +1,10 @@
+.Header {
+    background-color: linear-gradient(rgb(223, 225, 225), 70%,  rgba(197, 200, 200, 0.902));
+    background-image: url(../../assets/images/brush.jpg);
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    min-height: 600px;
+    max-height: 1000px;
+}

@@ -8,7 +8,7 @@ import btnStyles from './styles/Buttons.module.css';
 import Input from '../components/form/Input.js';
 
 
-export default function Login({ setJwtToken }) {
+export default function Login({ setJwtToken, toggleRefresh }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -24,12 +24,11 @@ export default function Login({ setJwtToken }) {
       email: email,
       password: password,
     }
-
     // set request options
     const requestOption = {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       credentials: 'include',
       body: JSON.stringify(payload),
@@ -46,6 +45,8 @@ export default function Login({ setJwtToken }) {
         setJwtToken(data.access_token)
         setCurrentMessageType("success")
         setCurrentMessage("Login effettuato con successo!")
+        toggleRefresh(true);
+        navigate("/")
       }
     })
     .catch(error => {

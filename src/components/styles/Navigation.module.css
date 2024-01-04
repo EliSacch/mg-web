@@ -1,40 +1,66 @@
 .Nav {
     display: flex;
+    flex-direction: column;
     padding: 10px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .Nav > div:last-child {
+    width: 100%;
     margin: 0 auto;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 50px;
 }
 
-.Logo,
-.Links {
+.LinksContainer {
+    height: fit-content;
     display: flex;
-    font-size: 1.3em;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 2px solid var(--primary400);
+}
+
+.Contact,
+.Social {
+    display: flex;
+    justify-content: end;
     align-items: center;
 }
 
-.Logo > p {
-    margin-left: 20px;
+.Contact > span,
+.Social > a {
+    margin: 10px;
 }
 
-.Logo a,
+.Contact > a,
+.Social > a {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--primary400);
+}
+
+.Contact > a:hover,
+.Contact > a:focus,
+.Social > a:hover,
+.Social > a:focus {
+    color: var(--primary300);
+}
+
+.Links {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, auto));
+    font-size: 1.3em;
+}
+
 .Links a,
 .Links button {
     margin: 0 10px;
     text-decoration: none;
-    color: var(--primary300);
-}
-
-.Logo a {
-    font-family: var(--logo);
-    font-size: 2em;
-}
-
-.Logo h1 {
-    margin: 0;
+    color: var(--primary400);
 }
 
 .Links button {
@@ -44,15 +70,9 @@
     font-size: 1em;
 }
 
-.Logo a:hover,
 .Links a:hover,
 .Links button:hover {
-    color: var(--primary400)
-}
-
-.Logo a:focus {
-    outline: none;
-    color: var(--primary400);
+    color: var(--primary300)
 }
 
 .Links a:focus,
