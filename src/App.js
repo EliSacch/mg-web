@@ -1,9 +1,12 @@
 // hooks
 import { useCallback, useEffect, useState } from 'react';
 import { useSetCurrentMessage, useSetCurrentMessageType } from './context/MessageContext';
-
+import { useSetCurrentUser } from './context/CurrentUserContext';
 // components
 import { BrowserRouter, Route, Routes, redirect, } from 'react-router-dom';
+import LayoutWithHeader from './layouts/LayoutWithHeader';
+import LayoutWithoutHeader from './layouts/LayoutWithoutHeader';
+import LayoutForAdmin from './layouts/LayoutForAdmin';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -11,8 +14,7 @@ import Message from './components/Message';
 import Modal from './components/Modal';
 // style
 import './App.css';
-import LayoutWithHeader from './pages/LayoutWithHeader';
-import LayoutWithoutHeader from './pages/LayoutWithoutHeader';
+import Admin from './pages/Admin';
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
   const [jwtToken, setJwtToken] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalChildren, setModalChildren] = useState(<p>hi</p>);
+  const setCurrentUser = useSetCurrentUser();
   const setCurrentMessage = useSetCurrentMessage();
   const setCurrentMessageType = useSetCurrentMessageType();
 
@@ -44,14 +47,17 @@ function App() {
       .catch(error => {
         console.log("error logging out.", error)
         handleClose();
-        setCurrentMessageType("success");
-        setCurrentMessage("A presto!");
+        setCurrentMessageType("error");
+        setCurrentMessage("C'è stato un problema con il logout.");
       })
       .finally(() => {
-        setJwtToken("")
+        setJwtToken("");
+        setCurrentUser(null);
         toggleRefresh(false);
         handleClose();
         redirect("/")
+        setCurrentMessageType("success");
+        setCurrentMessage("A presto!");
       })
   }
 
@@ -108,12 +114,14 @@ function App() {
       <>
         <BrowserRouter>
           <Routes>
+
             <Route element={
               <LayoutWithHeader
                 handleOpen={handleOpen}
                 handleLogout={handleLogout}
                 setModalChildren={setModalChildren}
                 jwtToken={jwtToken}
+                setJwtToken={setJwtToken}
               />
             }>
               <Route
@@ -121,18 +129,38 @@ function App() {
                 element={<Home />}
               />
             </Route>
+
             <Route element={
               <LayoutWithoutHeader
                 handleOpen={handleOpen}
                 handleLogout={handleLogout}
                 setModalChildren={setModalChildren}
                 jwtToken={jwtToken}
+                setJwtToken={setJwtToken}
               />
             }>
               <Route path="/test" element={<p>Test page</p>} />
-              <Route path="/login" element={<Login setJwtToken={setJwtToken} toggleRefresh={toggleRefresh} />} />
+              <Route path="/login" element={
+                <Login
+                  setJwtToken={setJwtToken}
+                  toggleRefresh={toggleRefresh}
+                />
+              } />
               <Route path="/signup" element={<Signup />} />
             </Route>
+
+            <Route element={
+              <LayoutForAdmin
+                handleOpen={handleOpen}
+                handleLogout={handleLogout}
+                setModalChildren={setModalChildren}
+                jwtToken={jwtToken}
+                setJwtToken={setJwtToken}
+              />
+            }>
+              <Route path="/admin" element={<Admin jwtToken={jwtToken} />} />
+            </Route>
+
           </Routes>
         </BrowserRouter>
 

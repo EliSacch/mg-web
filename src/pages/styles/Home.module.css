@@ -46,7 +46,6 @@
 }
 
 .Section:has(> div:nth-child(2)) {
-    margin: 80px auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
@@ -68,6 +67,7 @@
 }
 
 .SideImage {
+    margin: 80px auto;
 max-width: 600px;
 overflow: hidden;
 transform: rotate(-10deg);
@@ -76,3 +76,15 @@ transform: rotate(-10deg);
 .SideImage img {
     width: 100%;
 }
+
+
+@media only screen and (max-width: 1000px) {
+    .Section:has(> div:nth-child(2)) {
+        grid-template-columns: 1fr;
+    }
+
+    .SideImage {
+    margin: 30px auto;
+    transform: rotate(0deg);
+    }
+  }

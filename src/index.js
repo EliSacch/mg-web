@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CurrentMessageProvider } from './context/MessageContext';
 
+// styles
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
+import { CurrentUserProvider } from './context/CurrentUserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <CurrentMessageProvider>
-      <App />
-    </CurrentMessageProvider>
+    <CurrentUserProvider>
+      <CurrentMessageProvider>
+        <App />
+      </CurrentMessageProvider>
+    </CurrentUserProvider>
   </React.StrictMode>
 );
 

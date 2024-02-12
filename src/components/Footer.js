@@ -46,8 +46,10 @@ export default function Footer() {
 
             <table>
                 <thead>
+                    <tr>
                     <th>Orario di apertura</th>
                     <th></th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>

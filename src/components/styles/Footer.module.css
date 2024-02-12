@@ -3,6 +3,7 @@
     background-color: var(--primary700);
     color: var(--primary100);
     display: flex;
+    gap: 1em;
     justify-content: space-around;
     align-items: center;
 }
@@ -25,3 +26,11 @@
 .Social > a:focus {
     color: var(--primary300);
 }
+
+@media only screen and (max-width: 700px) {
+    .Footer {
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 2em;
+    }
+  }

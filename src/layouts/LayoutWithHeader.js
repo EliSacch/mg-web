@@ -3,21 +3,32 @@ import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 
-const LayoutWithHeader = (props) => {
+const LayoutWithHeader = ({
+    handleOpen,
+    handleLogout,
+    setModalChildren,
+    jwtToken,
+    setJwtToken
+}) => {
     return (
         <>
             <header>
             <Header>
                 <Navigation
-                    handleOpen={props.handleOpen}
-                    handleLogout={props.handleLogout}
-                    setModalChildren={props.setModalChildren}
-                    jwtToken={props.jwtToken}
+                    handleOpen={handleOpen}
+                    handleLogout={handleLogout}
+                    setModalChildren={setModalChildren}
+                    jwtToken={jwtToken}
                 />
             </Header>
             </header>
             <main>
-            <Outlet />
+            <Outlet
+            context={{
+              jwtToken,
+              setJwtToken
+            }}
+          />
             </main>
             <footer>
             <Footer />

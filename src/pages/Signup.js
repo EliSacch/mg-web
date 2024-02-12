@@ -28,7 +28,7 @@ export default function Signup() {
           type="text"
           name="name"
           onChange={(e) => setDisplayName(e.target.value)}
-          value={email}
+          value={displayName}
           placeholder="Scegli un nome"
         />
 

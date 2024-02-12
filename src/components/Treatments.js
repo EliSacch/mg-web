@@ -9,8 +9,8 @@ export default function Treatments({ treatments }) {
         <div className={styles.TreatmentsContainer}>
             {
                 treatments.filter(treatment => treatment.isActive==true).map(treatment => (
-                    <Card>
-                        <div key={treatments.indexOf(treatment)}>
+                    <Card key={treatments.indexOf(treatment)}>
+                        <div>
                         <h3>{treatment.name}</h3>
                         <p>{treatment.description}</p>
                         <p>€{treatment.price}</p>

@@ -1,5 +1,7 @@
 // hooks
 import { useEffect, useState } from 'react';
+// context
+import { useCurrentUser } from '../context/CurrentUserContext';
 // componenet
 import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -14,6 +16,7 @@ import img from '../assets/images/brush.jpg';
 export default function Home() {
 
   const [treatments, setTreatments] = useState([])
+  const currentUser = useCurrentUser()
 
   useEffect(() => {
     const headers = new Headers();
@@ -84,8 +87,10 @@ export default function Home() {
 
           <table>
             <thead>
+              <tr>
               <th></th>
               <th>Orario</th>
+              </tr>
             </thead>
             <tbody>
               <tr>

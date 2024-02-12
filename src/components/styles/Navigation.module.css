@@ -1,4 +1,5 @@
-.Nav {
+.Nav,
+.AdminNav {
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -6,20 +7,45 @@
     margin: 0 auto;
 }
 
-.Nav > div:last-child {
+.Nav>div:last-child {
     width: 100%;
     margin: 0 auto;
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 50px;
+    align-items: center;
 }
 
-.LinksContainer {
+.AdminNav {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.OffcanvasTitle {
+    color: var(--primary400);
+}
+
+.Hamburger {
+    color: var(--primary400);
+    border: none;
+    background-color: transparent;
+    margin-left: auto;
+}
+
+.LinksContainer,
+.HamburgerContainer {
     height: fit-content;
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-bottom: 2px solid var(--primary400);
+
+}
+
+.HamburgerContainer {
+    border-bottom: none;
 }
 
 .Contact,
@@ -29,54 +55,90 @@
     align-items: center;
 }
 
-.Contact > span,
-.Social > a {
+.Contact>span,
+.Social>a {
     margin: 10px;
 }
 
-.Contact > a,
-.Social > a {
+.Contact>a,
+.Social>a {
     cursor: pointer;
     font-weight: bold;
     text-decoration: none;
     color: var(--primary400);
+    display: flex;
+    gap: 5px;
+    margin-left: 20px;
+
 }
 
-.Contact > a:hover,
-.Contact > a:focus,
-.Social > a:hover,
-.Social > a:focus {
+.Contact>a:hover,
+.Contact>a:focus,
+.Social>a:hover,
+.Social>a:focus {
     color: var(--primary300);
 }
 
-.Links {
+.Nav .Links {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, auto));
     font-size: 1.3em;
 }
 
+.AdminNav .Links,
+.LinksOffcanvas {
+    width: 100%;
+    font-size: 1.3em;
+    display: flex;
+}
+
+.AdminNav .Links>button:last-child {
+    margin-left: auto;
+}
+
+.LinksOffcanvas {
+    flex-direction: column;
+    min-height: 80%;
+}
+
+.LinksOffcanvas>button:last-child {
+    margin-top: auto;
+}
+
 .Links a,
-.Links button {
+.Links button,
+.LinksOffcanvas a,
+.LinksOffcanvas button {
     margin: 0 10px;
     text-decoration: none;
     color: var(--primary400);
 }
 
-.Links button {
+.Links button,
+.LinksOffcanvas button,
+.Hamburger {
     background-color: transparent;
     border: none;
     cursor: pointer;
     font-size: 1em;
 }
 
+.LinksOffcanvas button {
+    text-align: left;
+}
+
 .Links a:hover,
-.Links button:hover {
-    color: var(--primary300)
+.Links button:hover,
+.LinksOffcanvas a:hover,
+.LinksOffcanvas button:hover {
+    color: var(--primary300);
 }
 
 .Links a:focus,
-.Links button:focus {
+.Links button:focus,
+.LinksOffcanvas a:focus,
+.LinksOffcanvas button:focus {
     outline: 2px solid var(--primary300);
     border-radius: 3px;
     color: var(--primary400);

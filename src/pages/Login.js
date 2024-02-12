@@ -1,6 +1,7 @@
 // hooks
 import { useState } from 'react';
 import { useSetCurrentMessage, useSetCurrentMessageType } from '../context/MessageContext.js';
+import { useSetCurrentUser } from '../context/CurrentUserContext.js';
 import { useNavigate } from 'react-router-dom';
 // style
 import formStyles from './styles/Forms.module.css';
@@ -12,6 +13,7 @@ export default function Login({ setJwtToken, toggleRefresh }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const setCurrentUser = useSetCurrentUser();
   const setCurrentMessage = useSetCurrentMessage();
   const setCurrentMessageType = useSetCurrentMessageType();
 
@@ -43,10 +45,11 @@ export default function Login({ setJwtToken, toggleRefresh }) {
         setCurrentMessage("Non è stato possibile fare il login! Per favore riprova.")
       } else {
         setJwtToken(data.access_token)
+        setCurrentUser(data.user)
         setCurrentMessageType("success")
         setCurrentMessage("Login effettuato con successo!")
         toggleRefresh(true);
-        navigate("/")
+        navigate("/");
       }
     })
     .catch(error => {
