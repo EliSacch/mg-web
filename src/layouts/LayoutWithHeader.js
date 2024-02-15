@@ -5,10 +5,8 @@ import Footer from "../components/Footer";
 
 const LayoutWithHeader = ({
     handleOpen,
-    handleLogout,
-    setModalChildren,
-    jwtToken,
-    setJwtToken
+    handleClose,
+    setModalChildren
 }) => {
     return (
         <>
@@ -16,19 +14,13 @@ const LayoutWithHeader = ({
             <Header>
                 <Navigation
                     handleOpen={handleOpen}
-                    handleLogout={handleLogout}
+                    handleClose={handleClose}
                     setModalChildren={setModalChildren}
-                    jwtToken={jwtToken}
                 />
             </Header>
             </header>
             <main>
-            <Outlet
-            context={{
-              jwtToken,
-              setJwtToken
-            }}
-          />
+            <Outlet />
             </main>
             <footer>
             <Footer />

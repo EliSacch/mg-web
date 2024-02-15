@@ -1,18 +1,19 @@
 // hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSetCurrentMessage, useSetCurrentMessageType } from '../context/MessageContext.js';
-import { useSetCurrentUser } from '../context/CurrentUserContext.js';
+import { useCurrentUser, useSetCurrentUser } from '../context/CurrentUserContext.js';
 import { useNavigate } from 'react-router-dom';
+// componenets
+import Input from '../components/form/Input.js';
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
-import Input from '../components/form/Input.js';
 
 
-export default function Login({ setJwtToken, toggleRefresh }) {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const setCurrentMessage = useSetCurrentMessage();
   const setCurrentMessageType = useSetCurrentMessageType();
@@ -38,26 +39,30 @@ export default function Login({ setJwtToken, toggleRefresh }) {
 
     // send the request
     fetch('/authenticate', requestOption)
-    .then(res => res.json())
-    .then(data => {
-      if(data.error) {
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          setCurrentMessageType("error")
+          setCurrentMessage("Non è stato possibile fare il login! Per favore riprova.")
+        } else {
+          setCurrentUser(data.user)
+          setCurrentMessageType("success")
+          setCurrentMessage("Login effettuato con successo!")
+          navigate("/");
+        }
+      })
+      .catch(error => {
         setCurrentMessageType("error")
-        setCurrentMessage("Non è stato possibile fare il login! Per favore riprova.")
-      } else {
-        setJwtToken(data.access_token)
-        setCurrentUser(data.user)
-        setCurrentMessageType("success")
-        setCurrentMessage("Login effettuato con successo!")
-        toggleRefresh(true);
-        navigate("/");
-      }
-    })
-    .catch(error => {
-      setCurrentMessageType("error")
-      setCurrentMessage("Non è stato possibile fare il login!")
-      console.log(error)
-    })
+        setCurrentMessage("Non è stato possibile fare il login!")
+        console.log(error)
+      })
   }
+
+  useEffect(() => {
+    if (currentUser != null) {
+      navigate("/");
+    }
+  }, [currentUser, navigate])
 
   return (
     <div className={formStyles.FormContainer}>

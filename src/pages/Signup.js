@@ -1,21 +1,37 @@
 // hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+// context
+import { useCurrentUser } from '../context/CurrentUserContext';
+// components
+import Input from '../components/form/Input';
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
-import Input from '../components/form/Input';
 
 
 export default function Signup() {
+
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
 
+  const currentUser = useCurrentUser();
+  
+  const navigate = useNavigate()
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(email, password, displayName);
   }
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+      return
+    }
+  }, [currentUser, navigate])
 
   return (
     <div className={formStyles.FormContainer}>

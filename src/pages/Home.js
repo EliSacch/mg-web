@@ -1,7 +1,5 @@
 // hooks
 import { useEffect, useState } from 'react';
-// context
-import { useCurrentUser } from '../context/CurrentUserContext';
 // componenet
 import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -15,8 +13,7 @@ import img from '../assets/images/brush.jpg';
 
 export default function Home() {
 
-  const [treatments, setTreatments] = useState([])
-  const currentUser = useCurrentUser()
+  const [treatments, setTreatments] = useState([]);
 
   useEffect(() => {
     const headers = new Headers();
@@ -40,7 +37,7 @@ export default function Home() {
       <section className={styles.CallToAction}>
         <div className={styles.CallToActionContainer}>
           <div>
-            <h2>Vuoi prendere un appuntamento?</h2>
+            <h2>Vuoi prendere un appuntamento? </h2>
             <p>
               <Link
                 to='#'

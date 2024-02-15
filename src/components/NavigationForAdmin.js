@@ -3,6 +3,7 @@ import { useState } from 'react';
 // contect
 import { useCurrentUser } from '../context/CurrentUserContext';
 // components
+import Logout from '../pages/Logout';
 import Logo from './Logo';
 import { Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -11,8 +12,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 // style
 import styles from './styles/Navigation.module.css';
-import btnStyles from '../pages/styles/Buttons.module.css';
-
 
 
 export default function NavigationForAdmin(props) {
@@ -24,11 +23,7 @@ export default function NavigationForAdmin(props) {
 
     const openLogoutModal = () => {
         props.setModalChildren(
-            <>
-                <h2>Logout</h2>
-                <p>Vuoi effettuare il logout?</p>
-                <button onClick={() => props.handleLogout()} className={btnStyles.Btn}>Conferma</button>
-            </>
+            <Logout handleClose={() => props.handleClose()} />
         )
         props.handleOpen()
     }

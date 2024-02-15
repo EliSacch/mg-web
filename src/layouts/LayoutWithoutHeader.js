@@ -2,15 +2,18 @@ import { Outlet } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 
-const LayoutWithoutHeader = (props) => {
+const LayoutWithoutHeader = ({
+    handleOpen,
+    handleClose,
+    setModalChildren
+}) => {
     return (
         <>
             <header>
                 <Navigation
-                    handleOpen={props.handleOpen}
-                    handleLogout={props.handleLogout}
-                    setModalChildren={props.setModalChildren}
-                    jwtToken={props.jwtToken}
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
+                    setModalChildren={setModalChildren}
                 />
             </header>
             <main>

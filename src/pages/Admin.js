@@ -1,23 +1,23 @@
 // hooks
 import { useEffect } from "react";
 // context
-import { useNavigate, useOutletContext } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useCurrentUser } from "../context/CurrentUserContext";
 
-export default function Admin({jwtToken}) {
+export default function Admin() {
 
     const currentUser = useCurrentUser();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(jwtToken === "") {
+        if(!currentUser) {
             navigate("/login");
             return
         }
-    }, [jwtToken, navigate])
+    }, [currentUser, navigate])
 
     useEffect(() => {
-        if(!currentUser || !currentUser.is_admin) {
+        if(currentUser && !currentUser.is_admin) {
             navigate("/");
             return
         }

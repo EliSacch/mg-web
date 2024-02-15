@@ -3,24 +3,20 @@ import NavigationForAdmin from "../components/NavigationForAdmin";
 
 const LayoutForAdmin = ({
     handleOpen,
-    handleLogout,
-    setModalChildren,
-    jwtToken,
-    setJwtToken
+    handleClose,
+    setModalChildren
 }) => {
     return (
         <>
             <header>
                 <NavigationForAdmin
                     handleOpen={handleOpen}
-                    handleLogout={handleLogout}
+                    handleClose={handleClose}
                     setModalChildren={setModalChildren}
-                    jwtToken={jwtToken}
-                    setJwtToken={setJwtToken}
                 />
             </header>
             <main>
-                <Outlet context={jwtToken} />
+                <Outlet />
             </main>
             <footer>
                 Admin footer
