@@ -31,6 +31,11 @@ export default function Navigation(props) {
         props.handleOpen()
     }
 
+    const openModalFromOffcanvas = () => {
+        openLogoutModal();
+        handleCloseMenu();
+    }
+
     useEffect(() => {
         setHasLoaded(true)
     }, [])
@@ -125,7 +130,7 @@ export default function Navigation(props) {
                                 <FontAwesomeIcon icon={faBars} size='xl' />
                             </button>
 
-                            <Offcanvas show={showMenu} onHide={handleCloseMenu}>
+                            <Offcanvas show={showMenu} onHide={handleCloseMenu} className='d-md-none'>
                                 <Offcanvas.Header closeButton>
                                     <Offcanvas.Title className={styles.OffcanvasTitle}>MG Studio Estetico</Offcanvas.Title>
                                 </Offcanvas.Header>
@@ -143,7 +148,7 @@ export default function Navigation(props) {
                                         {currentUser?.is_admin && <Link to="/admin">Admin</Link>}
                                         {
                                             currentUser && (
-                                                <button onClick={openLogoutModal}>Logout</button>
+                                                <button onClick={openModalFromOffcanvas}>Logout</button>
                                             )
                                         }
                                     </div>
