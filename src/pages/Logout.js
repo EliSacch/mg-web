@@ -36,10 +36,11 @@ export default function Logout({ handleClose }) {
             })
     }
 
-    return <>
+    return (
+    <>
         <h2>Logout</h2>
         <p>Vuoi effettuare il logout?</p>
         <button onClick={() => handleLogout()} className={btnStyles.Btn}>Conferma</button>
     </>
-
+    )
 }

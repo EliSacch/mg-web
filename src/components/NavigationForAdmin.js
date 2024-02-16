@@ -1,7 +1,5 @@
 // hooks
 import { useState } from 'react';
-// contect
-import { useCurrentUser } from '../context/CurrentUserContext';
 // components
 import Logout from '../pages/Logout';
 import Logo from './Logo';
@@ -16,7 +14,6 @@ import styles from './styles/Navigation.module.css';
 
 export default function NavigationForAdmin(props) {
     const [showMenu, setShowMenu] = useState(false);
-    const currentUser = useCurrentUser();
 
     const handleCloseMenu = () => setShowMenu(false);
     const handleShowMenu = () => setShowMenu(true);
@@ -28,17 +25,32 @@ export default function NavigationForAdmin(props) {
         props.handleOpen()
     }
 
+    const openModalFromOffcanvas = () => {
+        openLogoutModal();
+        handleCloseMenu();
+    }
+
+    const LINKS = (
+        <>
+            <Link to="/admin">Dashboard</Link>
+            <Link to="/admin/treatments">Gestisci Trattamenti</Link>
+            <span className={styles.MoveRight}>
+                <Link to="/">Home</Link>
+                <button onClick={openModalFromOffcanvas}>Logout</button>
+            </span>
+        </>
+    )
+
     return (
-        <nav className={styles.AdminNav}>
+        <nav className={styles.Nav}>
+
             <Logo />
 
             {/* large screen */}
             <div className="d-none d-md-block">
                 <div className={styles.LinksContainer}>
                     <div className={styles.Links}>
-                        <Link to="/">Home</Link>
-                        <Link to="/">Gestisci Trattamenti</Link>
-                        <button onClick={openLogoutModal}>Logout</button>
+                        {LINKS}
                     </div>
                 </div>
             </div>
@@ -50,15 +62,13 @@ export default function NavigationForAdmin(props) {
                         <FontAwesomeIcon icon={faBars} size='xl' />
                     </button>
 
-                    <Offcanvas show={showMenu} onHide={handleCloseMenu}>
+                    <Offcanvas show={showMenu} onHide={handleCloseMenu} className={styles.Offcanvas}>
                         <Offcanvas.Header closeButton>
-                            <Offcanvas.Title className={styles.OffcanvasTitle}>MG Studio Estetico</Offcanvas.Title>
+                            <Offcanvas.Title>MG Studio Estetico</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <div className={styles.LinksOffcanvas}>
-                                <Link to="/">Home</Link>
-                                <Link to="/">Gestisci Trattamenti</Link>
-                                <button onClick={openLogoutModal}>Logout</button>
+                                {LINKS}
                             </div>
 
                         </Offcanvas.Body>

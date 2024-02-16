@@ -65,36 +65,38 @@ export default function Login() {
   }, [currentUser, navigate])
 
   return (
-    <div className={formStyles.FormContainer}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} className={formStyles.Form}>
+    <main>
+      <section className={formStyles.FormContainer}>
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit} className={formStyles.Form}>
 
-        <Input
-          id="email"
-          title="Email"
-          type="email"
-          name="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          placeholder="La tua email"
-          autoComplete="email-new"
-        />
+          <Input
+            id="email"
+            title="Email"
+            type="email"
+            name="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            placeholder="La tua email"
+            autoComplete="email-new"
+          />
 
-        <Input
-          id="password"
-          title="Password"
-          type="password"
-          name="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          placeholder="La tua password"
-          autoComplete="password-new"
-        />
+          <Input
+            id="password"
+            title="Password"
+            type="password"
+            name="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            placeholder="La tua password"
+            autoComplete="password-new"
+          />
 
-        <button id="login" className={btnStyles.Btn}>Login</button>
+          <button id="login" className={btnStyles.Btn}>Login</button>
 
-      </form>
-    </div>
+        </form>
+      </section>
+    </main>
 
   )
 }

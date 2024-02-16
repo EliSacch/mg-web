@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LayoutWithHeader from './layouts/LayoutWithHeader';
 import LayoutWithoutHeader from './layouts/LayoutWithoutHeader';
 import LayoutForAdmin from './layouts/LayoutForAdmin';
+import AdminDashboard from './pages/AdminDashboard';
+import ManageTreatments from './pages/ManageTreatments';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -12,7 +14,6 @@ import Message from './components/Message';
 import Modal from './components/Modal';
 // style
 import './App.css';
-import Admin from './pages/Admin';
 
 
 function App() {
@@ -68,7 +69,9 @@ function App() {
                 setModalChildren={setModalChildren}
               />
             }>
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/treatments" element={<ManageTreatments />} />
+
             </Route>
 
           </Routes>

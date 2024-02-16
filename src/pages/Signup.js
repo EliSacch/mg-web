@@ -18,7 +18,7 @@ export default function Signup() {
   const [password2, setPassword2] = useState('');
 
   const currentUser = useCurrentUser();
-  
+
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -34,55 +34,57 @@ export default function Signup() {
   }, [currentUser, navigate])
 
   return (
-    <div className={formStyles.FormContainer}>
-      <h2>Sign up</h2>
-      <form onSubmit={handleSubmit} className={formStyles.Form}>
+    <main>
+      <section className={formStyles.FormContainer}>
+        <h2>Sign up</h2>
+        <form onSubmit={handleSubmit} className={formStyles.Form}>
 
-        <Input
-          id="name"
-          title="Nome"
-          type="text"
-          name="name"
-          onChange={(e) => setDisplayName(e.target.value)}
-          value={displayName}
-          placeholder="Scegli un nome"
-        />
+          <Input
+            id="name"
+            title="Nome"
+            type="text"
+            name="name"
+            onChange={(e) => setDisplayName(e.target.value)}
+            value={displayName}
+            placeholder="Scegli un nome"
+          />
 
-        <Input
-          id="email"
-          title="Email"
-          type="email"
-          name="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          placeholder="La tua email"
-          autoComplete="email-new"
-        />
+          <Input
+            id="email"
+            title="Email"
+            type="email"
+            name="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            placeholder="La tua email"
+            autoComplete="email-new"
+          />
 
-        <Input
-          id="password"
-          title="Password"
-          type="password"
-          name="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          placeholder="La tua password"
-          autoComplete="password-new"
-        />
+          <Input
+            id="password"
+            title="Password"
+            type="password"
+            name="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            placeholder="La tua password"
+            autoComplete="password-new"
+          />
 
-        <Input
-          id="password2"
-          title="Ripeti la password"
-          type="password"
-          name="password2"
-          onChange={(e) => setPassword2(e.target.value)}
-          value={password2}
-          placeholder="Ripeti la password"
-        />
+          <Input
+            id="password2"
+            title="Ripeti la password"
+            type="password"
+            name="password2"
+            onChange={(e) => setPassword2(e.target.value)}
+            value={password2}
+            placeholder="Ripeti la password"
+          />
 
-        <button id="signup" className={btnStyles.Btn}>Sign up</button>
+          <button id="signup" className={btnStyles.Btn}>Sign up</button>
 
-      </form>
-    </div>
+        </form>
+      </section>
+    </main>
   )
 }

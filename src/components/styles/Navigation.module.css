@@ -1,30 +1,23 @@
-.Nav,
-.AdminNav {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+.Nav {
     width: 90%;
     margin: 0 auto;
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 50px;
+    align-items: center;
 }
 
-.Nav>div:last-child {
+.LinksContainer,
+.HamburgerContainer {
     width: 100%;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 50px;
-    align-items: center;
+    height: fit-content;
+    display: flex;
+    border-bottom: 2px solid var(--primary400);
 }
 
-.AdminNav {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 50px;
-    align-items: center;
-}
-
-.OffcanvasTitle {
-    color: var(--primary400);
+.HamburgerContainer {
+    border-bottom: none;
 }
 
 .Hamburger {
@@ -34,75 +27,34 @@
     margin-left: auto;
 }
 
-.LinksContainer,
-.HamburgerContainer {
-    height: fit-content;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    border-bottom: 2px solid var(--primary400);
-
-}
-
-.HamburgerContainer {
-    border-bottom: none;
-}
-
-.Contact,
-.Social {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-}
-
-.Contact>span,
-.Social>a {
-    margin: 10px;
-}
-
-.Contact>a,
-.Social>a {
-    cursor: pointer;
-    font-weight: bold;
-    text-decoration: none;
-    color: var(--primary400);
-    display: flex;
-    gap: 5px;
-    margin-left: 20px;
-
-}
-
-.Contact>a:hover,
-.Contact>a:focus,
-.Social>a:hover,
-.Social>a:focus {
-    color: var(--primary300);
-}
-
 .Nav .Links {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, auto));
-    font-size: 1.3em;
-}
-
-.AdminNav .Links,
-.LinksOffcanvas {
-    width: 100%;
-    font-size: 1.3em;
     display: flex;
+    font-size: 1.3em;
+    margin: 5px auto;
 }
 
-.AdminNav .Links>button:last-child {
+.Nav .Links .MoveRight {
     margin-left: auto;
 }
 
-.LinksOffcanvas {
-    flex-direction: column;
-    min-height: 80%;
+.Offcanvas {
+    background-color: var(--light);
+    color: var(--primary400);
 }
 
-.LinksOffcanvas>button:last-child {
+.LinksOffcanvas {
+    min-height: 80%;
+    width: 100%;
+    font-size: 1.3em;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px; 
+}
+
+.LinksOffcanvas span {
+    display: flex;
+    flex-direction: column;
     margin-top: auto;
 }
 
@@ -126,6 +78,7 @@
 
 .LinksOffcanvas button {
     text-align: left;
+    padding-left: 0;
 }
 
 .Links a:hover,
@@ -142,4 +95,35 @@
     outline: 2px solid var(--primary300);
     border-radius: 3px;
     color: var(--primary400);
+}
+
+.Contact {
+    position: absolute;
+    top: 20px;
+    right: 70px;
+}
+
+.Contact > div,
+.Social {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.Contact a,
+.Social a {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--primary400);
+    display: flex;
+    gap: 5px;
+    margin-left: 20px;
+}
+
+.Contact a:hover,
+.Contact a:focus,
+.Social a:hover,
+.Social a:focus {
+    color: var(--primary300);
 }

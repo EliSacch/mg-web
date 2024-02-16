@@ -9,10 +9,12 @@ import { Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFacebookF, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faBars, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 // style
 import styles from './styles/Navigation.module.css';
+
 
 
 export default function Navigation(props) {
@@ -36,6 +38,40 @@ export default function Navigation(props) {
         handleCloseMenu();
     }
 
+    const LINKS = (
+        <>
+            <Link to="/">Home</Link>
+            <Link to="/test">Test</Link>
+
+            <span className={styles.MoveRight}>
+            {!currentUser && (
+                <>
+                    <Link to="/login">Login</Link>
+                    <Link to="/signup">Sign up</Link>
+                </>
+            )
+            }
+            {currentUser?.is_admin && <Link to="/admin">Admin</Link>}
+            {
+                currentUser && (
+                    <button onClick={openModalFromOffcanvas}>Logout</button>
+                )
+            }
+            </span>
+        </>
+    )
+
+    const SOCIALS = (
+        <div className={styles.Social}>
+            <Link to="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faFacebook} size='xl' />
+            </Link>
+            <Link to="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faInstagram} size='xl' />
+            </Link>
+        </div>
+    )
+
     useEffect(() => {
         setHasLoaded(true)
     }, [])
@@ -43,121 +79,72 @@ export default function Navigation(props) {
     return (
         hasLoaded && (
             <nav className={styles.Nav}>
-                <div className={styles.Contact}>
+                <div className={`${styles.Contact} d-none d-md-block`}>
 
-                    <Link
-                        to='#'
-                        onClick={(e) => {
-                            window.location.href = "tel:+3900000000000";
-                            e.preventDefault();
-                        }}
-                    >
-                        <span className="material-symbols-outlined">
-                            phone
-                        </span>
-                        <span className='d-none d-md-block'>
-                            +39 000 0000 0000
-                        </span>
-                    </Link>
+                    <div>
+                        <Link
+                            to='#'
+                            onClick={(e) => {
+                                window.location.href = "tel:+3900000000000";
+                                e.preventDefault();
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faPhone} size='lg' />
+                            <span>
+                                +39 000 0000 0000
+                            </span>
+                        </Link>
 
-                    <Link
-                        to='#'
-                        onClick={(e) => {
-                            window.location.href = "mailto:elisa.forev@gmail.com";
-                            e.preventDefault();
-                        }}
-                    >
-                        <span className="material-symbols-outlined">
-                            email
-                        </span>
-                        <span className='d-none d-md-block'>
-                            mg.studioestetico@gmail.com
-                        </span>
+                        <Link
+                            to='#'
+                            onClick={(e) => {
+                                window.location.href = "mailto:elisa.forev@gmail.com";
+                                e.preventDefault();
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faEnvelope} size='lg' />
+                            <span>
+                                mg.studioestetico@gmail.com
+                            </span>
+                            {SOCIALS}
+                        </Link>
+                    </div>
 
-                    </Link>
+                </div>
 
-                    <div className='d-md-none'>
-                        <div className={styles.Social}>
-                            <Link to="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                                <FontAwesomeIcon icon={faFacebookF} size='lg' />
-                            </Link>
-                            <Link to="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                                <FontAwesomeIcon icon={faInstagram} size='lg' />
-                            </Link>
+                <Logo />
+
+                {/* large screen */}
+                <div className="d-none d-md-block">
+                    <div className={styles.LinksContainer}>
+                        <div className={styles.Links}>
+                            {LINKS}
                         </div>
                     </div>
                 </div>
-                <div>
-                    <Logo />
 
-                    {/* large screen */}
-                    <div className="d-none d-md-block">
+                {/* small screen */}
+                <div className="d-md-none">
+                    <div className={styles.HamburgerContainer}>
+                        <button onClick={handleShowMenu} className={styles.Hamburger}>
+                            <FontAwesomeIcon icon={faBars} size='xl' />
+                        </button>
 
-                        <div className={styles.LinksContainer}>
-                            <div className={styles.Links}>
-                                <Link to="/">Home</Link>
-                                <Link to="/test">Test</Link>
-                                {!currentUser && (
-                                    <>
-                                        <Link to="/login">Login</Link>
-                                        <Link to="/signup">Sign up</Link>
-                                    </>
-                                )
-                                }
-                                {currentUser?.is_admin && <Link to="/admin">Admin</Link>}
-                                {
-                                    currentUser && (
-                                        <button onClick={openLogoutModal}>Logout</button>
-                                    )
-                                }
+                        <Offcanvas show={showMenu} onHide={handleCloseMenu} className={styles.Offcanvas}>
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title>MG Studio Estetico</Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                <div className={styles.LinksOffcanvas}>
+                                    {SOCIALS}
+                                    {LINKS}
+                                </div>
 
-                            </div>
-                            <div className={styles.Social}>
-                                <Link to="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                                    <FontAwesomeIcon icon={faFacebookF} size='xl' />
-                                </Link>
-                                <Link to="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                                    <FontAwesomeIcon icon={faInstagram} size='xl' />
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* small screen */}
-                    <div className="d-md-none">
-                        <div className={styles.HamburgerContainer}>
-                            <button onClick={handleShowMenu} className={styles.Hamburger}>
-                                <FontAwesomeIcon icon={faBars} size='xl' />
-                            </button>
-
-                            <Offcanvas show={showMenu} onHide={handleCloseMenu} className='d-md-none'>
-                                <Offcanvas.Header closeButton>
-                                    <Offcanvas.Title className={styles.OffcanvasTitle}>MG Studio Estetico</Offcanvas.Title>
-                                </Offcanvas.Header>
-                                <Offcanvas.Body>
-                                    <div className={styles.LinksOffcanvas}>
-                                        <Link to="/">Home</Link>
-                                        <Link to="/test">Test</Link>
-                                        {!currentUser && (
-                                            <>
-                                                <Link to="/login">Login</Link>
-                                                <Link to="/signup">Sign up</Link>
-                                            </>
-                                        )
-                                        }
-                                        {currentUser?.is_admin && <Link to="/admin">Admin</Link>}
-                                        {
-                                            currentUser && (
-                                                <button onClick={openModalFromOffcanvas}>Logout</button>
-                                            )
-                                        }
-                                    </div>
-
-                                </Offcanvas.Body>
-                            </Offcanvas>
-                        </div>
+                            </Offcanvas.Body>
+                        </Offcanvas>
                     </div>
                 </div>
+
 
             </nav>
         )

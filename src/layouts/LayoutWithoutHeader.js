@@ -16,9 +16,10 @@ const LayoutWithoutHeader = ({
                     setModalChildren={setModalChildren}
                 />
             </header>
-            <main>
-                <Outlet />
-            </main>
+
+            { /* main*/}
+            <Outlet />
+            
             <footer>
                 <Footer />
             </footer>

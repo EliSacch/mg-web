@@ -15,9 +15,10 @@ const LayoutForAdmin = ({
                     setModalChildren={setModalChildren}
                 />
             </header>
-            <main>
-                <Outlet />
-            </main>
+
+            { /* main*/ }
+            <Outlet />
+
             <footer>
                 Admin footer
             </footer>

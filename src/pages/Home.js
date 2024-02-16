@@ -33,7 +33,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className={styles.Home}>
+    <main className={styles.Home}>
       <section className={styles.CallToAction}>
         <div className={styles.CallToActionContainer}>
           <div>
@@ -126,6 +126,6 @@ export default function Home() {
         </div>
 
       </section>
-    </div>
+    </main>
   )
 }

@@ -11,20 +11,21 @@ const LayoutWithHeader = ({
     return (
         <>
             <header>
-            <Header>
-                <Navigation
-                    handleOpen={handleOpen}
-                    handleClose={handleClose}
-                    setModalChildren={setModalChildren}
-                />
-            </Header>
+                <Header>
+                    <Navigation
+                        handleOpen={handleOpen}
+                        handleClose={handleClose}
+                        setModalChildren={setModalChildren}
+                    />
+                </Header>
             </header>
-            <main>
+
+            { /* main*/}
             <Outlet />
-            </main>
+
             <footer>
-            <Footer />
-          </footer>
+                <Footer />
+            </footer>
         </>
     );
 };
