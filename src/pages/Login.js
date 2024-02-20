@@ -13,8 +13,8 @@ import btnStyles from './styles/Buttons.module.css';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const currentUser = useCurrentUser();
-  const setCurrentUser = useSetCurrentUser();
+  const {currentUser} = useCurrentUser();
+  const {setCurrentUser} = useSetCurrentUser();
   const setCurrentMessage = useSetCurrentMessage();
   const setCurrentMessageType = useSetCurrentMessageType();
 
@@ -42,6 +42,7 @@ export default function Login() {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
+          console.log(data.error);
           setCurrentMessageType("error")
           setCurrentMessage("Non è stato possibile fare il login! Per favore riprova.")
         } else {
@@ -59,7 +60,7 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (currentUser != null) {
+    if (currentUser) {
       navigate("/");
     }
   }, [currentUser, navigate])

@@ -43,6 +43,10 @@
     color: var(--primary400);
 }
 
+.Offcanvas.Title {
+    color: var(--primary400);
+}
+
 .LinksOffcanvas {
     min-height: 80%;
     width: 100%;
@@ -56,6 +60,10 @@
     display: flex;
     flex-direction: column;
     margin-top: auto;
+}
+
+.Offcanvas .Contact {
+    margin: 20px auto;
 }
 
 .Links a,
@@ -97,33 +105,27 @@
     color: var(--primary400);
 }
 
-.Contact {
+.ContactContainer {
     position: absolute;
     top: 20px;
     right: 70px;
 }
 
-.Contact > div,
-.Social {
+.Contact {
     display: flex;
-    justify-content: end;
-    align-items: center;
 }
 
-.Contact a,
-.Social a {
+.Contact a {
     cursor: pointer;
     font-weight: bold;
     text-decoration: none;
     color: var(--primary400);
     display: flex;
     gap: 5px;
-    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .Contact a:hover,
-.Contact a:focus,
-.Social a:hover,
-.Social a:focus {
+.Contact a:focus {
     color: var(--primary300);
 }

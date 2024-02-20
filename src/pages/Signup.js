@@ -17,7 +17,7 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
 
-  const currentUser = useCurrentUser();
+  const { currentUser } = useCurrentUser();
 
   const navigate = useNavigate()
 

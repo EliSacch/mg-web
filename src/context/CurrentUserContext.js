@@ -24,64 +24,17 @@ export const CurrentUserProvider = ({ children }) => {
             }
           })
           .catch(error => {
-            console.log("user not logged in. Could not refresh token", error)
+            console.log("user not logged in. Could not refresh token", error);
           })
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
   useEffect(() => {
     handleMount();
   }, []);
-
-  /*useMemo(() => {
-    // Intercept requests and attempt to refresh the authentication token
-    axiosReq.interceptors.request.use(
-      async (config) => {
-        if (shouldRefreshToken()) {
-          try {
-            await axios.post("dj-rest-auth/token/refresh/");
-          } catch (err) {
-            setCurrentUser((prevCurrentUser) => {
-              if (prevCurrentUser) {
-                history.push("/signin/");
-              }
-              return null;
-            });
-            removeTokenTimestamp();
-            return config;
-          }
-        }
-        return config;
-      },
-      (err) => {
-        return Promise.reject(err);
-      }
-    );
-
-    axiosRes.interceptors.response.use(
-      (response) => response,
-      async (err) => {
-        if (err.response?.status === 401) {
-          try {
-            await axios.post("/dj-rest-auth/token/refresh/");
-          } catch (err) {
-            setCurrentUser((prevCurrentUser) => {
-              if (prevCurrentUser) {
-                history.push("/signin/");
-              }
-              return null;
-            });
-            removeTokenTimestamp();
-          }
-          return axios(err.config);
-        }
-        return Promise.reject(err);
-      }
-    );
-  }, [history]);*/
 
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>
@@ -94,12 +47,10 @@ export const CurrentUserProvider = ({ children }) => {
 
 // Custom hook for accessing the current User from the context
 export const useCurrentUser = () => {
-  const { currentUser } = useContext(CurrentUserContext);
-  return currentUser;
+  return useContext(CurrentUserContext);
 };
 
 // Custom hook for updating the current User in the context
 export const useSetCurrentUser = () => {
-  const { setCurrentUser } = useContext(SetCurrentUserContext);
-  return setCurrentUser;
+  return useContext(SetCurrentUserContext);
 };

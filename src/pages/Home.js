@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 // componenet
 import { Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Treatments from '../components/Treatments';
 // style
 import styles from './styles/Home.module.css';

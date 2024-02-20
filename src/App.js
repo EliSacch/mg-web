@@ -1,5 +1,7 @@
 // hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+// context 
+import { useCurrentUser } from './context/CurrentUserContext';
 // components
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LayoutWithHeader from './layouts/LayoutWithHeader';
@@ -7,6 +9,7 @@ import LayoutWithoutHeader from './layouts/LayoutWithoutHeader';
 import LayoutForAdmin from './layouts/LayoutForAdmin';
 import AdminDashboard from './pages/AdminDashboard';
 import ManageTreatments from './pages/ManageTreatments';
+import EditTreatment from './pages/EditTreatment';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -20,6 +23,7 @@ function App() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalChildren, setModalChildren] = useState(<p>hi</p>);
+  const {currentUser} = useCurrentUser();
 
   const handleClose = () => {
     setShowModal(false);
@@ -55,7 +59,7 @@ function App() {
                 setModalChildren={setModalChildren}
               />
             }>
-              <Route path="/test" element={<p>Test page</p>} />
+              <Route path="/test" element={<p>{currentUser?.id}</p>} />
               <Route path="/login" element={
                 <Login />
               } />
@@ -71,6 +75,8 @@ function App() {
             }>
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/treatments" element={<ManageTreatments />} />
+              <Route path="/admin/treatments/create" element={<h1>Aggiungi nuovo</h1>} />
+              <Route path="/admin/treatments/:id/edit" element={<EditTreatment />} />
 
             </Route>
 

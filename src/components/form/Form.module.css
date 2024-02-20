@@ -34,3 +34,17 @@ input::-webkit-calendar-picker-indicator {
 input::-webkit-calendar-picker-indicator:hover {
     opacity: 1
 }
+
+.Checkbox {
+    width: fit-content;
+    color: var(--primary400);
+}
+
+.Checkbox > input {
+    border: 1px solid var(--primary400);
+}
+
+.Checkbox > input:checked {
+    background-color: var(--primary300);
+    border: 1px solid var(--primary400);
+}

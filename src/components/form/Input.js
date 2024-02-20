@@ -1,7 +1,7 @@
 // hooks
 import { forwardRef } from "react";
 // style
-import styles from './Input.module.css'
+import styles from './Form.module.css'
 
 const Input = forwardRef((props, ref) => {
     return (

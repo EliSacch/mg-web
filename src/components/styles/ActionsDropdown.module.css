@@ -1,0 +1,19 @@
+.ThreeDots {
+    cursor: pointer;
+    padding-inline: 10px;
+}
+
+.Dropdown > div {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.DropdownItem {
+   color: var(--primary400);
+}
+
+.DropdownItem:hover,
+.DropdownItem:focus {
+    color: var(--primary300);
+}

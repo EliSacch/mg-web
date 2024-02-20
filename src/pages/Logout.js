@@ -7,7 +7,7 @@ import btnStyles from '../pages/styles/Buttons.module.css';
 
 export default function Logout({ handleClose }) {
 
-    const setCurrentUser = useSetCurrentUser();
+    const {setCurrentUser} = useSetCurrentUser();
     const setCurrentMessage = useSetCurrentMessage();
     const setCurrentMessageType = useSetCurrentMessageType();
 
