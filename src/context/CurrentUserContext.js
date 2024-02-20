@@ -6,6 +6,7 @@ export const SetCurrentUserContext = createContext();
 
 export const CurrentUserProvider = ({ children }) => {
 
+  const [jwtToken, setJwtToken] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
   const handleMount = async () => {
@@ -21,6 +22,7 @@ export const CurrentUserProvider = ({ children }) => {
           .then(data => {
             if (data.user) {
               setCurrentUser(data.user);
+              setJwtToken(data.tokens.access_token)
             }
           })
           .catch(error => {
@@ -37,7 +39,7 @@ export const CurrentUserProvider = ({ children }) => {
   }, []);
 
   return (
-    <CurrentUserContext.Provider value={{ currentUser }}>
+    <CurrentUserContext.Provider value={{ currentUser, jwtToken }}>
       <SetCurrentUserContext.Provider value={{ setCurrentUser }}>
         {children}
       </SetCurrentUserContext.Provider>

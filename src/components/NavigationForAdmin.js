@@ -34,6 +34,7 @@ export default function NavigationForAdmin(props) {
         <>
             <Link to="/admin">Dashboard</Link>
             <Link to="/admin/treatments">Gestisci Trattamenti</Link>
+            <Link to="/admin/treatments/create">Nuovo Trattamento</Link>
             <span className={styles.MoveRight}>
                 <Link to="/">Home</Link>
                 <button onClick={openModalFromOffcanvas}>Logout</button>

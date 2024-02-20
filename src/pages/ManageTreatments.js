@@ -19,24 +19,9 @@ export default function ManageTreatments() {
         navigate(`${id}/edit`)
     }
 
-    const handleDelete = async (id) => {
+    const handleDelete = (id) => {
         console.log("delete ", id)
     };
-
-    useEffect(() => {
-        if (!currentUser) {
-            navigate("/login");
-            return
-        }
-    }, [currentUser, navigate])
-
-    useEffect(() => {
-        if (!currentUser.is_admin) {
-            navigate("/");
-            return
-        }
-    }, [currentUser])
-
 
     useEffect(() => {
         const headers = new Headers();
@@ -70,8 +55,7 @@ export default function ManageTreatments() {
                             <th>Prezzo</th>
                             <th>Immagine</th>
                             <th>Attivo</th>
-                            <th>Creato</th>
-                            <th>Modificato</th>
+                            <th>Ultima modifica</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -85,7 +69,6 @@ export default function ManageTreatments() {
                                     <td>€{treatment.price}</td>
                                     <td>{treatment?.image}</td>
                                     <td>{treatment.is_active ? "V" : "X"}</td>
-                                    <td>{treatment.created_at}</td>
                                     <td>{treatment.updated_at}</td>
                                     <td>
                                         <ActionsDropdown

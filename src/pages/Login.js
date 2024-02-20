@@ -42,7 +42,6 @@ export default function Login() {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          console.log(data.error);
           setCurrentMessageType("error")
           setCurrentMessage("Non è stato possibile fare il login! Per favore riprova.")
         } else {

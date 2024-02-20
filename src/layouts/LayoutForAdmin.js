@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 // hooks
 import { useEffect } from 'react';
 // context
@@ -19,15 +20,13 @@ const LayoutForAdmin = ({
 
     useEffect(() => {
         if (!currentUser) {
-            navigate("/login");
-            console.log("not logged in", currentUser)
+            navigate("/login")
         }
-        if (currentUser && !currentUser?.is_admin) {
-            // navigate("/");
-            console.log("not admin")
+        if (currentUser?.is_admin==false) {
+            navigate("/");
         }
 
-    }, [currentUser, navigate])
+    }, [currentUser])
 
     return (
         <>

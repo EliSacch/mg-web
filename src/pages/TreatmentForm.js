@@ -1,0 +1,212 @@
+// hooks
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom"
+import { useCurrentUser } from "../context/CurrentUserContext";
+// components
+import Input from "../components/form/Input";
+import TextArea from "../components/form/TextArea";
+import Checkbox from "../components/form/Checkbox";
+// style
+import formStyles from './styles/Forms.module.css';
+import btnStyles from './styles/Buttons.module.css';
+
+
+const TreatmentForm = ({ is_new }) => {
+
+  const [treatment, setTreatment] = useState({
+    id: 0,
+    name: "",
+    description: "",
+    duration: 0,
+    price: 0,
+    image: "",
+    is_active: true
+  })
+
+  const [error, setError] = useState(null);
+  const [errors, setErrors] = useState([]);
+  const hasError = key => {
+    return errors.indexOf(key) !== -1;
+  }
+
+  const navigate = useNavigate();
+  const { currentUser, jwtToken } = useCurrentUser();
+
+  // get id from url
+  let { id } = useParams();
+
+  const hanleSubmit = e => {
+    e.preventDefault();
+
+    let errors = [];
+    let required = [
+      { field: treatment.name, name: "name" },
+      { field: treatment.duration, name: "duration" },
+      { field: treatment.price, name: "price" }
+    ]
+
+    required.forEach(obj => {
+      if (obj.field == "") {
+        errors.push(obj.name);
+      }
+    })
+
+    if (treatment.duration < 5) {
+      errors.push("duration");
+    }
+
+    if (treatment.price < 0) {
+      errors.push("price");
+    }
+
+    setErrors(errors);
+
+    if (errors.length > 0) {
+      return false
+    }
+
+    // if there are no errors, then submit
+    const headers = new Headers();
+    headers.append("Content-type", "application/json");
+    headers.append("Authorization", "Bearer " + jwtToken)
+
+    let responseBody = treatment;
+    treatment.duration = parseInt(treatment.duration, 10);
+    treatment.price = parseFloat(treatment.price);
+
+    let requestOptions = {
+      body: JSON.stringify(responseBody),
+      method: is_new ? "PUT" : "PATCH",
+      headers: headers,
+      credentials: "include",
+    }
+
+    const path = is_new ? "create" : `${id}/edit`
+    fetch(`/admin/treatments/${path}`, requestOptions)
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        console.log(data.error)
+      } else {
+        navigate("/admin/treatments")
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  }
+
+  const handleChange = () => (e) => {
+    let value = e.target.value;
+    let name = e.target.name;
+
+    setTreatment({
+      ...treatment,
+      [name]: value,
+    })
+  }
+
+  const handleCkeck = e => {
+    setTreatment({
+      ...treatment,
+      "is_active": e.target.checked,
+    })
+  }
+
+  useEffect(() => {
+    if (is_new) {
+      setTreatment({
+        name: "",
+        description: "",
+        duration: 0,
+        price: 0,
+        image: "",
+        is_active: true
+      });
+    } else {
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+
+      const requestOptions = {
+        method: "GET",
+        headers: headers,
+      }
+
+      fetch(`/treatments/${id}`, requestOptions)
+        .then(res => res.json())
+        .then(data => setTreatment(data))
+        .catch(err => {
+          console.log(err)
+        })
+    }
+
+  }, [id, is_new])
+
+  return (
+    <main>
+      <section className={formStyles.FormContainer}>
+        <h2>{is_new ? "Aggiungi Trattamento" : "Modifica Trattamento"}</h2>
+
+        <form onSubmit={hanleSubmit} className={formStyles.Form}>
+
+          <Input
+            id="name"
+            title="Nome"
+            type="text"
+            name="name"
+            onChange={handleChange("name")}
+            value={treatment.name}
+            errorDiv={hasError("name") ? "input-error" : "d-none"}
+            errorMsg="Scegli un nome"
+          />
+
+          <TextArea
+            id="description"
+            title="Descrizione"
+            name="description"
+            onChange={handleChange("description")}
+            value={treatment.description}
+            rows="5"
+          />
+
+          <Input
+            id="duration"
+            title="Durata in minuti"
+            type="number"
+            name="duration"
+            onChange={handleChange("duration")}
+            value={treatment.duration}
+            errorDiv={hasError("duration") ? "input-error" : "d-none"}
+            errorMsg="Valore per 'durata' invalido. Inserisci un numero maggiore o uguale a 5."
+          />
+
+          <Input
+            id="price"
+            title="Prezzo"
+            type="number"
+            name="price"
+            onChange={handleChange("price")}
+            value={treatment.price}
+            errorDiv={hasError("price") ? "input-error" : "d-none"}
+            errorMsg="Valore per 'prezzo' invalido. Inserisci un valore positivo."
+          />
+
+          <Checkbox
+            id="is_active"
+            title="Attivo"
+            name="is_active"
+            onChange={e => handleCkeck(e)}
+            value={treatment.is_active}
+            checked={treatment.is_active}
+          />
+
+          <button className={btnStyles.Btn}>Salva</button>
+        </form>
+
+      </section>
+    </main>
+  )
+}
+
+export default TreatmentForm
