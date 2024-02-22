@@ -8,7 +8,7 @@ export default function Treatments({ treatments }) {
     return (
         <div className={styles.TreatmentsContainer}>
             {
-                treatments?.filter(treatment => treatment.isActive==true).map(treatment => (
+                treatments?.filter(treatment => treatment.is_active==true).map(treatment => (
                     <Card key={treatments.indexOf(treatment)}>
                         <div>
                         <h3>{treatment.name}</h3>

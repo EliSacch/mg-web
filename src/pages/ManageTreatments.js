@@ -1,51 +1,64 @@
 // hooks
 import { useEffect, useState } from 'react';
 // context
-import { useNavigate } from 'react-router-dom'
-import { useCurrentUser } from '../context/CurrentUserContext';
+import { useNavigate } from 'react-router-dom';
 // coponenets
 import { ActionsDropdown } from '../components/ActionsDropdown';
 // styles
 import styles from './styles/ManageTreatments.module.css';
+import DeleteTreatment from './DeleteTreatment';
 
 
-export default function ManageTreatments() {
+export default function ManageTreatments(props) {
 
+    const [fetchError, setFetchError] = useState(null);
     const [treatments, setTreatments] = useState([]);
-    const { currentUser } = useCurrentUser();
     const navigate = useNavigate();
 
+
     const handleEdit = (id) => {
-        navigate(`${id}/edit`)
+        navigate(`treatments/${id}/edit`)
     }
 
     const handleDelete = (id) => {
-        console.log("delete ", id)
+        props.setModalChildren(
+            <DeleteTreatment id={id} handleClose={() => props.handleClose()} />
+        )
+        props.handleOpen()
     };
 
     useEffect(() => {
-        const headers = new Headers();
-        headers.append("Content-Type", "application/json");
 
-        const requestOptions = {
-            method: "GET",
-            headers: headers,
+        try {
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
+
+            const requestOptions = {
+                method: "GET",
+                headers: headers,
+            }
+
+            fetch(`/treatments`, requestOptions)
+                .then(res => res.json())
+                .then(data => setTreatments(data))
+                .catch(err => {
+                    console.log(err)
+                    setFetchError("C'è stato un errore a recuperare i trattamenti dal database.")
+                })
+        } catch (err) {
+            console.log(err)
         }
 
-        fetch(`http://localhost:8080/treatments`, requestOptions)
-            .then(res => res.json())
-            .then(data => setTreatments(data))
-            .catch(err => {
-                console.log(err)
-            })
     }, [])
 
     return (
-        <main className={styles.Dashboard}>
-            <section className={styles.Section}>
+        <section className={styles.Section}>
 
-                <h2>Gestisci Trattamenti</h2>
+            <h2>Gestisci Trattamenti</h2>
 
+            {fetchError != null ? (
+                <p>{fetchError}</p>
+            ) : (
                 <table>
                     <thead>
                         <tr>
@@ -69,7 +82,7 @@ export default function ManageTreatments() {
                                     <td>€{treatment.price}</td>
                                     <td>{treatment?.image}</td>
                                     <td>{treatment.is_active ? "V" : "X"}</td>
-                                    <td>{treatment.updated_at}</td>
+                                    <td>{treatment.updated_at.split(".")[0].replace("T", ", ")}</td>
                                     <td>
                                         <ActionsDropdown
                                             handleEdit={handleEdit}
@@ -85,8 +98,8 @@ export default function ManageTreatments() {
                     </tbody>
 
                 </table>
+            )}
 
-            </section>
-        </main>
+        </section>
     )
 }

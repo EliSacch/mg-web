@@ -15,14 +15,14 @@ const LayoutForAdmin = ({
     setModalChildren
 }) => {
 
-    const {currentUser} = useCurrentUser();
+    const { currentUser } = useCurrentUser();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!currentUser) {
             navigate("/login")
         }
-        if (currentUser?.is_admin==false) {
+        if (currentUser?.is_admin == false) {
             navigate("/");
         }
 
@@ -30,21 +30,21 @@ const LayoutForAdmin = ({
 
     return (
         <>
-        <header>
-            <NavigationForAdmin
-                handleOpen={handleOpen}
-                handleClose={handleClose}
-                setModalChildren={setModalChildren}
-            />
-        </header>
+            <header>
+                <NavigationForAdmin
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
+                    setModalChildren={setModalChildren}
+                />
+            </header>
 
-        { /* main*/ }
-        <Outlet />
+            { /* main*/}
+            <Outlet />
 
-        <footer>
-            
-        </footer>
-    </>
+            <footer>
+
+            </footer>
+        </>
     );
 };
 

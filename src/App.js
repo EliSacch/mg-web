@@ -1,5 +1,5 @@
 // hooks
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // context 
 import { useCurrentUser } from './context/CurrentUserContext';
 // components
@@ -8,7 +8,6 @@ import LayoutWithHeader from './layouts/LayoutWithHeader';
 import LayoutWithoutHeader from './layouts/LayoutWithoutHeader';
 import LayoutForAdmin from './layouts/LayoutForAdmin';
 import AdminDashboard from './pages/AdminDashboard';
-import ManageTreatments from './pages/ManageTreatments';
 import TreatmentForm from './pages/TreatmentForm';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -23,7 +22,7 @@ function App() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalChildren, setModalChildren] = useState(<p>hi</p>);
-  const {currentUser} = useCurrentUser();
+  const { currentUser } = useCurrentUser();
 
   const handleClose = () => {
     setShowModal(false);
@@ -73,10 +72,15 @@ function App() {
                 setModalChildren={setModalChildren}
               />
             }>
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/treatments" element={<ManageTreatments />} />
-              <Route path="/admin/treatments/create" element={<TreatmentForm is_new={true}/>} />
-              <Route path="/admin/treatments/:id/edit" element={<TreatmentForm is_new={false}/>} />
+              <Route path="/admin"
+                element={<AdminDashboard
+                  handleOpen={handleOpen}
+                  handleClose={handleClose}
+                  setModalChildren={setModalChildren}
+                />}
+              />
+              <Route path="/admin/treatments/create" element={<TreatmentForm is_new={true} />} />
+              <Route path="/admin/treatments/:id/edit" element={<TreatmentForm is_new={false} />} />
 
             </Route>
 
