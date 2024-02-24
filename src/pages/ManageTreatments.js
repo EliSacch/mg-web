@@ -27,6 +27,7 @@ export default function ManageTreatments(props) {
         props.handleOpen()
     };
 
+
     useEffect(() => {
 
         try {
@@ -49,7 +50,7 @@ export default function ManageTreatments(props) {
             console.log(err)
         }
 
-    }, [])
+    }, [props.showModal])
 
     return (
         <section className={styles.Section}>

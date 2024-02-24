@@ -76,12 +76,12 @@ const TreatmentForm = ({ is_new }) => {
       headers.append("Content-type", "application/json");
       headers.append("Authorization", "Bearer " + jwtToken)
 
-      let responseBody = treatment;
+      let requestBody = treatment;
       treatment.duration = parseInt(treatment.duration, 10);
       treatment.price = parseFloat(treatment.price);
 
       let requestOptions = {
-        body: JSON.stringify(responseBody),
+        body: JSON.stringify(requestBody),
         method: is_new ? "PUT" : "PATCH",
         headers: headers,
         credentials: "include",
@@ -120,7 +120,7 @@ const TreatmentForm = ({ is_new }) => {
     })
   }
 
-  const handleCkeck = e => {
+  const handleCheck = e => {
     setTreatment({
       ...treatment,
       "is_active": e.target.checked,
@@ -217,7 +217,7 @@ const TreatmentForm = ({ is_new }) => {
               id="is_active"
               title="Attivo"
               name="is_active"
-              onChange={e => handleCkeck(e)}
+              onChange={e => handleCheck(e)}
               value={treatment.is_active}
               checked={treatment.is_active}
             />

@@ -40,7 +40,7 @@ export const CurrentUserProvider = ({ children }) => {
 
   return (
     <CurrentUserContext.Provider value={{ currentUser, jwtToken }}>
-      <SetCurrentUserContext.Provider value={{ setCurrentUser }}>
+      <SetCurrentUserContext.Provider value={{ setCurrentUser, setJwtToken }}>
         {children}
       </SetCurrentUserContext.Provider>
     </CurrentUserContext.Provider>

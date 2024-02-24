@@ -76,6 +76,7 @@ function App() {
                 element={<AdminDashboard
                   handleOpen={handleOpen}
                   handleClose={handleClose}
+                  showModal={showModal}
                   setModalChildren={setModalChildren}
                 />}
               />

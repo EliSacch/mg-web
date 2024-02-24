@@ -5,6 +5,7 @@ import styles from './styles/AdminDashboard.module.css';
 export default function AdminDashboard({
     handleOpen,
     handleClose,
+    showModal,
     setModalChildren
 }) {
 
@@ -16,6 +17,7 @@ export default function AdminDashboard({
                 <ManageTreatments 
                 handleOpen={handleOpen}
                 handleClose={handleClose}
+                showModal={showModal}
                 setModalChildren={setModalChildren}
                 />
 
