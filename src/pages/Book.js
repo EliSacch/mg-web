@@ -6,13 +6,16 @@ import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/Messa
 import { useCurrentUser } from '../context/CurrentUserContext';
 // components
 import SelectTreatment from '../components/form/SelectTreatment';
+import Input from '../components/form/Input';
+import SelectDatetime from '../components/form/SelectDatetime';
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
 
 
-
 export default function Book() {
+
+    const today = new Date().toISOString().split('T')[0]
 
     const { currentUser, jwtToken } = useCurrentUser();
     const setCurrentMessage = useSetCurrentMessage();
@@ -28,7 +31,7 @@ export default function Book() {
     }
     const [formData, setFormData] = useState({
         treatment: "",
-        date: "",
+        date: today,
         time: "",
         user: currentUser?.id
     })
@@ -105,7 +108,15 @@ export default function Book() {
                             }
 
                             {currentStep > 0 && (
-                                <p>Data</p>
+                                <SelectDatetime
+                                today={today}
+                                treatment={treatments.filter(t => t.id = formData.treatment)}
+                                formData={formData}
+                                setFormData={setFormData}
+                                setCurrentStep={setCurrentStep}
+                                hasError={hasError}
+                                />
+                                
                             )}
 
                             {/*<button id="book" className={btnStyles.Btn}>Conferma</button>*/}
