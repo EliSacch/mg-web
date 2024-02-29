@@ -21,7 +21,8 @@
     color: var(--dark);
 }
 
-.Message button.close {
+.Close,
+.CloseInverted {
     padding: 2px;
     border-radius: 3px;
     cursor: pointer;
@@ -30,9 +31,21 @@
     right: 10px;
     border: none;
     background-color: transparent;
+    color: var(--light);
+}
+
+.CloseInverted {
+    color: var(--dark)
 }
 
 .Message button.close:hover > span {
     font-weight: 900;
     color: white;
 }
+
+@media only screen and (max-width: 480px) {
+    .Message {
+        right: 50%;
+        transform: translateX(50%);
+    }
+  }

@@ -5,6 +5,8 @@ import styles from "./styles/Message.module.css";
 import Toast from "react-bootstrap/Toast";
 // Contexts
 import { useCurrentMessage, useSetCurrentMessage, useCurrentMessageType, useSetCurrentMessageType } from '../context/MessageContext.js';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 
 
 const Message = () => {
@@ -14,15 +16,18 @@ const Message = () => {
   const setCurrentMessageType = useSetCurrentMessageType();
   const [show, setShow] = useState(false);
 
+  const handleClose = () => {
+    setShow();
+        setCurrentMessage(null);
+        setCurrentMessageType("alert")
+  }
   // Shows Message if exists, sets to null after timeout.
   useEffect(() => {
     let timer;
     if (currentMessage) {
       setShow(true);
       timer = setTimeout(() => {
-        setShow();
-        setCurrentMessage(null);
-        setCurrentMessageType("alert")
+        handleClose();
       }, 6000);
     }
     return () => {
@@ -34,6 +39,9 @@ const Message = () => {
     return (
         <Toast show={show} className={styles.Message}>
         {/* Message message */}
+        <button onClick={handleClose} className={currentMessageType == "error" ? styles.Close : styles.CloseInverted}>
+          <FontAwesomeIcon icon={faClose} size='sm'/>
+        </button>
         <Toast.Body className={styles[`${currentMessageType}`]}>
           {currentMessage}
         </Toast.Body>

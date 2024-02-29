@@ -16,6 +16,7 @@ import Message from './components/Message';
 import Modal from './components/Modal';
 // style
 import './App.css';
+import Book from './pages/Book';
 
 
 function App() {
@@ -58,7 +59,7 @@ function App() {
                 setModalChildren={setModalChildren}
               />
             }>
-              <Route path="/test" element={<p>{currentUser?.id}</p>} />
+              <Route path="/book" element={<Book />} />
               <Route path="/login" element={
                 <Login />
               } />

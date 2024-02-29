@@ -20,7 +20,7 @@ export default function Logout({ handleClose }) {
             credentials: "include",
         }
 
-        fetch("/logout", requestOption)
+        fetch(`${process.env.REACT_APP_BACKEND}/logout`, requestOption)
             .catch(error => {
                 console.log("error logging out.", error)
                 handleClose();

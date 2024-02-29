@@ -19,7 +19,7 @@ import styles from './styles/Navigation.module.css';
 export default function Navigation(props) {
 
     const [showMenu, setShowMenu] = useState(false);
-    const {currentUser} = useCurrentUser();
+    const {currentUser, jwtToken} = useCurrentUser();
 
     const handleCloseMenu = () => setShowMenu(false);
     const handleShowMenu = () => setShowMenu(true);
@@ -39,7 +39,7 @@ export default function Navigation(props) {
     const LINKS = (
         <>
             <Link to="/">Home</Link>
-            <Link to="/test">Test</Link>
+            { currentUser && <Link to="/book">Prenota</Link>}
 
             <span className={styles.MoveRight}>
                 {!currentUser && (

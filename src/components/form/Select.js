@@ -19,6 +19,7 @@ const Select = (props) => {
                         <option
                             key={option.id}
                             value={option.id}
+                            disabled={option.disabled}
                             >
                                 {option.value}
                         </option>

@@ -88,7 +88,7 @@ const TreatmentForm = ({ is_new }) => {
       }
 
       const path = is_new ? "create" : `${id}/edit`
-      fetch(`/admin/treatments/${path}`, requestOptions)
+      fetch(`${process.env.REACT_APP_BACKEND}/admin/treatments/${path}`, requestOptions)
         .then(res => res.json())
         .then(data => {
           if (data.error) {
@@ -147,7 +147,7 @@ const TreatmentForm = ({ is_new }) => {
           headers: headers,
         }
 
-        fetch(`/treatments/${id}`, requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND}/treatments/${id}`, requestOptions)
           .then(res => res.json())
           .then(data => setTreatment(data))
           .catch(err => {

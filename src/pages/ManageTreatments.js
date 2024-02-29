@@ -39,7 +39,7 @@ export default function ManageTreatments(props) {
                 headers: headers,
             }
 
-            fetch(`/treatments`, requestOptions)
+            fetch(`${process.env.REACT_APP_BACKEND}/treatments`, requestOptions)
                 .then(res => res.json())
                 .then(data => setTreatments(data))
                 .catch(err => {
@@ -60,6 +60,8 @@ export default function ManageTreatments(props) {
             {fetchError != null ? (
                 <p>{fetchError}</p>
             ) : (
+
+                treatments ? (
                 <table>
                     <thead>
                         <tr>
@@ -99,6 +101,9 @@ export default function ManageTreatments(props) {
                     </tbody>
 
                 </table>
+                ) : (
+                    <p>Non ci sono trattamenti al momemento.</p>
+                )
             )}
 
         </section>

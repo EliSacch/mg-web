@@ -1,5 +1,7 @@
 // hooks
 import { useEffect, useState } from 'react';
+// context
+import { useCurrentUser } from '../context/CurrentUserContext';
 // componenet
 import { Image } from 'react-bootstrap';
 import { Link} from 'react-router-dom';
@@ -11,8 +13,10 @@ import btnStyles from '../pages/styles/Buttons.module.css';
 import img from '../assets/images/brush.jpg';
 
 
+
 export default function Home() {
 
+  const {currentUser, jwtToken} = useCurrentUser();
   const [treatments, setTreatments] = useState([]);
 
   useEffect(() => {
@@ -24,7 +28,7 @@ export default function Home() {
       headers: headers,
     }
 
-    fetch(`http://localhost:8080/treatments`, requestOptions)
+    fetch(`${process.env.REACT_APP_BACKEND}/treatments`, requestOptions)
       .then(res => res.json())
       .then(data => setTreatments(data))
       .catch(err => {
@@ -48,11 +52,13 @@ export default function Home() {
                 className={styles.Link}
               >
                 Chiamaci
-              </Link> o registrati al nostro sito.</p>
+                </Link> o { !jwtToken ? " registrati al nostro sito" : " prenota dal sito"}.</p>
           </div>
-          <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>
+          { !jwtToken && <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>}
+          { jwtToken && <Link to="/book" className={btnStyles.BtnInverted}>Prenota</Link>}
         </div>
       </section>
+
       <section className={styles.Section}>
         <div>
           <h2>I Nostri Servizi</h2>
@@ -73,11 +79,13 @@ export default function Home() {
                 className={styles.Link}
               >
                 Chiamaci
-              </Link> o registrati al nostro sito.</p>
+              </Link> o { !jwtToken ? " registrati al nostro sito" : " prenota dal sito"}.</p>
           </div>
-          <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>
+          { !jwtToken && <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>}
+          { jwtToken && <Link to="/book" className={btnStyles.BtnInverted}>Prenota</Link>}
         </div>
       </section>
+      
       <section className={styles.Section}>
         <div>
           <h2>Orari di apertura</h2>

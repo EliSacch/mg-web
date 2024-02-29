@@ -31,7 +31,7 @@ export default function DeleteTreatment({ id, handleClose }) {
                     credentials: "include",
                 }
 
-                fetch(`/admin/treatments/${id}/delete`, requestOption)
+                fetch(`${process.env.REACT_APP_BACKEND}/admin/treatments/${id}/delete`, requestOption)
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {

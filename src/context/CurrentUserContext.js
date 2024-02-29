@@ -17,7 +17,7 @@ export const CurrentUserProvider = ({ children }) => {
           credentials: "include",
         }
   
-        fetch('/refresh', requestOption)
+        fetch(`${process.env.REACT_APP_BACKEND}/refresh`, requestOption)
           .then(res => res.json())
           .then(data => {
             if (data.user) {

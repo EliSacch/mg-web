@@ -21,8 +21,6 @@ export default function Signup() {
 
   const [password2, setPassword2] = useState(null);
   const [password2Error, setPassword2Error] = useState(null);
-  const [error, setError] = useState(null);
-  const [fetchError, setFetchError] = useState(null);
   const [formErrors, setFormErrors] = useState([]);
   const hasError = key => {
     return formErrors.indexOf(key) !== -1;
@@ -75,7 +73,7 @@ export default function Signup() {
         credentials: "include",
       }
 
-      fetch("/register", requestOptions)
+      fetch(`${process.env.REACT_APP_BACKEND}/register`, requestOptions)
         .then(res => res.json())
         .then(data => {
           if (data.error) {

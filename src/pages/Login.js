@@ -38,7 +38,7 @@ export default function Login() {
     }
 
     // send the request
-    fetch('/authenticate', requestOption)
+    fetch(`${process.env.REACT_APP_BACKEND}/authenticate`, requestOption)
       .then(res => res.json())
       .then(data => {
         if (data.error) {
