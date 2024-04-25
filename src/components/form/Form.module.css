@@ -48,3 +48,8 @@ input::-webkit-calendar-picker-indicator:hover {
     background-color: var(--primary300);
     border: 1px solid var(--primary400);
 }
+
+.DatePicker {
+    margin-left: 10px;
+    line-height: normal;
+}

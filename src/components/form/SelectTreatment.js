@@ -6,26 +6,33 @@ function SelectTreatment({options, formData, setFormData, setCurrentStep, hasErr
     const [selectTreatmentOptions, setSelectTreatmentOptions] = useState([]);
 
     const handleSelectTreatment = e => {
+        console.log("target", e.target.value)
         setFormData({
             ...formData,
             treatment: e.target.value,
         })
 
-        if(e.target.value != "") {
+        if(e.target.value == "") {
+            setCurrentStep(0)
+        } else if (formData.date == null) {
             setCurrentStep(1)
         } else {
-            setCurrentStep(0)
+            setCurrentStep(2)
         }
+
+        console.log(formData)
     }
 
     useEffect(() => {
         if (options.length > 0) {
             let opts = []
-            options.forEach(treatment => {
+
+            options.forEach(op => {
                 opts.push({ 
-                    id: treatment.id,
-                    value: treatment.name,
-                    disabled: false})
+                    id: op.id,
+                    value: op.name,
+                    disabled: false
+                })
             });
             setSelectTreatmentOptions(opts);
         }

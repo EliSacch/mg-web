@@ -121,10 +121,13 @@ const TreatmentForm = ({ is_new }) => {
   }
 
   const handleCheck = e => {
+    
     setTreatment({
       ...treatment,
       "is_active": e.target.checked,
     })
+
+    console.log(treatment)
   }
 
   useEffect(() => {

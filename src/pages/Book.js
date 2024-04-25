@@ -6,7 +6,6 @@ import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/Messa
 import { useCurrentUser } from '../context/CurrentUserContext';
 // components
 import SelectTreatment from '../components/form/SelectTreatment';
-import Input from '../components/form/Input';
 import SelectDatetime from '../components/form/SelectDatetime';
 // style
 import formStyles from './styles/Forms.module.css';
@@ -33,12 +32,44 @@ export default function Book() {
         treatment: "",
         date: today,
         time: "",
-        user: currentUser?.id
+        user: currentUser
     })
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData)
+        
+        // if there are no errors, then submit
+    try {
+        const headers = new Headers();
+        headers.append("Content-type", "application/json");
+  
+        let requestOptions = {
+          body: JSON.stringify(formData),
+          method: "PUT",
+          headers: headers,
+          credentials: "include",
+        }
+  
+        //const path = is_new ? "create" : `${id}/edit`
+        //const calendarId = "80a5e04e62217d368744c29fe7bdfa020b1dc449f5acdf2b483dc7921c13c01a@group.calendar.google.com"
+        fetch(`${process.env.REACT_APP_BACKEND}/appointment/book`, requestOptions)
+          .then(res => res.json())
+          .then(data => {
+            if (data.error) {
+              console.log(data.error);
+            } else {
+              setCurrentMessageType("success");
+              setCurrentMessage("Appuntamento prenotato con successo!");
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            setCurrentMessageType("error");
+            setCurrentMessage("Non è stato possibile eseguire la richiesta! Per favore riprova.");
+          })
+      } catch (err) {
+        console.log("error submitting the form: ", err)
+      }
     }
 
     const handleChange = () => (e) => {
@@ -65,7 +96,7 @@ export default function Book() {
             fetch(`${process.env.REACT_APP_BACKEND}/treatments`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    setTreatments(data);
+                    setTreatments(data.filter(treatment => treatment.is_active))
                 })
                 .catch(err => {
                     console.log(err)
@@ -98,7 +129,7 @@ export default function Book() {
                             {
                                 treatments.length > 0 && (
                                     <SelectTreatment
-                                        options={treatments.filter(treatment => treatment.is_active)}
+                                        options={treatments}
                                         formData={formData}
                                         setFormData={setFormData}
                                         setCurrentStep={setCurrentStep}
@@ -109,17 +140,20 @@ export default function Book() {
 
                             {currentStep > 0 && (
                                 <SelectDatetime
-                                today={today}
-                                treatment={treatments.filter(t => t.id = formData.treatment)}
-                                formData={formData}
-                                setFormData={setFormData}
-                                setCurrentStep={setCurrentStep}
-                                hasError={hasError}
+                                    today={today}
+                                    treatment={treatments.filter(t => t.id = formData.treatment)}
+                                    formData={formData}
+                                    setFormData={setFormData}
+                                    currentStep={currentStep}
+                                    setCurrentStep={setCurrentStep}
+                                    hasError={hasError}
                                 />
-                                
+
                             )}
 
-                            {/*<button id="book" className={btnStyles.Btn}>Conferma</button>*/}
+                            {formData.treatment != "" && formData.date != null && formData.time != "" && (
+                                <button id="book" className={btnStyles.Btn}>Conferma</button>
+                            )}
 
                         </form>
                     )
