@@ -2,6 +2,9 @@
 import { useEffect, useState } from 'react';
 // context
 import { useCurrentUser } from '../context/CurrentUserContext';
+// DB
+import { db } from '../firebase/config.js';
+import { collection, getDocs } from "firebase/firestore"; 
 // componenet
 import { Image } from 'react-bootstrap';
 import { Link} from 'react-router-dom';
@@ -11,6 +14,7 @@ import styles from './styles/Home.module.css';
 import btnStyles from '../pages/styles/Buttons.module.css';
 // image
 import img from '../assets/images/brush.jpg';
+import { setDate } from 'date-fns';
 
 
 
@@ -18,8 +22,11 @@ export default function Home() {
 
   const {currentUser, jwtToken} = useCurrentUser();
   const [treatments, setTreatments] = useState([]);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
+
+    setIsPending(true)
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
@@ -30,11 +37,16 @@ export default function Home() {
 
     fetch(`${process.env.REACT_APP_BACKEND}/treatments`, requestOptions)
       .then(res => res.json())
-      .then(data => setTreatments(data))
-      .catch(err => {
-        console.log(err)
+      .then(data => data.filter(d => d.is_active==true))
+      .then(data => {
+        setTreatments(data);
+        setIsPending(false);
+      }).catch(err => {
+        console.log(err);
+        setIsPending(false);
       })
-  }, [])
+
+  }, [])  
 
   return (
     <main className={styles.Home}>
@@ -62,7 +74,9 @@ export default function Home() {
       <section className={styles.Section}>
         <div>
           <h2>I Nostri Servizi</h2>
-          <Treatments treatments={treatments} />
+          { isPending && <p>Loading...</p>}
+          { !isPending && treatments.length < 1 && <p>Non ci sono trattamenti da visualizzare</p>}
+          { !isPending && treatments.length >= 1 && <Treatments treatments={treatments} />}
         </div>
       </section>
       <section className={styles.CallToAction}>

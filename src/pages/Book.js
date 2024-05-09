@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
 // context
 import { useCurrentUser } from '../context/CurrentUserContext';
+// DB
+import { db } from '../firebase/config.js';
+import { collection, getDocs } from "firebase/firestore";
 // components
 import SelectTreatment from '../components/form/SelectTreatment';
 import SelectDatetime from '../components/form/SelectDatetime';
@@ -22,7 +25,7 @@ export default function Book() {
     const navigate = useNavigate();
 
     const [currentStep, setCurrentStep] = useState(0);
-    const [hasLoaded, setHasLoaded] = useState(false);
+    const [isPending, setIsPending] = useState(false);
     const [treatments, setTreatments] = useState([]);
     const [formErrors, setFormErrors] = useState([]);
     const hasError = key => {
@@ -37,39 +40,39 @@ export default function Book() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         // if there are no errors, then submit
-    try {
-        const headers = new Headers();
-        headers.append("Content-type", "application/json");
-  
-        let requestOptions = {
-          body: JSON.stringify(formData),
-          method: "PUT",
-          headers: headers,
-          credentials: "include",
-        }
-  
-        //const path = is_new ? "create" : `${id}/edit`
-        //const calendarId = "80a5e04e62217d368744c29fe7bdfa020b1dc449f5acdf2b483dc7921c13c01a@group.calendar.google.com"
-        fetch(`${process.env.REACT_APP_BACKEND}/appointment/book`, requestOptions)
-          .then(res => res.json())
-          .then(data => {
-            if (data.error) {
-              console.log(data.error);
-            } else {
-              setCurrentMessageType("success");
-              setCurrentMessage("Appuntamento prenotato con successo!");
+        try {
+            const headers = new Headers();
+            headers.append("Content-type", "application/json");
+
+            let requestOptions = {
+                body: JSON.stringify(formData),
+                method: "PUT",
+                headers: headers,
+                credentials: "include",
             }
-          })
-          .catch(err => {
-            console.log(err)
-            setCurrentMessageType("error");
-            setCurrentMessage("Non è stato possibile eseguire la richiesta! Per favore riprova.");
-          })
-      } catch (err) {
-        console.log("error submitting the form: ", err)
-      }
+
+            //const path = is_new ? "create" : `${id}/edit`
+            //const calendarId = "80a5e04e62217d368744c29fe7bdfa020b1dc449f5acdf2b483dc7921c13c01a@group.calendar.google.com"
+            fetch(`${process.env.REACT_APP_BACKEND}/appointment/book`, requestOptions)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        console.log(data.error);
+                    } else {
+                        setCurrentMessageType("success");
+                        setCurrentMessage("Appuntamento prenotato con successo!");
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    setCurrentMessageType("error");
+                    setCurrentMessage("Non è stato possibile eseguire la richiesta! Per favore riprova.");
+                })
+        } catch (err) {
+            console.log("error submitting the form: ", err)
+        }
     }
 
     const handleChange = () => (e) => {
@@ -83,30 +86,25 @@ export default function Book() {
     }
 
     useEffect(() => {
-        setHasLoaded(false);
-        try {
-            const headers = new Headers();
-            headers.append("Content-Type", "application/json");
+        setIsPending(true)
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
 
-            const requestOptions = {
-                method: "GET",
-                headers: headers,
-            }
-
-            fetch(`${process.env.REACT_APP_BACKEND}/treatments`, requestOptions)
-                .then(res => res.json())
-                .then(data => {
-                    setTreatments(data.filter(treatment => treatment.is_active))
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setHasLoaded(true);
+        const requestOptions = {
+            method: "GET",
+            headers: headers,
         }
+
+        fetch(`${process.env.REACT_APP_BACKEND}/treatments`, requestOptions)
+            .then(res => res.json())
+            .then(data => data.filter(d => d.is_active == true))
+            .then(data => {
+                setTreatments(data);
+                setIsPending(false);
+            }).catch(err => {
+                console.log(err);
+                setIsPending(false);
+            })
 
     }, [])
 
@@ -122,8 +120,9 @@ export default function Book() {
         <main>
             <section className={formStyles.FormContainer}>
                 <h2>Prenota</h2>
+                {isPending && <p>Loading...</p>}
                 {
-                    hasLoaded && (
+                    !isPending && (
                         <form onSubmit={handleSubmit} className={formStyles.Form}>
 
                             {

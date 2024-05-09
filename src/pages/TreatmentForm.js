@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { useCurrentUser } from "../context/CurrentUserContext";
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
+// DB
+import { db } from '../firebase/config.js';
+import { doc, getDoc, setDoc, addDoc, Timestamp, collection } from "firebase/firestore";
 // components
 import Input from "../components/form/Input";
 import TextArea from "../components/form/TextArea";
@@ -21,11 +24,11 @@ const TreatmentForm = ({ is_new }) => {
     description: "",
     duration: 0,
     price: 0,
-    image: "",
+    room: "",
     is_active: true
   })
 
-  const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(false);
   const [fetchError, setFetchError] = useState(null);
   const [formErrors, setFormErrors] = useState([]);
   const hasError = key => {
@@ -47,7 +50,8 @@ const TreatmentForm = ({ is_new }) => {
     let required = [
       { field: treatment.name, name: "name" },
       { field: treatment.duration, name: "duration" },
-      { field: treatment.price, name: "price" }
+      { field: treatment.price, name: "price" },
+      { field: treatment.room, name: "room" }
     ]
 
     required.forEach(obj => {
@@ -107,7 +111,6 @@ const TreatmentForm = ({ is_new }) => {
     } catch (err) {
       console.log("error submitting the form: ", err)
     }
-
   }
 
   const handleChange = () => (e) => {
@@ -121,13 +124,10 @@ const TreatmentForm = ({ is_new }) => {
   }
 
   const handleCheck = e => {
-    
     setTreatment({
       ...treatment,
       "is_active": e.target.checked,
     })
-
-    console.log(treatment)
   }
 
   useEffect(() => {
@@ -137,10 +137,12 @@ const TreatmentForm = ({ is_new }) => {
         description: "",
         duration: 0,
         price: 0,
-        image: "",
+        room: "",
         is_active: true
       });
+
     } else {
+      setIsPending(true);
       try {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
@@ -155,81 +157,99 @@ const TreatmentForm = ({ is_new }) => {
           .then(data => setTreatment(data))
           .catch(err => {
             console.log(err);
-            setFetchError("Non è stato possibile recuperare i dati di questo trattamento.")
+            setFetchError("Non è stato possibile recuperare i dati di questo trattamento.");
+            setIsPending(false);
           })
       } catch (err) {
-        console.log(err)
+        console.log(err);
+        setIsPending(false);
       }
+      setIsPending(false);
     }
 
   }, [id, is_new])
 
   return (
     <main>
-      <section className={formStyles.FormContainer}>
-        <h2>{is_new ? "Aggiungi Trattamento" : "Modifica Trattamento"}</h2>
+      {isPending && <p>Loading...</p>}
 
-        {fetchError != null ? (
-          <p>{fetchError}</p>
-        ) : (
-          <form onSubmit={hanleSubmit} className={formStyles.Form}>
+      {!isPending && (
+        <section className={formStyles.FormContainer}>
+          <h2>{is_new ? "Aggiungi Trattamento" : "Modifica Trattamento"}</h2>
 
-            <Input
-              id="name"
-              title="Nome"
-              type="text"
-              name="name"
-              onChange={handleChange("name")}
-              value={treatment.name}
-              errorDiv={hasError("name") ? "input-error" : "d-none"}
-              errorMsg="Scegli un nome"
-            />
+          {fetchError != null ? (
+            <p>{fetchError}</p>
+          ) : (
+            <form onSubmit={hanleSubmit} className={formStyles.Form}>
 
-            <TextArea
-              id="description"
-              title="Descrizione"
-              name="description"
-              onChange={handleChange("description")}
-              value={treatment.description}
-              rows="5"
-            />
+              <Input
+                id="name"
+                title="Nome"
+                type="text"
+                name="name"
+                onChange={handleChange("name")}
+                value={treatment.name}
+                errorDiv={hasError("name") ? "input-error" : "d-none"}
+                errorMsg="Scegli un nome"
+              />
 
-            <Input
-              id="duration"
-              title="Durata in minuti"
-              type="number"
-              name="duration"
-              onChange={handleChange("duration")}
-              value={treatment.duration}
-              errorDiv={hasError("duration") ? "input-error" : "d-none"}
-              errorMsg="Valore per 'durata' invalido. Inserisci un numero maggiore o uguale a 5."
-            />
+              <TextArea
+                id="description"
+                title="Descrizione"
+                name="description"
+                onChange={handleChange("description")}
+                value={treatment.description}
+                rows="5"
+              />
 
-            <Input
-              id="price"
-              title="Prezzo"
-              type="number"
-              name="price"
-              onChange={handleChange("price")}
-              value={treatment.price}
-              errorDiv={hasError("price") ? "input-error" : "d-none"}
-              errorMsg="Valore per 'prezzo' invalido. Inserisci un valore positivo."
-            />
+              <Input
+                id="duration"
+                title="Durata in minuti"
+                type="number"
+                name="duration"
+                onChange={handleChange("duration")}
+                value={treatment.duration}
+                errorDiv={hasError("duration") ? "input-error" : "d-none"}
+                errorMsg="Valore per 'durata' invalido. Inserisci un numero maggiore o uguale a 5."
+              />
 
-            <Checkbox
-              id="is_active"
-              title="Attivo"
-              name="is_active"
-              onChange={e => handleCheck(e)}
-              value={treatment.is_active}
-              checked={treatment.is_active}
-            />
+              <Input
+                id="price"
+                title="Prezzo"
+                type="number"
+                name="price"
+                onChange={handleChange("price")}
+                value={treatment.price}
+                errorDiv={hasError("price") ? "input-error" : "d-none"}
+                errorMsg="Valore per 'prezzo' invalido. Inserisci un valore positivo."
+              />
 
-            <button className={btnStyles.Btn}>Salva</button>
-          </form>
-        )}
+              <Input
+                id="room"
+                title="Stanza"
+                type="text"
+                name="room"
+                onChange={handleChange("room")}
+                value={treatment.room}
+                errorDiv={hasError("room") ? "input-error" : "d-none"}
+                errorMsg="Valore per 'Stanza' invalido."
+              />
 
-      </section>
+              <Checkbox
+                id="is_active"
+                title="Attivo"
+                name="is_active"
+                onChange={e => handleCheck(e)}
+                value={treatment.is_active}
+                checked={treatment.is_active}
+              />
+
+              <button className={btnStyles.Btn}>Salva</button>
+            </form>
+          )}
+
+        </section>
+      )}
     </main>
   )
 }
