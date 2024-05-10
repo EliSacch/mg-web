@@ -50,7 +50,6 @@ export default function ManageTreatments(props) {
                 setTreatments(data);
                 setIsPending(false);
             }).catch(err => {
-                console.log(err);
                 setIsPending(false);
                 setFetchError("C'è stato un errore a recuperare i trattamenti dal database.")
             })

@@ -50,18 +50,13 @@ export default function Book() {
                 credentials: "include",
             }
 
-            //const path = is_new ? "create" : `${id}/edit`
-            //const calendarId = "80a5e04e62217d368744c29fe7bdfa020b1dc449f5acdf2b483dc7921c13c01a@group.calendar.google.com"
             fetch(`${process.env.REACT_APP_BACKEND}/appointment/book`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    if (data.error) {
-                        console.log(data.error);
-                    } else {
-                        navigate("/");
-                        setCurrentMessageType("success");
-                        setCurrentMessage("Appuntamento prenotato con successo!");
-                    }
+                    console.log(data)
+                    navigate("/");
+                    setCurrentMessageType("success");
+                    setCurrentMessage("Appuntamento prenotato con successo!");
                 })
                 .catch(err => {
                     console.log(err)

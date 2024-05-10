@@ -7,10 +7,10 @@ import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/Messa
 import Input from "../components/form/Input";
 import TextArea from "../components/form/TextArea";
 import Checkbox from "../components/form/Checkbox";
+import SelectRoom from "../components/form/SelectRoom";
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
-
 
 
 const TreatmentForm = ({ is_new }) => {
@@ -24,6 +24,7 @@ const TreatmentForm = ({ is_new }) => {
     room: "",
     is_active: true
   })
+  const [rooms, setRooms] = useState([]);
 
   const [isPending, setIsPending] = useState(false);
   const [fetchError, setFetchError] = useState(null);
@@ -166,6 +167,29 @@ const TreatmentForm = ({ is_new }) => {
 
   }, [id, is_new])
 
+  useEffect(() => {
+    setIsPending(true)
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", "Bearer " + jwtToken)
+
+    const requestOptions = {
+      method: "GET",
+      headers: headers,
+    }
+
+    fetch(`${process.env.REACT_APP_BACKEND}/admin/rooms`, requestOptions)
+      .then(res => res.json())
+      .then(data => {
+        setRooms(data);
+        setIsPending(false);
+      }).catch(err => {
+        setIsPending(false);
+        setFetchError("C'è stato un errore a recuperare le stanze dal database.")
+      })
+
+  }, [])
+
   return (
     <main>
       {isPending && <p>Loading...</p>}
@@ -221,16 +245,16 @@ const TreatmentForm = ({ is_new }) => {
                 errorMsg="Valore per 'prezzo' invalido. Inserisci un valore positivo."
               />
 
-              <Input
-                id="room"
-                title="Stanza"
-                type="text"
-                name="room"
-                onChange={handleChange("room")}
-                value={treatment.room}
-                errorDiv={hasError("room") ? "input-error" : "d-none"}
-                errorMsg="Valore per 'Stanza' invalido."
-              />
+              {
+                rooms.length > 0 && (
+                  <SelectRoom
+                    options={rooms}
+                    formData={treatment}
+                    setFormData={setTreatment}
+                    hasError={hasError}
+                  />
+                )
+              }
 
               <Checkbox
                 id="is_active"

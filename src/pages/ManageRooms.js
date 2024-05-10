@@ -52,7 +52,6 @@ export default function ManageRooms(props) {
                 setRooms(data);
                 setIsPending(false);
             }).catch(err => {
-                console.log(err);
                 setIsPending(false);
                 setFetchError("C'è stato un errore a recuperare le stanze dal database.")
             })

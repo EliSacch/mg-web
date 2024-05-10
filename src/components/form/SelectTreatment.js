@@ -6,7 +6,6 @@ function SelectTreatment({options, formData, setFormData, setCurrentStep, hasErr
     const [selectTreatmentOptions, setSelectTreatmentOptions] = useState([]);
 
     const handleSelectTreatment = e => {
-        console.log("target", e.target.value)
         setFormData({
             ...formData,
             treatment: e.target.value,
@@ -19,8 +18,6 @@ function SelectTreatment({options, formData, setFormData, setCurrentStep, hasErr
         } else {
             setCurrentStep(2)
         }
-
-        console.log(formData)
     }
 
     useEffect(() => {
