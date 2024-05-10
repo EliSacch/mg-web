@@ -180,8 +180,9 @@ const TreatmentForm = ({ is_new }) => {
 
     fetch(`${process.env.REACT_APP_BACKEND}/admin/rooms`, requestOptions)
       .then(res => res.json())
-      .then(data => {
-        setRooms(data);
+      .then(data => data.filter(room => room.is_active==true))
+      .then(rooms => {
+        setRooms(rooms);
         setIsPending(false);
       }).catch(err => {
         setIsPending(false);
