@@ -2,18 +2,18 @@
     padding: 2em;
 }
 
-.TreatmentsTable {
+.RoomsTable {
     width: 100%;
 }
 
-.TreatmentsTable tr > *:nth-child(2) {
+.RoomsTable tr > *:nth-child(2) {
     text-wrap: nowrap;
     max-width: 10ch;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.TreatmentsTable tr.Inactive {
+.RoomsTable tr.Inactive {
     background-color: var(--neutral);
 }
 

@@ -1,6 +1,11 @@
-// styles
+// componenets
+import { Link } from 'react-router-dom';
 import ManageTreatments from './ManageTreatments';
+import ManageRooms from './ManageRooms';
+// styles
 import styles from './styles/AdminDashboard.module.css';
+import btnStyles from './styles/Buttons.module.css';
+
 
 export default function AdminDashboard({
     handleOpen,
@@ -11,17 +16,22 @@ export default function AdminDashboard({
 
     return (
         <main className={styles.Dashboard}>
-            <section className={styles.Section}>
-                <h2>Dashboard</h2>
 
-                <ManageTreatments 
+            <h2>Dashboard</h2>
+
+            <ManageTreatments
                 handleOpen={handleOpen}
                 handleClose={handleClose}
                 showModal={showModal}
                 setModalChildren={setModalChildren}
-                />
+            />
 
-            </section>
+            <ManageRooms
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                showModal={showModal}
+                setModalChildren={setModalChildren}
+            />
         </main>
     )
 }

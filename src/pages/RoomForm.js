@@ -13,15 +13,12 @@ import btnStyles from './styles/Buttons.module.css';
 
 
 
-const TreatmentForm = ({ is_new }) => {
+const RoomForm = ({ is_new }) => {
 
-  const [treatment, setTreatment] = useState({
-    id: 0,
+  const [room, setRoom] = useState({
+    id: "",
     name: "",
     description: "",
-    duration: 0,
-    price: 0,
-    room: "",
     is_active: true
   })
 
@@ -45,10 +42,7 @@ const TreatmentForm = ({ is_new }) => {
 
     let errors = [];
     let required = [
-      { field: treatment.name, name: "name" },
-      { field: treatment.duration, name: "duration" },
-      { field: treatment.price, name: "price" },
-      { field: treatment.room, name: "room" }
+      { field: room.name, name: "name" },
     ]
 
     required.forEach(obj => {
@@ -56,14 +50,6 @@ const TreatmentForm = ({ is_new }) => {
         errors.push(obj.name);
       }
     })
-
-    if (treatment.duration < 5) {
-      errors.push("duration");
-    }
-
-    if (treatment.price < 0) {
-      errors.push("price");
-    }
 
     setFormErrors(errors);
 
@@ -77,9 +63,7 @@ const TreatmentForm = ({ is_new }) => {
       headers.append("Content-type", "application/json");
       headers.append("Authorization", "Bearer " + jwtToken)
 
-      let requestBody = treatment;
-      treatment.duration = parseInt(treatment.duration, 10);
-      treatment.price = parseFloat(treatment.price);
+      let requestBody = room;
 
       let requestOptions = {
         body: JSON.stringify(requestBody),
@@ -89,7 +73,7 @@ const TreatmentForm = ({ is_new }) => {
       }
 
       const path = is_new ? "create" : `${id}/edit`
-      fetch(`${process.env.REACT_APP_BACKEND}/admin/treatments/${path}`, requestOptions)
+      fetch(`${process.env.REACT_APP_BACKEND}/admin/rooms/${path}`, requestOptions)
         .then(res => res.json())
         .then(data => {
           if (data.error) {
@@ -97,13 +81,13 @@ const TreatmentForm = ({ is_new }) => {
           } else {
             navigate("/admin");
             setCurrentMessageType("success");
-            setCurrentMessage("Trattamento " + (is_new ? "creato" : "aggiornato") + " con successo!");
+            setCurrentMessage("Stanza " + (is_new ? "creata" : "aggiornata") + " con successo!");
           }
         })
         .catch(err => {
           console.log(err)
           setCurrentMessageType("error");
-          setCurrentMessage("Non è stato possibile " + (is_new ? "creare" : "aggiornare") + " il trattamento! Per favore riprova.");
+          setCurrentMessage("Non è stato possibile " + (is_new ? "creare" : "aggiornare") + " la stanza! Per favore riprova.");
         })
     } catch (err) {
       console.log("error submitting the form: ", err)
@@ -114,27 +98,24 @@ const TreatmentForm = ({ is_new }) => {
     let value = e.target.value;
     let name = e.target.name;
 
-    setTreatment({
-      ...treatment,
+    setRoom({
+      ...room,
       [name]: value,
     })
   }
 
   const handleCheck = e => {
-    setTreatment({
-      ...treatment,
+    setRoom({
+      ...room,
       "is_active": e.target.checked,
     })
   }
 
   useEffect(() => {
     if (is_new) {
-      setTreatment({
+      setRoom({
         name: "",
         description: "",
-        duration: 0,
-        price: 0,
-        room: "",
         is_active: true
       });
 
@@ -143,18 +124,19 @@ const TreatmentForm = ({ is_new }) => {
       try {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
+        headers.append("Authorization", "Bearer " + jwtToken)
 
         const requestOptions = {
           method: "GET",
           headers: headers,
         }
 
-        fetch(`${process.env.REACT_APP_BACKEND}/treatments/${id}`, requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND}/admin/rooms/${id}`, requestOptions)
           .then(res => res.json())
-          .then(data => setTreatment(data))
+          .then(data => setRoom(data))
           .catch(err => {
             console.log(err);
-            setFetchError("Non è stato possibile recuperare i dati di questo trattamento.");
+            setFetchError("Non è stato possibile recuperare i dati di questa stanza.");
             setIsPending(false);
           })
       } catch (err) {
@@ -172,7 +154,7 @@ const TreatmentForm = ({ is_new }) => {
 
       {!isPending && (
         <section className={formStyles.FormContainer}>
-          <h2>{is_new ? "Aggiungi Trattamento" : "Modifica Trattamento"}</h2>
+          <h2>{is_new ? "Aggiungi Stanza" : "Modifica Stanza"}</h2>
 
           {fetchError != null ? (
             <p>{fetchError}</p>
@@ -185,7 +167,7 @@ const TreatmentForm = ({ is_new }) => {
                 type="text"
                 name="name"
                 onChange={handleChange("name")}
-                value={treatment.name}
+                value={room.name}
                 errorDiv={hasError("name") ? "input-error" : "d-none"}
                 errorMsg="Scegli un nome"
               />
@@ -195,41 +177,8 @@ const TreatmentForm = ({ is_new }) => {
                 title="Descrizione"
                 name="description"
                 onChange={handleChange("description")}
-                value={treatment.description}
+                value={room.description}
                 rows="5"
-              />
-
-              <Input
-                id="duration"
-                title="Durata in minuti"
-                type="number"
-                name="duration"
-                onChange={handleChange("duration")}
-                value={treatment.duration}
-                errorDiv={hasError("duration") ? "input-error" : "d-none"}
-                errorMsg="Valore per 'durata' invalido. Inserisci un numero maggiore o uguale a 5."
-              />
-
-              <Input
-                id="price"
-                title="Prezzo"
-                type="number"
-                name="price"
-                onChange={handleChange("price")}
-                value={treatment.price}
-                errorDiv={hasError("price") ? "input-error" : "d-none"}
-                errorMsg="Valore per 'prezzo' invalido. Inserisci un valore positivo."
-              />
-
-              <Input
-                id="room"
-                title="Stanza"
-                type="text"
-                name="room"
-                onChange={handleChange("room")}
-                value={treatment.room}
-                errorDiv={hasError("room") ? "input-error" : "d-none"}
-                errorMsg="Valore per 'Stanza' invalido."
               />
 
               <Checkbox
@@ -237,8 +186,8 @@ const TreatmentForm = ({ is_new }) => {
                 title="Attivo"
                 name="is_active"
                 onChange={e => handleCheck(e)}
-                value={treatment.is_active}
-                checked={treatment.is_active}
+                value={room.is_active}
+                checked={room.is_active}
               />
 
               <button className={btnStyles.Btn}>Salva</button>
@@ -251,4 +200,4 @@ const TreatmentForm = ({ is_new }) => {
   )
 }
 
-export default TreatmentForm
+export default RoomForm

@@ -2,57 +2,52 @@
 import { useEffect, useState } from 'react';
 // context
 import { Link, useNavigate } from 'react-router-dom';
+import { useCurrentUser } from '../context/CurrentUserContext.js';
 // Utils
 import { formatDatetime } from '../utils/datetimeUtils.js';
 // coponenets
-import DeleteTreatment from './DeleteTreatment';
 import { ActionsDropdown } from '../components/ActionsDropdown';
 import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // styles
-import styles from './styles/ManageTreatments.module.css';
+import styles from './styles/ManageRooms.module.css';
 import btnStyles from './styles/Buttons.module.css';
 
 
-export default function ManageTreatments(props) {
 
+export default function ManageRooms(props) {
+
+    const { currentUser, jwtToken } = useCurrentUser();
     const [fetchError, setFetchError] = useState(null);
     const [isPending, setIsPending] = useState(false);
-    const [treatments, setTreatments] = useState([]);
+    const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
 
 
     const handleEdit = (id) => {
-        navigate(`treatments/${id}/edit`)
+        navigate(`rooms/${id}/edit`)
     }
-
-    const handleDelete = (id) => {
-        props.setModalChildren(
-            <DeleteTreatment id={id} handleClose={() => props.handleClose()} />
-        )
-        props.handleOpen()
-    };
-
 
     useEffect(() => {
         setIsPending(true)
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
+        headers.append("Authorization", "Bearer " + jwtToken)
 
         const requestOptions = {
             method: "GET",
             headers: headers,
         }
 
-        fetch(`${process.env.REACT_APP_BACKEND}/treatments`, requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND}/admin/rooms`, requestOptions)
             .then(res => res.json())
             .then(data => {
-                setTreatments(data);
+                setRooms(data);
                 setIsPending(false);
             }).catch(err => {
                 console.log(err);
                 setIsPending(false);
-                setFetchError("C'è stato un errore a recuperare i trattamenti dal database.")
+                setFetchError("C'è stato un errore a recuperare le stanze dal database.")
             })
 
     }, [props.showModal])
@@ -60,25 +55,22 @@ export default function ManageTreatments(props) {
     return (
         <section className={styles.Section}>
 
-            <h2>Trattamenti</h2>
+            <h2>Stanze</h2>
 
             <div className={styles.Button}>
-                <Link to="/admin/treatments/create" className={btnStyles.Btn}>Nuovo Trattamento</Link>
+                <Link to="/admin/rooms/create" className={btnStyles.Btn}>Nuova Stanza</Link>
             </div>
 
             {fetchError != null ? (
                 <p>{fetchError}</p>
             ) : (
 
-                treatments ? (
-                    <table className={styles.TreatmentsTable}>
+                rooms ? (
+                    <table className={styles.RoomsTable}>
                         <thead>
                             <tr>
                                 <th>Nome</th>
                                 <th>Descrizione</th>
-                                <th>Durata</th>
-                                <th>Prezzo</th>
-                                <th>Stanza</th>
                                 <th>
                                     <span className="d-none d-lg-block">Attivo</span>
                                 </th>
@@ -88,16 +80,13 @@ export default function ManageTreatments(props) {
                         </thead>
                         <tbody>
                             {
-                                treatments.map(treatment => (
-                                    <tr key={treatment.id} className={!treatment.is_active ? styles.Inactive : ""}>
-                                        <td>{treatment.name}</td>
-                                        <td>{treatment?.description}</td>
-                                        <td>{treatment.duration} min.</td>
-                                        <td>€{treatment.price}</td>
-                                        <td>{treatment.room}</td>
+                                rooms.map(room => (
+                                    <tr key={room.id} className={!room.is_active ? styles.Inactive : ""}>
+                                        <td>{room.name}</td>
+                                        <td>{room?.description}</td>
                                         <td>
                                             <span className="d-none d-lg-block">
-                                                {treatment.is_active ? (
+                                                {room.is_active ? (
                                                     <FontAwesomeIcon icon={faCheck} size='xl' />
                                                 ) : (
                                                     <FontAwesomeIcon icon={faClose} size='xl' />
@@ -105,14 +94,14 @@ export default function ManageTreatments(props) {
                                             </span>
                                         </td>
                                         <td className="d-none d-md-block">
-                                            {treatment.updated_at && formatDatetime(treatment.updated_at)}
-                                            {!treatment.updated_at && formatDatetime(treatment.created_at)}
+                                            {room.updated_at && formatDatetime(room.updated_at)}
+                                            {!room.updated_at && formatDatetime(room.created_at)}
                                         </td>
                                         <td>
                                             <ActionsDropdown
                                                 handleEdit={handleEdit}
-                                                handleDelete={handleDelete}
-                                                data={treatment.id}
+                                                //handleDelete={handleDelete}
+                                                data={room.id}
                                             />
                                         </td>
                                     </tr>
@@ -124,7 +113,7 @@ export default function ManageTreatments(props) {
 
                     </table>
                 ) : (
-                    <p>Non ci sono trattamenti al momemento.</p>
+                    <p>Non ci sono stanze al momemento.</p>
                 )
             )}
 

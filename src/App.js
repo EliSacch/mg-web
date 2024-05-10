@@ -9,14 +9,17 @@ import LayoutWithoutHeader from './layouts/LayoutWithoutHeader';
 import LayoutForAdmin from './layouts/LayoutForAdmin';
 import AdminDashboard from './pages/AdminDashboard';
 import TreatmentForm from './pages/TreatmentForm';
+import RoomForm from './pages/RoomForm';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Book from './pages/Book';
 import Message from './components/Message';
 import Modal from './components/Modal';
 // style
 import './App.css';
-import Book from './pages/Book';
+
+
 
 
 function App() {
@@ -83,6 +86,10 @@ function App() {
               />
               <Route path="/admin/treatments/create" element={<TreatmentForm is_new={true} />} />
               <Route path="/admin/treatments/:id/edit" element={<TreatmentForm is_new={false} />} />
+
+              <Route path="/admin/rooms/create" element={<RoomForm is_new={true} />} />
+              <Route path="/admin/rooms/:id/edit" element={<RoomForm is_new={false} />} />
+
 
             </Route>
 

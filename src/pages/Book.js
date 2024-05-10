@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
 // context
 import { useCurrentUser } from '../context/CurrentUserContext';
-// DB
-import { db } from '../firebase/config.js';
-import { collection, getDocs } from "firebase/firestore";
 // components
 import SelectTreatment from '../components/form/SelectTreatment';
 import SelectDatetime from '../components/form/SelectDatetime';
@@ -61,6 +58,7 @@ export default function Book() {
                     if (data.error) {
                         console.log(data.error);
                     } else {
+                        navigate("/");
                         setCurrentMessageType("success");
                         setCurrentMessage("Appuntamento prenotato con successo!");
                     }

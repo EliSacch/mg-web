@@ -23,10 +23,7 @@ function SelectDatetime({ today, treatment, formData, setFormData, currentStep, 
             date: data,
         });
 
-        console.log(data)
         setCurrentStep(data != null ? 2 : 1);
-
-        console.log(formData)
     }
 
     const handleSelectTime = e => {
@@ -34,8 +31,6 @@ function SelectDatetime({ today, treatment, formData, setFormData, currentStep, 
             ...formData,
             time: e.target.value,
         });
-
-        console.log(formData)
     }
 
     const options = [
@@ -67,9 +62,7 @@ function SelectDatetime({ today, treatment, formData, setFormData, currentStep, 
                         className={styles.DatePicker}
                     />
                 </span>
-
             </div>
-
             {
                 currentStep > 1 && (
                     <Select
@@ -81,9 +74,7 @@ function SelectDatetime({ today, treatment, formData, setFormData, currentStep, 
                     />
                 )
             }
-
         </div>
-
     )
 }
 
