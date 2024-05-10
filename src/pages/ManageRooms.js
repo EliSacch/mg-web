@@ -9,10 +9,10 @@ import { formatDatetime } from '../utils/datetimeUtils.js';
 import { ActionsDropdown } from '../components/ActionsDropdown';
 import { faCheck, faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DeleteRoom from './DeleteRoom.js';
 // styles
 import styles from './styles/ManageRooms.module.css';
 import btnStyles from './styles/Buttons.module.css';
-
 
 
 export default function ManageRooms(props) {
@@ -27,6 +27,13 @@ export default function ManageRooms(props) {
     const handleEdit = (id) => {
         navigate(`rooms/${id}/edit`)
     }
+
+    const handleDelete = (id) => {
+        props.setModalChildren(
+            <DeleteRoom id={id} handleClose={() => props.handleClose()} />
+        )
+        props.handleOpen()
+    };
 
     useEffect(() => {
         setIsPending(true)
@@ -100,7 +107,7 @@ export default function ManageRooms(props) {
                                         <td>
                                             <ActionsDropdown
                                                 handleEdit={handleEdit}
-                                                //handleDelete={handleDelete}
+                                                handleDelete={handleDelete}
                                                 data={room.id}
                                             />
                                         </td>
