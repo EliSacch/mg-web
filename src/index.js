@@ -1,7 +1,7 @@
 import React from 'react';
 // context
+import { AuthContextProvider } from './context/AuthContext';
 import { CurrentMessageProvider } from './context/MessageContext';
-import { CurrentUserProvider } from './context/CurrentUserContext';
 // componenets
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -14,11 +14,11 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //<React.StrictMode>
-    <CurrentUserProvider>
+  <AuthContextProvider>
       <CurrentMessageProvider>
         <App />
       </CurrentMessageProvider>
-    </CurrentUserProvider>
+    </AuthContextProvider>
   //</React.StrictMode>
 );
 

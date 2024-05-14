@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
 // context
-import { useCurrentUser } from '../context/CurrentUserContext';
+import { useAuthContext } from '../context/useAuthContext';
 // components
 import SelectTreatment from '../components/form/SelectTreatment';
 import SelectDatetime from '../components/form/SelectDatetime';
@@ -14,9 +14,10 @@ import btnStyles from './styles/Buttons.module.css';
 
 export default function Book() {
 
+    const { user } = useAuthContext();
+
     const today = new Date().toISOString().split('T')[0]
 
-    const { currentUser, jwtToken } = useCurrentUser();
     const setCurrentMessage = useSetCurrentMessage();
     const setCurrentMessageType = useSetCurrentMessageType();
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function Book() {
         treatment: "",
         date: today,
         time: "",
-        user: currentUser
+        user: user
     })
 
     const handleSubmit = (e) => {
@@ -102,11 +103,11 @@ export default function Book() {
     }, [])
 
     useEffect(() => {
-        if (!currentUser) {
+        if (!user) {
             navigate("/");
             return
         }
-    }, [currentUser, navigate])
+    }, [user, navigate])
 
 
     return (

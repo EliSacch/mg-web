@@ -1,10 +1,7 @@
 // hooks
 import { useEffect, useState } from 'react';
 // context
-import { useCurrentUser } from '../context/CurrentUserContext';
-// DB
-import { db } from '../firebase/config.js';
-import { collection, getDocs } from "firebase/firestore"; 
+import { useAuthContext } from '../context/useAuthContext';
 // componenet
 import { Image } from 'react-bootstrap';
 import { Link} from 'react-router-dom';
@@ -14,15 +11,14 @@ import styles from './styles/Home.module.css';
 import btnStyles from '../pages/styles/Buttons.module.css';
 // image
 import img from '../assets/images/brush.jpg';
-import { setDate } from 'date-fns';
-
 
 
 export default function Home() {
 
-  const {currentUser, jwtToken} = useCurrentUser();
   const [treatments, setTreatments] = useState([]);
   const [isPending, setIsPending] = useState(false);
+
+  const { user } = useAuthContext();
 
   useEffect(() => {
 
@@ -64,10 +60,10 @@ export default function Home() {
                 className={styles.Link}
               >
                 Chiamaci
-                </Link> o { !jwtToken ? " registrati al nostro sito" : " prenota dal sito"}.</p>
+                </Link> o { !user ? " registrati al nostro sito" : " prenota dal sito"}.</p>
           </div>
-          { !jwtToken && <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>}
-          { jwtToken && <Link to="/book" className={btnStyles.BtnInverted}>Prenota</Link>}
+          { !user && <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>}
+          { user && <Link to="/book" className={btnStyles.BtnInverted}>Prenota</Link>}
         </div>
       </section>
 
@@ -93,10 +89,10 @@ export default function Home() {
                 className={styles.Link}
               >
                 Chiamaci
-              </Link> o { !jwtToken ? " registrati al nostro sito" : " prenota dal sito"}.</p>
+              </Link> o { !user ? " registrati al nostro sito" : " prenota dal sito"}.</p>
           </div>
-          { !jwtToken && <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>}
-          { jwtToken && <Link to="/book" className={btnStyles.BtnInverted}>Prenota</Link>}
+          { !user && <Link to="/signup" className={btnStyles.BtnInverted}>Registrati</Link>}
+          { user && <Link to="/book" className={btnStyles.BtnInverted}>Prenota</Link>}
         </div>
       </section>
       

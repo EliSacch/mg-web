@@ -1,7 +1,7 @@
 // hooks
-import { useState, useEffect } from 'react';
-// contect
-import { useCurrentUser } from '../context/CurrentUserContext';
+import { useState } from 'react';
+// context
+import { useAuthContext } from '../context/useAuthContext';
 // components
 import Logout from '../pages/Logout';
 import Logo from './Logo';
@@ -18,8 +18,9 @@ import styles from './styles/Navigation.module.css';
 
 export default function Navigation(props) {
 
+    const { user } = useAuthContext();
+
     const [showMenu, setShowMenu] = useState(false);
-    const {currentUser, jwtToken} = useCurrentUser();
 
     const handleCloseMenu = () => setShowMenu(false);
     const handleShowMenu = () => setShowMenu(true);
@@ -39,20 +40,19 @@ export default function Navigation(props) {
     const LINKS = (
         <>
             <Link to="/">Home</Link>
-            { currentUser && <Link to="/book">Prenota</Link>}
+            {user && <Link to="/book">Prenota</Link>}
 
             <span className={styles.MoveRight}>
-                {!currentUser && (
+                {!user && (
                     <>
                         <Link to="/login">Login</Link>
                         <Link to="/signup">Sign up</Link>
                     </>
                 )}
-                
-                {currentUser?.is_admin && <Link to="/admin">Admin</Link>}
+                { user?.isAdmin && <Link to="/admin">Admin</Link>}
                 {
-                    currentUser  && (
-                        <button onClick={openModalFromOffcanvas}>Logout{JSON.stringify(currentUser.currentUser)}</button>
+                    user && (
+                        <button onClick={openModalFromOffcanvas}>Logout {user.displayName}</button>
                     )
 
                 }
@@ -129,13 +129,11 @@ export default function Navigation(props) {
                                 {CONTACT}
                                 {LINKS}
                             </div>
-
                         </Offcanvas.Body>
                     </Offcanvas>
+
                 </div>
             </div>
-
-
         </nav>
     )
 }

@@ -1,5 +1,7 @@
+// context
+import { useAuthContext } from "../context/useAuthContext";
 // coponenets
-import { Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
@@ -11,15 +13,19 @@ const LayoutWithHeader = ({
     setModalChildren
 }) => {
 
+    const { authIsReady } = useAuthContext();
+
     return (
         <>
             <header>
                 <Header>
-                    <Navigation
-                        handleOpen={handleOpen}
-                        handleClose={handleClose}
-                        setModalChildren={setModalChildren}
-                    />
+                    {authIsReady && (
+                        <Navigation
+                            handleOpen={handleOpen}
+                            handleClose={handleClose}
+                            setModalChildren={setModalChildren}
+                        />
+                    )}
                 </Header>
             </header>
 

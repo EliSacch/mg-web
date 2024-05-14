@@ -1,7 +1,7 @@
 // hooks
 import { useState } from 'react';
-// context 
-import { useCurrentUser } from './context/CurrentUserContext';
+// context
+import { useAuthContext } from './context/useAuthContext';
 // components
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LayoutWithHeader from './layouts/LayoutWithHeader';
@@ -20,13 +20,10 @@ import Modal from './components/Modal';
 import './App.css';
 
 
-
-
 function App() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalChildren, setModalChildren] = useState(<p>hi</p>);
-  const { currentUser } = useCurrentUser();
 
   const handleClose = () => {
     setShowModal(false);

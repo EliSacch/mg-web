@@ -1,7 +1,8 @@
 // hooks
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"
-import { useCurrentUser } from "../context/CurrentUserContext";
+// context
+import { useAuthContext } from "../context/useAuthContext";
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
 // components
 import Input from "../components/form/Input";
@@ -31,12 +32,14 @@ const TreatmentForm = ({ is_new }) => {
   const [formErrors, setFormErrors] = useState([]);
   const hasError = key => {
     return formErrors.indexOf(key) !== -1;
+  
   }
-
-  const navigate = useNavigate();
-  const { currentUser, jwtToken } = useCurrentUser();
   const setCurrentMessage = useSetCurrentMessage();
   const setCurrentMessageType = useSetCurrentMessageType();
+
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+
 
   // get id from url
   let { id } = useParams();
@@ -76,7 +79,7 @@ const TreatmentForm = ({ is_new }) => {
     try {
       const headers = new Headers();
       headers.append("Content-type", "application/json");
-      headers.append("Authorization", "Bearer " + jwtToken)
+      headers.append("Authorization", "Bearer " + user.accessToken)
 
       let requestBody = treatment;
       treatment.duration = parseInt(treatment.duration, 10);
@@ -171,7 +174,7 @@ const TreatmentForm = ({ is_new }) => {
     setIsPending(true)
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
-    headers.append("Authorization", "Bearer " + jwtToken)
+    headers.append("Authorization", "Bearer " + user.accessToken)
 
     const requestOptions = {
       method: "GET",

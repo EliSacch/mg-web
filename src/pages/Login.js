@@ -1,8 +1,9 @@
 // hooks
 import { useState, useEffect } from 'react';
-import { useSetCurrentMessage, useSetCurrentMessageType } from '../context/MessageContext.js';
-import { useCurrentUser, useSetCurrentUser } from '../context/CurrentUserContext.js';
+import { useLogin } from '../hooks/useLogin.js';
+// context
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../context/useAuthContext.js';
 // componenets
 import Input from '../components/form/Input.js';
 // style
@@ -11,59 +12,47 @@ import btnStyles from './styles/Buttons.module.css';
 
 
 export default function Login() {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {currentUser, jwtToken} = useCurrentUser();
-  const {setCurrentUser, setJwtToken} = useSetCurrentUser();
-  const setCurrentMessage = useSetCurrentMessage();
-  const setCurrentMessageType = useSetCurrentMessageType();
-
+  const [formErrors, setFormErrors] = useState([]);
+  const hasError = key => {
+    return formErrors.indexOf(key) !== -1;
+  }
+  const { login, error, isPending } = useLogin();
+  const { user } = useAuthContext();
+  
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // build the request payload
-    let payload = {
-      email: email,
-      password: password,
-    }
-    // set request options
-    const requestOption = {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify(payload),
+
+    let errors = [];
+    let required = [
+      { field: email, name: "email" },
+      { field: password, name: "password" }
+    ]
+
+    required.forEach(obj => {
+      if (obj.field == "") {
+        errors.push(obj.name);
+      }
+    })
+
+    setFormErrors(errors);
+    if (errors.length > 0) {
+      return false
     }
 
-    // send the request
-    fetch(`${process.env.REACT_APP_BACKEND}/authenticate`, requestOption)
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          setCurrentMessageType("error")
-          setCurrentMessage("Non è stato possibile fare il login! Per favore riprova.")
-        } else {
-          setCurrentUser(data.user);
-          setJwtToken(data.tokens.access_token)
-          setCurrentMessageType("success")
-          setCurrentMessage("Login effettuato con successo!")
-          navigate("/");
-        }
-      })
-      .catch(error => {
-        setCurrentMessageType("error")
-        setCurrentMessage("Non è stato possibile fare il login!")
-        console.log(error)
-      })
+    login(email, password);
+    
   }
 
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       navigate("/");
     }
-  }, [currentUser, navigate])
+  }, [user, navigate])
 
   return (
     <main>
@@ -79,7 +68,9 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             placeholder="La tua email"
-            autoComplete="email-new"
+            autoComplete="email"
+            errorDiv={hasError("email") ? "input-error" : "d-none"}
+            errorMsg="Inserisci l'email."
           />
 
           <Input
@@ -90,10 +81,13 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             placeholder="La tua password"
-            autoComplete="password-new"
+            autoComplete="password"
+            errorDiv={hasError("password") ? "input-error" : "d-none"}
+            errorMsg="Inserisci una password."
           />
 
           <button id="login" className={btnStyles.Btn}>Login</button>
+          {error && <p>{error}</p>}
 
         </form>
       </section>

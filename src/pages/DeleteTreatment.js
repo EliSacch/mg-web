@@ -2,18 +2,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // context
-import { useCurrentUser } from "../context/CurrentUserContext";
+import { useAuthContext } from "../context/useAuthContext";
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
 // styles
 import btnStyles from '../pages/styles/Buttons.module.css';
 
 
-
 export default function DeleteTreatment({ id, handleClose }) {
+
+    const { user } = useAuthContext();
 
     const [isCancelled, setIsCancelled] = useState(false);
 
-    const { currentUser, jwtToken } = useCurrentUser();
     const setCurrentMessage = useSetCurrentMessage();
     const setCurrentMessageType = useSetCurrentMessageType();
 
@@ -23,7 +23,7 @@ export default function DeleteTreatment({ id, handleClose }) {
         if (!isCancelled) {
             try {
                 const headers = new Headers();
-                headers.append("Authorization", "Bearer " + jwtToken)
+                headers.append("Authorization", "Bearer " + user.accessToken)
 
                 const requestOption = {
                     method: "DELETE",

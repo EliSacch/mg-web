@@ -1,8 +1,9 @@
 // hooks
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"
-import { useCurrentUser } from "../context/CurrentUserContext";
+import { useNavigate, useParams } from "react-router-dom";
+// context
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
+import { useAuthContext } from "../context/useAuthContext";
 // components
 import Input from "../components/form/Input";
 import TextArea from "../components/form/TextArea";
@@ -10,7 +11,6 @@ import Checkbox from "../components/form/Checkbox";
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
-
 
 
 const RoomForm = ({ is_new }) => {
@@ -29,10 +29,12 @@ const RoomForm = ({ is_new }) => {
     return formErrors.indexOf(key) !== -1;
   }
 
-  const navigate = useNavigate();
-  const { currentUser, jwtToken } = useCurrentUser();
   const setCurrentMessage = useSetCurrentMessage();
   const setCurrentMessageType = useSetCurrentMessageType();
+
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
+
 
   // get id from url
   let { id } = useParams();
@@ -61,7 +63,7 @@ const RoomForm = ({ is_new }) => {
     try {
       const headers = new Headers();
       headers.append("Content-type", "application/json");
-      headers.append("Authorization", "Bearer " + jwtToken)
+      headers.append("Authorization", "Bearer " + user.accessToken)
 
       let requestBody = room;
 
@@ -124,7 +126,7 @@ const RoomForm = ({ is_new }) => {
       try {
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        headers.append("Authorization", "Bearer " + jwtToken)
+        headers.append("Authorization", "Bearer " + user.accessToken)
 
         const requestOptions = {
           method: "GET",

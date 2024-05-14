@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 // context
 import { Link, useNavigate } from 'react-router-dom';
-import { useCurrentUser } from '../context/CurrentUserContext.js';
+import { useAuthContext } from '../context/useAuthContext.js';
 // Utils
 import { formatDatetime } from '../utils/datetimeUtils.js';
 // coponenets
@@ -17,12 +17,13 @@ import btnStyles from './styles/Buttons.module.css';
 
 export default function ManageRooms(props) {
 
-    const { currentUser, jwtToken } = useCurrentUser();
     const [fetchError, setFetchError] = useState(null);
     const [isPending, setIsPending] = useState(false);
     const [rooms, setRooms] = useState([]);
+
     const navigate = useNavigate();
 
+    const { user } = useAuthContext();
 
     const handleEdit = (id) => {
         navigate(`rooms/${id}/edit`)
@@ -39,7 +40,7 @@ export default function ManageRooms(props) {
         setIsPending(true)
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        headers.append("Authorization", "Bearer " + jwtToken)
+        headers.append("Authorization", "Bearer " + user.accessToken)
 
         const requestOptions = {
             method: "GET",
@@ -59,6 +60,8 @@ export default function ManageRooms(props) {
     }, [props.showModal])
 
     return (
+
+        !isPending && (
         <section className={styles.Section}>
 
             <h2>Stanze</h2>
@@ -124,5 +127,6 @@ export default function ManageRooms(props) {
             )}
 
         </section>
+        )
     )
 }
