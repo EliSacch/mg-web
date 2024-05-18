@@ -19,3 +19,21 @@ export const formatDatetime = (datetime) => {
     const time = datetime[1].split(".")[0]
     return date + ", " + time
 }
+
+export const formatIntToHour = (intTime) => {
+    let strTime = intTime.toString();
+
+    switch(strTime.length) {
+        case 3:
+            strTime = "0" + strTime;
+            break
+        case 4:
+            strTime = strTime;
+            break
+        default:
+            return "--:--"
+    }
+
+    return strTime.slice(0, 2) + ":" + strTime.slice(2, strTime.lenght)
+
+}

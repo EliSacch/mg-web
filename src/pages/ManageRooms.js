@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 // context
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../context/useAuthContext.js';
-// Utils
+// utils
 import { formatDatetime } from '../utils/datetimeUtils.js';
 // coponenets
 import { ActionsDropdown } from '../components/ActionsDropdown';

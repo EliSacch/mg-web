@@ -9,6 +9,7 @@ function SelectTreatment({options, formData, setFormData, setCurrentStep, hasErr
         setFormData({
             ...formData,
             treatment: e.target.value,
+            time: "",
         })
 
         if(e.target.value == "") {

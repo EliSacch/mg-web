@@ -1,5 +1,7 @@
 // hooks
 import { useEffect, useState } from "react";
+// utils
+import { formatIntToHour } from '../../utils/datetimeUtils.js';
 // components
 import Select from "./Select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,15 +17,54 @@ import styles from './Form.module.css';
 
 registerLocale("it", it);
 
-function SelectDatetime({ today, treatment, formData, setFormData, currentStep, setCurrentStep, hasError }) {
+function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentStep }) {
+
+    const [options, setOptions] = useState([])
+    const [isPending, setIsPending] = useState(true)
+
+    function getOptions(slots) {
+
+        let opts = []
+        for (let i in slots) {
+            opts.push({ id: slots[i], value: formatIntToHour(slots[i]), disabled: false })
+        }
+        setOptions(opts);
+    }
+
+    const fetchAvailability = async (treatment, date) => {
+        setIsPending(true);
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        let requestOptions = {
+            body: JSON.stringify({treatment: treatment, date: date}),
+            method: "PUT",
+            headers: headers,
+            credentials: "include",
+        }
+
+        await fetch(`${process.env.REACT_APP_BACKEND}/calendar/availability`, requestOptions)
+            .then(res => res.json())
+            .then(data => {
+                if (data.time_slots.length > 0) {
+                    getOptions(data.time_slots)
+                }
+
+            }).catch(err => {
+                console.log(err);
+            })
+
+            setCurrentStep(date != null ? 2 : 1);
+            setIsPending(false);
+    }
 
     const handleSelectDate = data => {
         setFormData({
             ...formData,
             date: data,
+            time: "",
         });
-
-        setCurrentStep(data != null ? 2 : 1);
+        fetchAvailability(formData.treatment, data)
     }
 
     const handleSelectTime = e => {
@@ -33,16 +74,13 @@ function SelectDatetime({ today, treatment, formData, setFormData, currentStep, 
         });
     }
 
-    const options = [
-        { id: 800, value: "08:00", disabled: false },
-        { id: 900, value: "09:00", disabled: true },
-        { id: 1000, value: "10:00", disabled: false },
-        { id: 1100, value: "11:00", disabled: false }
-    ]
-
     useEffect(() => {
         setCurrentStep(formData.date != null && formData.date != "" ? 2 : 1);
     }, [formData.date])
+
+    useEffect(() => {
+        fetchAvailability(formData.treatment, formData.date)
+    }, [formData.treatment])
 
     return (
         <div className={formStyle.FormLine}>
@@ -64,7 +102,7 @@ function SelectDatetime({ today, treatment, formData, setFormData, currentStep, 
                 </span>
             </div>
             {
-                currentStep > 1 && (
+                !isPending && currentStep > 1 && (
                     <Select
                         name="time"
                         title="Ora"
