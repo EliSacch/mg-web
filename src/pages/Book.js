@@ -14,7 +14,7 @@ import btnStyles from './styles/Buttons.module.css';
 
 export default function Book() {
 
-    const { user } = useAuthContext();
+    const { authIsReady, user } = useAuthContext();
 
     const today = new Date().toISOString().split('T')[0]
 

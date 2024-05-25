@@ -30,7 +30,7 @@ const LayoutWithHeader = ({
             </header>
 
             { /* main*/}
-            <Outlet />
+            {authIsReady && <Outlet />}
 
             <footer>
                 <Footer />

@@ -20,8 +20,8 @@ export default function Login() {
     return formErrors.indexOf(key) !== -1;
   }
   const { login, error, isPending } = useLogin();
-  const { user } = useAuthContext();
-  
+  const { authIsReady, user } = useAuthContext();
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -45,16 +45,17 @@ export default function Login() {
     }
 
     login(email, password);
-    
+
   }
 
   useEffect(() => {
-    if (user) {
+    if (authIsReady && user) {
       navigate("/");
     }
-  }, [user, navigate])
+  }, [user, authIsReady, navigate])
 
   return (
+
     <main>
       <section className={formStyles.FormContainer}>
         <h2>Login</h2>
@@ -92,6 +93,5 @@ export default function Login() {
         </form>
       </section>
     </main>
-
   )
 }

@@ -27,10 +27,10 @@ const LayoutWithoutHeader = ({
             </header>
 
             { /* main*/}
-            <Outlet />
+            {authIsReady && <Outlet />}
 
             <footer>
-                <Footer />
+            {authIsReady && <Footer />}
             </footer>
         </>
     );

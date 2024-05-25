@@ -18,14 +18,12 @@ const LayoutForAdmin = ({
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user) {
-            navigate("/login")
-        }
-        if (user?.is_admin == false) {
+        if (authIsReady && !user) {
+          navigate("/login");
+        } else if (authIsReady && !user.is_admin) {
             navigate("/");
         }
-
-    }, [user])
+      }, [user, authIsReady, navigate])
 
     return (
         <>
@@ -42,7 +40,7 @@ const LayoutForAdmin = ({
             </header>
 
             { /* main*/}
-            <Outlet />
+            {authIsReady && <Outlet />}
 
             <footer>
 

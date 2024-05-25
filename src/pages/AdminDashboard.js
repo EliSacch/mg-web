@@ -1,11 +1,11 @@
+// context
+import { useAuthContext } from '../context/useAuthContext';
 // componenets
-import { Link } from 'react-router-dom';
 import ManageTreatments from './ManageTreatments';
 import ManageRooms from './ManageRooms';
+import ManageSchedules from './ManageSchedules';
 // styles
 import styles from './styles/AdminDashboard.module.css';
-import btnStyles from './styles/Buttons.module.css';
-import ManageSchedules from './ManageSchedules';
 
 
 export default function AdminDashboard({
@@ -15,29 +15,33 @@ export default function AdminDashboard({
     setModalChildren
 }) {
 
+    const { authIsReady, user } = useAuthContext();
+
     return (
-        <main className={styles.Dashboard}>
+        authIsReady && user && (
+            <main className={styles.Dashboard}>
 
-            <ManageTreatments
-                handleOpen={handleOpen}
-                handleClose={handleClose}
-                showModal={showModal}
-                setModalChildren={setModalChildren}
-            />
+                <ManageTreatments
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
+                    showModal={showModal}
+                    setModalChildren={setModalChildren}
+                />
 
-            <ManageRooms
-                handleOpen={handleOpen}
-                handleClose={handleClose}
-                showModal={showModal}
-                setModalChildren={setModalChildren}
-            />
+                <ManageRooms
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
+                    showModal={showModal}
+                    setModalChildren={setModalChildren}
+                />
 
-            <ManageSchedules
-                handleOpen={handleOpen}
-                handleClose={handleClose}
-                showModal={showModal}
-                setModalChildren={setModalChildren}
-            />
-        </main>
+                <ManageSchedules
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
+                    showModal={showModal}
+                    setModalChildren={setModalChildren}
+                />
+            </main>
+        )
     )
 }
