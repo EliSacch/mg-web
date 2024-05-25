@@ -5,6 +5,7 @@ import ManageRooms from './ManageRooms';
 // styles
 import styles from './styles/AdminDashboard.module.css';
 import btnStyles from './styles/Buttons.module.css';
+import ManageSchedules from './ManageSchedules';
 
 
 export default function AdminDashboard({
@@ -17,8 +18,6 @@ export default function AdminDashboard({
     return (
         <main className={styles.Dashboard}>
 
-            <h2>Dashboard</h2>
-
             <ManageTreatments
                 handleOpen={handleOpen}
                 handleClose={handleClose}
@@ -27,6 +26,13 @@ export default function AdminDashboard({
             />
 
             <ManageRooms
+                handleOpen={handleOpen}
+                handleClose={handleClose}
+                showModal={showModal}
+                setModalChildren={setModalChildren}
+            />
+
+            <ManageSchedules
                 handleOpen={handleOpen}
                 handleClose={handleClose}
                 showModal={showModal}

@@ -11,7 +11,7 @@ import { registerLocale } from "react-datepicker";
 import { it } from "date-fns/locale";
 // style
 import "react-datepicker/dist/react-datepicker.css";
-import formStyle from "../../pages/styles/Forms.module.css"
+import formStyles from "../../pages/styles/Forms.module.css"
 import styles from './Form.module.css';
 
 
@@ -37,7 +37,7 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
         headers.append("Content-Type", "application/json");
 
         let requestOptions = {
-            body: JSON.stringify({treatment: treatment, date: date}),
+            body: JSON.stringify({ treatment: treatment, date: date }),
             method: "PUT",
             headers: headers,
             credentials: "include",
@@ -54,8 +54,8 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
                 console.log(err);
             })
 
-            setCurrentStep(date != null ? 2 : 1);
-            setIsPending(false);
+        setCurrentStep(date != null ? 2 : 1);
+        setIsPending(false);
     }
 
     const handleSelectDate = data => {
@@ -83,7 +83,7 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
     }, [formData.treatment])
 
     return (
-        <div className={formStyle.FormLine}>
+        <div className={formStyles.FormLine}>
             <div className={styles.InputContainer}>
                 <label htmlFor="date" className={styles.Label}>
                     Data

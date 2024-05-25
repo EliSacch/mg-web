@@ -1,0 +1,40 @@
+.Section {
+    padding: 2em;
+}
+
+.SchedulesTableWrapper {
+    display: flex;
+}
+
+.SchedulesTableWrapper h4 {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.SchedulesTableCard {
+    max-width: 600px;
+    padding: 2em 1.5em;
+    border: 1px solid var(--light);
+    border-radius: 8px;
+    box-shadow: 5px 5px 25px grey;
+}
+
+.SchedulesTableHeader {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
+.SchedulesTable {
+    width: 100%;
+}
+
+.SchedulesTable tr.Inactive {
+    background-color: var(--neutral);
+}
+
+.Button {
+    margin-top: -10px;
+    display: flex;
+    justify-content: flex-start;
+    font-size: .8em;
+}
