@@ -10,6 +10,7 @@ import LayoutForAdmin from './layouts/LayoutForAdmin';
 import AdminDashboard from './pages/AdminDashboard';
 import TreatmentForm from './pages/TreatmentForm';
 import RoomForm from './pages/RoomForm';
+import ScheduleForm from './pages/ScheduleForm';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -18,7 +19,6 @@ import Message from './components/Message';
 import Modal from './components/Modal';
 // style
 import './App.css';
-
 
 function App() {
 
@@ -86,6 +86,9 @@ function App() {
 
               <Route path="/admin/rooms/create" element={<RoomForm is_new={true} />} />
               <Route path="/admin/rooms/:id/edit" element={<RoomForm is_new={false} />} />
+
+              <Route path="/admin/schedules/create" element={<ScheduleForm is_new={true} />} />
+              <Route path="/admin/schedules/:id/edit" element={<ScheduleForm is_new={false} />} />
 
 
             </Route>

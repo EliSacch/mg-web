@@ -60,8 +60,8 @@ export default function DeleteSchedule({ id, handleClose }) {
 
     return (
         <>
-            <h2>Elimina Stanza</h2>
-            <p>Vuoi eliminare questa stanza?</p>
+            <h2>Elimina Calendario</h2>
+            <p>Vuoi eliminare questao calendario?</p>
             <button onClick={() => handleClick()} className={btnStyles.Btn}>Conferma</button>
         </>
     )

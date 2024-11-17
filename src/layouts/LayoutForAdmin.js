@@ -20,7 +20,7 @@ const LayoutForAdmin = ({
     useEffect(() => {
         if (authIsReady && !user) {
           navigate("/login");
-        } else if (authIsReady && !user.is_admin) {
+        } else if (authIsReady && !user?.isAdmin) {
             navigate("/");
         }
       }, [user, authIsReady, navigate])

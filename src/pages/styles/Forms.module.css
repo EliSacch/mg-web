@@ -12,6 +12,15 @@
     margin-bottom: 100px;
 }
 
+.Label {
+    text-align: left;
+}
+
+.InputContainer {
+    display: flex;
+    flex-direction: column;
+}
+
 .FormLine {
     display: flex;
     flex-wrap: wrap;
@@ -19,6 +28,7 @@
     margin: 10px 0;
     align-items: center;
 }
+
 
 .FormLine > div {
     display: flex;

@@ -1,0 +1,22 @@
+.Day {
+    display: flex;
+}
+
+.Day > * {
+    align-self: center;
+    margin-right: 10px;
+}
+
+.Day > span {
+   display: flex;
+   gap: 10px;
+}
+
+.Day>button:nth-last-child(2) {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.SlotsForm {
+    display: none;
+}

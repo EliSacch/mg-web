@@ -13,6 +13,16 @@ import styles from './styles/ManageSchedules.module.css';
 import btnStyles from './styles/Buttons.module.css';
 
 
+const days = {
+    mon: "Lunedì",
+    tue: "Martedì",
+    wed: "Mercoledì",
+    thu: "Giovedì",
+    fri: "Venerdì",
+    sat: "Sabato",
+    sun: "Domenica"
+}
+
 export default function ManageSchedules(props) {
 
     const [fetchError, setFetchError] = useState(null);
@@ -48,7 +58,6 @@ export default function ManageSchedules(props) {
         fetch(`${process.env.REACT_APP_BACKEND}/admin/schedules`, requestOptions)
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 setSchedules(data);
                 setIsPending(false);
             }).catch(err => {
@@ -78,55 +87,37 @@ export default function ManageSchedules(props) {
                             <div className={styles.SchedulesTableWrapper} key={schedule.id}>
                                 <div className={styles.SchedulesTableCard}>
                                     <div className={styles.SchedulesTableHeader}>
-                                    <h4>{schedule.name}</h4>
-                                    <span>
-                                        <ActionsDropdown
-                                            handleEdit={handleEdit}
-                                            handleDelete={handleDelete}
-                                            data={schedule.id}
-                                        />
-                                    </span>
-                                    <p>Ultima modifica:&nbsp;
-                                        {schedule.updated_at && formatDatetime(schedule.updated_at)}
-                                        {!schedule.updated_at && formatDatetime(schedule.created_at)}
-                                    </p>
+                                        <h4>{schedule.name}</h4>
+                                        <span>
+                                            <ActionsDropdown
+                                                handleEdit={handleEdit}
+                                                handleDelete={handleDelete}
+                                                data={schedule.id}
+                                            />
+                                        </span>
+                                        <p>Ultima modifica:&nbsp;
+                                            {schedule.updated_at && formatDatetime(schedule.updated_at)}
+                                            {!schedule.updated_at && formatDatetime(schedule.created_at)}
+                                        </p>
                                     </div>
                                     <table className={styles.SchedulesTable}>
                                         <thead>
                                             <tr>
                                                 <th>Giorno</th>
-                                                <th>Orari</th>
+                                                <th>Orario</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Lunedì</td>
-                                                <td>{schedule.mon && schedule.mon != "" ? schedule.mon : "Chiuso"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Martedì</td>
-                                                <td>{schedule.tue && schedule.tue != "" ? schedule.tue : "Chiuso"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mercoledì</td>
-                                                <td>{schedule.wed && schedule?.wed != "" ? schedule.wed : "Chiuso"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Giovedì</td>
-                                                <td>{schedule.thu && schedule.thu != "" ? schedule.thu : "Chiuso"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Venerdì</td>
-                                                <td>{schedule.fri && schedule.fri != "" ? schedule.fri : "Chiuso"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Sabato</td>
-                                                <td>{schedule.sat && schedule.sat != "" ? schedule.sat : "Chiuso"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Domenica</td>
-                                                <td>{schedule.sun && schedule.sun != "" ? schedule.sun : "Chiuso"}</td>
-                                            </tr>
+                                            {
+                                                Object.keys(schedule.slots).map(day => (
+                                                    <tr>
+                                                        <td>{days[`${day}`]}</td>
+                                                        <td>{schedule.slots[`${day}`] === null ? "Chiuso" : (
+                                                            schedule.slots[`${day}`].map(slot => <span>{`${slot.open} - ${slot.close}`}</span>)
+                                                        )}</td>
+                                                    </tr>
+                                                ))
+                                            }
                                         </tbody>
                                     </table>
                                 </div>

@@ -17,6 +17,15 @@
     color: var(--primary200)
 }
 
+.BtnIcon {
+    background-color: transparent;
+    border: none;
+    color: var(--primary500);
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
 .Btn:hover,
 .BtnInverted:hover {
     background-color: var(--primary300);
@@ -29,3 +38,11 @@
     background-color: var(--primary300);
     color: var(--light);
 }
+
+.BtnIcon:focus,
+.BtnIcon:hover {
+    outline: 1px solid var(--primary300);
+    background-color: var(--primary300);
+    color: var(--light);
+}
+
