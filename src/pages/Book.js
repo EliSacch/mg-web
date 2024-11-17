@@ -54,7 +54,6 @@ export default function Book() {
             fetch(`${process.env.REACT_APP_BACKEND}/appointment/book`, requestOptions)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     navigate("/");
                     setCurrentMessageType("success");
                     setCurrentMessage("Appuntamento prenotato con successo!");

@@ -82,10 +82,12 @@ export default function ManageSchedules(props) {
                     <p>{fetchError}</p>
                 ) : (
 
-                    schedules ? (
-                        schedules.map(schedule => (
-                            <div className={styles.SchedulesTableWrapper} key={schedule.id}>
-                                <div className={styles.SchedulesTableCard}>
+                    <div className={styles.SchedulesTableWrapper}>
+
+                        {schedules ? (
+                            schedules.map(schedule => (
+
+                                <div className={styles.SchedulesTableCard} key={schedule.id}>
                                     <div className={styles.SchedulesTableHeader}>
                                         <h4>{schedule.name}</h4>
                                         <span>
@@ -121,12 +123,13 @@ export default function ManageSchedules(props) {
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                        ))
+                            ))
 
-                    ) : (
-                        <p>Non ci sono calendari al momemento.</p>
-                    )
+                        ) : (
+                            <p>Non ci sono calendari al momemento.</p>
+                        )
+                        }
+                    </div>
                 )}
 
             </section>

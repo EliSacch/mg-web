@@ -15,9 +15,7 @@ import btnStyles from './styles/Buttons.module.css';
 const ScheduleForm = ({ is_new }) => {
 
   const [schedule, setSchedule] = useState({
-    id: "",
     name: "",
-    is_default: false,
     slots: {
       mon: [],
       tue: [],
@@ -41,7 +39,6 @@ const ScheduleForm = ({ is_new }) => {
 
   const navigate = useNavigate();
   const { user } = useAuthContext();
-
 
   // get id from url
   let { id } = useParams();
@@ -86,7 +83,7 @@ const ScheduleForm = ({ is_new }) => {
         .then(res => res.json())
         .then(data => {
           if (data.error) {
-            console.log(data.error);
+            console.log(data.message);
           } else {
             navigate("/admin");
             setCurrentMessageType("success");
@@ -116,9 +113,7 @@ const ScheduleForm = ({ is_new }) => {
   useEffect(() => {
     if (is_new) {
       setSchedule({
-        id: "",
         name: "",
-        is_default: false,
         slots: {
           mon: [],
           tue: [],
