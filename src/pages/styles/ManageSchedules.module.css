@@ -14,7 +14,8 @@
 }
 
 .SchedulesTableCard {
-    max-width: 600px;
+    width: 100%;
+    max-width: 400px;
     padding: 2em 1.5em;
     border: 1px solid var(--light);
     border-radius: 8px;
@@ -40,3 +41,9 @@
     justify-content: flex-start;
     font-size: .8em;
 }
+
+@media only screen and (min-width: 768px) {
+    .Button {
+        justify-content: flex-end;
+    }
+  }

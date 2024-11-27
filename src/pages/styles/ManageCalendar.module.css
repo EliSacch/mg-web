@@ -1,0 +1,8 @@
+.Section {
+    padding: 2em;
+}
+
+.Section select {
+    width: fit-content;
+    max-width: 300px;
+}

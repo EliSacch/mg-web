@@ -74,7 +74,6 @@ export default function ManageTreatments(props) {
                         <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Descrizione</th>
                                 <th>Durata</th>
                                 <th>Prezzo</th>
                                 <th>Stanza</th>
@@ -90,7 +89,6 @@ export default function ManageTreatments(props) {
                                 treatments.map(treatment => (
                                     <tr key={treatment.id} className={!treatment.is_active ? styles.Inactive : ""}>
                                         <td>{treatment.name}</td>
-                                        <td>{treatment?.description}</td>
                                         <td>{treatment.duration} min.</td>
                                         <td>€{treatment.price}</td>
                                         <td>{treatment.room}</td>

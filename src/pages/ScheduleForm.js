@@ -87,13 +87,13 @@ const ScheduleForm = ({ is_new }) => {
           } else {
             navigate("/admin");
             setCurrentMessageType("success");
-            setCurrentMessage("Calendario " + (is_new ? "creato" : "aggiornato") + " con successo!");
+            setCurrentMessage("Orario " + (is_new ? "creato" : "aggiornato") + " con successo!");
           }
         })
         .catch(err => {
           console.log(err)
           setCurrentMessageType("error");
-          setCurrentMessage("Non è stato possibile " + (is_new ? "creare" : "aggiornare") + " il calendario! Per favore riprova.");
+          setCurrentMessage("Non è stato possibile " + (is_new ? "creare" : "aggiornare") + " l'orario! Per favore riprova.");
         })
     } catch (err) {
       console.log("error submitting the form: ", err)

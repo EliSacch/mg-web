@@ -1,9 +1,11 @@
 .Section {
     padding: 2em;
+    width: 100%;
 }
 
 .TreatmentsTable {
     width: 100%;
+    margin: 0 auto;
 }
 
 .TreatmentsTable tr > *:nth-child(2) {
@@ -11,6 +13,12 @@
     max-width: 10ch;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.TreatmentsTable tr > *:last-child {
+    margin-left: auto;
+    width: 50px;
+    text-align: end;
 }
 
 .TreatmentsTable tr.Inactive {
@@ -23,3 +31,16 @@
     justify-content: flex-start;
     font-size: .8em;
 }
+
+.ShowOnBigScreen{
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .ShowOnBigScreen{
+        display: block;
+    }
+    .Button {
+        justify-content: flex-end;
+    }
+  }

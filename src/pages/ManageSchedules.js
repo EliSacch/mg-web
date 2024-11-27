@@ -27,11 +27,8 @@ export default function ManageSchedules(props) {
 
     const [fetchError, setFetchError] = useState(null);
     const [isPending, setIsPending] = useState(false);
-    const [schedules, setSchedules] = useState([]);
-
+    
     const navigate = useNavigate();
-
-    const { user } = useAuthContext();
 
     const handleEdit = (id) => {
         navigate(`schedules/${id}/edit`)
@@ -44,38 +41,15 @@ export default function ManageSchedules(props) {
         props.handleOpen()
     };
 
-    useEffect(() => {
-        setIsPending(true)
-        const headers = new Headers();
-        headers.append("Content-Type", "application/json");
-        headers.append("Authorization", "Bearer " + user.accessToken)
-
-        const requestOptions = {
-            method: "GET",
-            headers: headers,
-        }
-
-        fetch(`${process.env.REACT_APP_BACKEND}/admin/schedules`, requestOptions)
-            .then(res => res.json())
-            .then(data => {
-                setSchedules(data);
-                setIsPending(false);
-            }).catch(err => {
-                setIsPending(false);
-                setFetchError("C'è stato un errore a recuperare i calendari dal database.")
-            })
-
-    }, [props.showModal])
-
     return (
 
         !isPending && (
             <section className={styles.Section}>
 
-                <h2>Calendari</h2>
+                <h2>Orari</h2>
 
                 <div className={styles.Button}>
-                    <Link to="/admin/schedules/create" className={btnStyles.Btn}>Nuovo Calendario</Link>
+                    <Link to="/admin/schedules/create" className={btnStyles.Btn}>Nuovo Orario</Link>
                 </div>
 
                 {fetchError != null ? (
@@ -84,8 +58,8 @@ export default function ManageSchedules(props) {
 
                     <div className={styles.SchedulesTableWrapper}>
 
-                        {schedules ? (
-                            schedules.map(schedule => (
+                        {props.schedules ? (
+                            props.schedules.map(schedule => (
 
                                 <div className={styles.SchedulesTableCard} key={schedule.id}>
                                     <div className={styles.SchedulesTableHeader}>
@@ -112,10 +86,10 @@ export default function ManageSchedules(props) {
                                         <tbody>
                                             {
                                                 Object.keys(schedule.slots).map(day => (
-                                                    <tr>
+                                                    <tr key={days[`${day}`]}>
                                                         <td>{days[`${day}`]}</td>
                                                         <td>{schedule.slots[`${day}`] === null ? "Chiuso" : (
-                                                            schedule.slots[`${day}`].map(slot => <span>{`${slot.open} - ${slot.close}`}</span>)
+                                                            schedule.slots[`${day}`].map(slot => <span key={`${day}-${slot}`}>{`${slot.open} - ${slot.close}`}</span>)
                                                         )}</td>
                                                     </tr>
                                                 ))
@@ -126,7 +100,7 @@ export default function ManageSchedules(props) {
                             ))
 
                         ) : (
-                            <p>Non ci sono calendari al momemento.</p>
+                            <p>Non ci sono orari al momemento.</p>
                         )
                         }
                     </div>

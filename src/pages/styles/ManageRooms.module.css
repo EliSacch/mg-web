@@ -1,9 +1,11 @@
 .Section {
+    width: 100%;
     padding: 2em;
 }
 
 .RoomsTable {
     width: 100%;
+    margin: 0 auto;
 }
 
 .RoomsTable tr > *:nth-child(2) {
@@ -11,6 +13,12 @@
     max-width: 10ch;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.RoomsTable tr > *:last-child {
+    margin-left: auto;
+    width: 50px;
+    text-align: end;
 }
 
 .RoomsTable tr.Inactive {
@@ -23,3 +31,16 @@
     justify-content: flex-start;
     font-size: .8em;
 }
+
+.ShowOnBigScreen{
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .ShowOnBigScreen{
+        display: block;
+    }
+    .Button {
+        justify-content: flex-end;
+    }
+  }
