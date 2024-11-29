@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSignup } from '../hooks/useSignup';
 // context
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 // components
 import Input from '../components/form/Input';
 // style

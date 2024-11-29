@@ -1,7 +1,7 @@
 // hooks
 import { useEffect, useState } from 'react';
 // context
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from './useAuthContext';
 // firebase
 import { auth } from '../firebase/config';
 

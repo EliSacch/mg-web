@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 // context
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../context/useAuthContext.js';
+import { useAuthContext } from '../hooks/useAuthContext.js';
 // utils
 import { formatDatetime } from '../utils/datetimeUtils.js';
 // coponenets

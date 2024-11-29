@@ -1,12 +1,12 @@
 // hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // context
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 // components
 import Logout from '../pages/Logout';
 import Logo from './Logo';
 import { Offcanvas } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
@@ -37,22 +37,26 @@ export default function Navigation(props) {
         handleCloseMenu();
     }
 
+    useEffect(() => {
+        handleCloseMenu();
+    }, [])
+
     const LINKS = (
         <>
-            <Link to="/">Home</Link>
-            {user && <Link to="/book">Prenota</Link>}
+            <NavLink exact to="/">Home</NavLink>
+            {user && <NavLink to="/book">Prenota</NavLink>}
 
             <span className={styles.MoveRight}>
                 {!user && (
                     <>
-                        <Link to="/login">Login</Link>
-                        <Link to="/signup">Sign up</Link>
+                        <NavLink to="/login">Login</NavLink>
+                        <NavLink to="/signup">Sign up</NavLink>
                     </>
                 )}
-                { user?.isAdmin && <Link to="/admin">Admin</Link>}
+                { user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
                 {
                     user && (
-                        <button onClick={openModalFromOffcanvas}>Logout {user.displayName}</button>
+                        <button onClick={openModalFromOffcanvas}>Logout</button>
                     )
 
                 }
@@ -96,6 +100,36 @@ export default function Navigation(props) {
         </div>
     )
 
+    const CONTACT_OFFCANVAS = (
+        <div className={styles.Contact}>
+            <Link
+                to='#'
+                onClick={(e) => {
+                    window.location.href = "tel:+3900000000000";
+                    e.preventDefault();
+                }}
+            >
+                <FontAwesomeIcon icon={faPhone} size='xl' />
+            </Link>
+
+            <Link
+                to='#'
+                onClick={(e) => {
+                    window.location.href = "mailto:elisa.forev@gmail.com";
+                    e.preventDefault();
+                }}
+            >
+                <FontAwesomeIcon icon={faEnvelope} size='xl' />
+            </Link>
+            <Link to="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faFacebook} size='xl' />
+            </Link>
+            <Link to="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                <FontAwesomeIcon icon={faInstagram} size='xl' />
+            </Link>
+        </div>
+    )
+
     return (
         <nav className={styles.Nav}>
             <div className={`${styles.ContactContainer} d-none d-md-block`}>
@@ -122,12 +156,12 @@ export default function Navigation(props) {
 
                     <Offcanvas show={showMenu} onHide={handleCloseMenu} className={styles.Offcanvas}>
                         <Offcanvas.Header closeButton>
-                            <Offcanvas.Title>MG Studio Estetico</Offcanvas.Title>
+                            <Offcanvas.Title>MG Studio Estetico!</Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <div className={styles.LinksOffcanvas}>
-                                {CONTACT}
                                 {LINKS}
+                                {CONTACT_OFFCANVAS}
                             </div>
                         </Offcanvas.Body>
                     </Offcanvas>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 // context
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
-import { useAuthContext } from "../context/useAuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 // components
 import Input from "../components/form/Input";
 import TextArea from "../components/form/TextArea";

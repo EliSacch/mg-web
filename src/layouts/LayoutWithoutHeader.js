@@ -1,5 +1,5 @@
 // context 
-import { useAuthContext } from "../context/useAuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 // componenets
 import { Outlet } from "react-router-dom";
 import Navigation from "../components/Navigation";

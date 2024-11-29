@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // context
-import { useAuthContext } from "../context/useAuthContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
 // styles
 import btnStyles from '../pages/styles/Buttons.module.css';

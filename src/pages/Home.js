@@ -1,7 +1,7 @@
 // hooks
 import { useEffect, useState } from 'react';
 // context
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 // componenet
 import { Image } from 'react-bootstrap';
 import { Link} from 'react-router-dom';

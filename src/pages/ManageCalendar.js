@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 import { useSetCurrentMessage, useSetCurrentMessageType } from '../context/MessageContext';
 // components
 import Select from '../components/form/Select';

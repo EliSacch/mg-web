@@ -1,5 +1,5 @@
 // context
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 // componenets
 import ManageTreatments from './ManageTreatments';
 import ManageRooms from './ManageRooms';

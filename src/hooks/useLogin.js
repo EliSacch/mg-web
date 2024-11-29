@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // context
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from './useAuthContext';
 import { useSetCurrentMessage, useSetCurrentMessageType } from '../context/MessageContext';
 // firebase
 import { auth } from "../firebase/config.js";

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Logout from '../pages/Logout';
 import Logo from './Logo';
 import { Offcanvas } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -32,10 +32,10 @@ export default function NavigationForAdmin(props) {
 
     const LINKS = (
         <>
-            <Link to="/admin">Dashboard</Link>
+            <NavLink to="/admin">Dashboard</NavLink>
             
             <span className={styles.MoveRight}>
-                <Link to="/">Home</Link>
+                <NavLink exact to="/">Home</NavLink>
                 <button onClick={openModalFromOffcanvas}>Logout</button>
             </span>
         </>

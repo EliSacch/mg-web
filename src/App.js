@@ -1,7 +1,5 @@
 // hooks
 import { useState } from 'react';
-// context
-import { useAuthContext } from './context/useAuthContext';
 // components
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LayoutWithHeader from './layouts/LayoutWithHeader';

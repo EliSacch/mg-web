@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // context
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext.js";
-import { useAuthContext } from "../context/useAuthContext.js";
+import { useAuthContext } from "./useAuthContext.js";
 // firebase
 import { db, auth } from "../firebase/config.js";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";

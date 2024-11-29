@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext";
 // context
-import { useAuthContext } from '../context/useAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 // components
 import SelectTreatment from '../components/form/SelectTreatment';
 import SelectDatetime from '../components/form/SelectDatetime';
