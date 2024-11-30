@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useSetCurrentMessage, useSetCurrentMessageType } from '../context/MessageContext';
+import { useSettings } from '../hooks/useDefaultSchedule';
 // components
 import Select from '../components/form/Select';
 // styles
@@ -8,25 +9,22 @@ import styles from './styles/ManageCalendar.module.css';
 
 
 export default function ManageCalendar(props) {
-
-    const [fetchError, setFetchError] = useState(null);
     const [formErrors, setFormErrors] = useState([]);
     const [isPending, setIsPending] = useState(false);
     const [options, setOptions] = useState([])
-    const [settings, setSettings] = useState({
-        default_schedule_name: "",
-    });
 
     const { user } = useAuthContext();
+    const {settings, getSettings, setSettings} = useSettings();
     const setCurrentMessage = useSetCurrentMessage();
     const setCurrentMessageType = useSetCurrentMessageType();
+    
 
-    function getOptions(schedules) {
+    const getOptions = (schedules) => {
         let opts = []
         for (let i in schedules) {
             opts.push({ id: schedules[i].id, value: schedules[i].name, disabled: false })
         }
-        setOptions(opts);
+        return opts;
     }
 
     const handleSelectDefaultCalendar = e => {
@@ -92,37 +90,15 @@ export default function ManageCalendar(props) {
         }
     }
 
-
     useEffect(() => {
-        getOptions(props.schedules)
+        setOptions(getOptions(props.schedules))
     }, [props.schedules])
 
     useEffect(() => {
-        setIsPending(true)
-        const headers = new Headers();
-        headers.append("Content-Type", "application/json");
-        headers.append("Authorization", "Bearer " + user.accessToken)
-
-        const requestOptions = {
-            method: "GET",
-            headers: headers,
-        }
-
-        fetch(`${process.env.REACT_APP_BACKEND}/admin/settings/default`, requestOptions)
-            .then(res => res.json())
-            .then(data => {
-                setSettings(data);
-                setIsPending(false);
-            }).catch(err => {
-                setIsPending(false);
-                setFetchError("C'è stato un errore a recuperare gli orari dal database.")
-            })
-
+        getSettings();
     }, [])
 
-
     return (
-
         !isPending && (
             <section className={styles.Section}>
                 <h2>Calendario</h2>

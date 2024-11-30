@@ -35,7 +35,7 @@ export default function NavigationForAdmin(props) {
             <NavLink to="/admin">Dashboard</NavLink>
             
             <span className={styles.MoveRight}>
-                <NavLink exact to="/">Home</NavLink>
+                <NavLink to="/">Home</NavLink>
                 <button onClick={openModalFromOffcanvas}>Logout</button>
             </span>
         </>

@@ -137,7 +137,7 @@ const ScheduleForm = ({ is_new }) => {
           headers: headers,
         }
 
-        fetch(`${process.env.REACT_APP_BACKEND}/admin/schedules/${id}`, requestOptions)
+        fetch(`${process.env.REACT_APP_BACKEND}/schedules/${id}`, requestOptions)
           .then(res => res.json())
           .then(data => {
             setSchedule(data)

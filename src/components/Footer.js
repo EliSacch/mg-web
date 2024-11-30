@@ -1,3 +1,6 @@
+// hooks
+import { useEffect, useState } from 'react';
+import { useSettings } from '../hooks/useDefaultSchedule';
 // components
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
@@ -8,9 +11,47 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 // styles
 import styles from './styles/Footer.module.css';
+import ScheduleTable from './ScheduleTable';
 
 
 export default function Footer() {
+    const [schedule, setSchedule] = useState();
+    const { settings, getSettings } = useSettings();
+
+    const fetchSchedule = async id => {
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        const requestOptions = {
+            method: "GET",
+            headers: headers,
+        }
+
+        return fetch(`${process.env.REACT_APP_BACKEND}/schedules/${id}`, requestOptions)
+            .then(res => res.json())
+    }
+
+    const getSchedule = async id => {
+        try {
+            const data = await fetchSchedule(id)
+            setSchedule(data);
+        } catch (err) {
+            throw new Error("C'è stato un errore a recuperare gli orari dal database.")
+        }
+    }
+
+    // get settings
+    useEffect(() => {
+        getSettings();
+    }, [])
+
+    // get schedule
+    useEffect(() => {
+        const id = settings.default_schedule_id;
+        if (id != null && id != undefined) {
+            getSchedule(id);
+        }
+    }, [settings.default_schedule_id])
 
     return (
         <div className={styles.Footer}>
@@ -32,7 +73,7 @@ export default function Footer() {
                 >
                     <FontAwesomeIcon icon={faPhone} size='xl' />
                 </Link>
-                
+
                 <Link
                     to='#'
                     onClick={(e) => {
@@ -44,44 +85,7 @@ export default function Footer() {
                 </Link>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                    <th>Orario di apertura</th>
-                    <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Lunedí</td>
-                        <td>Chiusi</td>
-                    </tr>
-                    <tr>
-                        <td>Martedí</td>
-                        <td>9:00 - 16:00</td>
-                    </tr>
-                    <tr>
-                        <td>Mercoledí</td>
-                        <td>9:00 - 16:00</td>
-                    </tr>
-                    <tr>
-                        <td>Giovedí</td>
-                        <td>9:00 - 16:00</td>
-                    </tr>
-                    <tr>
-                        <td>Venerdí</td>
-                        <td>9:00 - 16:00</td>
-                    </tr>
-                    <tr>
-                        <td>Sabato</td>
-                        <td>9:00 - 12:00</td>
-                    </tr>
-                    <tr>
-                        <td>Domeica</td>
-                        <td>Chiusi</td>
-                    </tr>
-                </tbody>
-            </table>
+            {schedule && <ScheduleTable schedule={schedule} />}
 
         </div>
     )

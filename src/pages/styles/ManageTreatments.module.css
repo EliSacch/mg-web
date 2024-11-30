@@ -32,14 +32,7 @@
     font-size: .8em;
 }
 
-.ShowOnBigScreen{
-    display: none;
-}
-
 @media only screen and (min-width: 768px) {
-    .ShowOnBigScreen{
-        display: block;
-    }
     .Button {
         justify-content: flex-end;
     }

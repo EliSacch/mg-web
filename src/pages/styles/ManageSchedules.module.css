@@ -27,14 +27,6 @@
     grid-template-columns: 1fr auto;
 }
 
-.SchedulesTable {
-    width: 100%;
-}
-
-.SchedulesTable tr.Inactive {
-    background-color: var(--neutral);
-}
-
 .Button {
     margin-top: -10px;
     display: flex;

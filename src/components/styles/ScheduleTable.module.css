@@ -1,0 +1,12 @@
+.SchedulesTable {
+    width: fit-content;
+    max-width: 100%;
+}
+
+.SchedulesTable tr > td:first-child {
+    padding-right: 100px;
+}
+
+.SchedulesTable tr.Inactive {
+    background-color: var(--neutral);
+}

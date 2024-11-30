@@ -43,7 +43,7 @@ export default function Navigation(props) {
 
     const LINKS = (
         <>
-            <NavLink exact to="/">Home</NavLink>
+            <NavLink to="/">Home</NavLink>
             {user && <NavLink to="/book">Prenota</NavLink>}
 
             <span className={styles.MoveRight}>
