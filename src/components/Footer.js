@@ -16,7 +16,7 @@ import ScheduleTable from './ScheduleTable';
 
 export default function Footer() {
     const [schedule, setSchedule] = useState();
-    const { settings, getSettings } = useSettings();
+    const { settings, getSettings, setSettings, fetchSettingsError, handleSelectDefaultCalendar } = useSettings();
 
     const fetchSchedule = async id => {
         const headers = new Headers();

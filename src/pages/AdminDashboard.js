@@ -68,6 +68,10 @@ export default function AdminDashboard({
                 />
 
                 <ManageCalendar
+                    handleOpen={handleOpen}
+                    handleClose={handleClose}
+                    showModal={showModal}
+                    setModalChildren={setModalChildren}
                     schedules={schedules}
                 />
             </main>

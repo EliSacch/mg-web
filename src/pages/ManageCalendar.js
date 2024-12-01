@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useSettings } from '../hooks/useDefaultSchedule';
 // components
@@ -8,7 +9,7 @@ import { ActionsDropdown } from '../components/ActionsDropdown';
 import { formatDate, formatDatetime } from '../utils/datetimeUtils';
 // styles
 import styles from './styles/ManageCalendars.module.css';
-
+import btnStyles from './styles/Buttons.module.css';
 
 export default function ManageCalendar(props) {
     const [fetchError, setFetchError] = useState(null);
@@ -16,8 +17,11 @@ export default function ManageCalendar(props) {
     const [options, setOptions] = useState([])
     const [calendars, setCalendars] = useState([])
 
+    const test = [{id: 1},{id: -6},{id: 13},{id: 9},{id: 100}]
+
     const { user } = useAuthContext();
-    const { settings, getSettings, setSettings, handleSelectDefaultCalendar } = useSettings();
+    const navigate = useNavigate();
+    const { settings, getSettings, setSettings, fetchSettingsError, handleSelectDefaultCalendar } = useSettings();
 
     const getOptions = (schedules) => {
         setIsPending(true);
@@ -27,6 +31,17 @@ export default function ManageCalendar(props) {
         }
         return opts;
     }
+
+    const handleEdit = (id) => {
+        navigate(`calendars/${id}/edit`)
+    }
+
+    const handleDelete = (id) => {
+        /* props.setModalChildren(
+            <DeleteRoom id={id} handleClose={() => props.handleClose()} />
+        ) */
+        props.handleOpen()
+    };
 
     useEffect(() => {
         setIsPending(true)
@@ -60,7 +75,7 @@ export default function ManageCalendar(props) {
     }, [])
 
     return (
-        !isPending && (
+        !isPending && !fetchSettingsError && (
             <>
                 <section className={styles.Section}>
                     <h2>Calendario</h2>
@@ -74,6 +89,9 @@ export default function ManageCalendar(props) {
                     />}
                 </section>
                 <section className={styles.Section}>
+                    <div className={styles.Button}>
+                        <Link to="/admin/calendars/create" className={btnStyles.Btn}>Nuovo Calendario</Link>
+                    </div>
                     {fetchError != null ? (
                         <p>{fetchError}</p>
                     ) : (
@@ -90,6 +108,7 @@ export default function ManageCalendar(props) {
                                 </thead>
                                 <tbody>
                                     {
+                                        // .sort((a,b) => a.start_date.localeCompare(b.start_date))
                                         calendars.map(calendar => (
 
                                             <tr key={calendar.id}>
@@ -102,8 +121,8 @@ export default function ManageCalendar(props) {
                                                 </td>
                                                 <td>
                                                     <ActionsDropdown
-                                                        handleEdit={() => { console.log("Edit", calendar.id) }}
-                                                        handleDelete={() => { console.log("Delete", calendar.Schedule.ID) }}
+                                                        handleEdit={() => { handleEdit(calendar.id) }}
+                                                        handleDelete={() => { handleDelete(calendar.id) }}
                                                         data={calendar.id}
                                                     />
                                                 </td>

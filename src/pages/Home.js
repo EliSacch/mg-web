@@ -21,7 +21,7 @@ export default function Home() {
   const [isPending, setIsPending] = useState(false);
 
   const { user } = useAuthContext();
-  const { settings, getSettings, setSettings } = useSettings();
+  const { settings, getSettings, setSettings, fetchSettingsError, handleSelectDefaultCalendar } = useSettings();
 
   const fetchSchedule = async id => {
     const headers = new Headers();

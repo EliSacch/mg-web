@@ -30,8 +30,11 @@
     align-items: center;
 }
 
-
-.FormLine > div {
+.FormLine>div {
     display: flex;
     column-gap: 1em;
+}
+
+.DatePicker {
+    line-height: normal;
 }

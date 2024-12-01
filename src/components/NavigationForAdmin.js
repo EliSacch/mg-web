@@ -32,10 +32,10 @@ export default function NavigationForAdmin(props) {
 
     const LINKS = (
         <>
-            <NavLink to="/admin">Dashboard</NavLink>
-            
+            <NavLink to="/">Home</NavLink>
+
             <span className={styles.MoveRight}>
-                <NavLink to="/">Home</NavLink>
+                <NavLink to="/admin">Dashboard</NavLink>
                 <button onClick={openModalFromOffcanvas}>Logout</button>
             </span>
         </>

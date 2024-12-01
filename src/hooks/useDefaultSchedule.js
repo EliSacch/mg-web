@@ -4,6 +4,7 @@ import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/Messa
 
 export const useSettings = () => {
     const [isCancelled, setIsCancelled] = useState(false);
+    const [fetchSettingsError, setFetchSettingsError] = useState(null);
     const [settings, setSettings] = useState({});
 
     const { user } = useAuthContext();
@@ -24,17 +25,18 @@ export const useSettings = () => {
     }
 
     const getSettings = async () => {
+        setFetchSettingsError(null)
         try {
             const data = await fetchSettings();
             if (!data) {
-                throw new Error('Error fetching settings!');
+                setFetchSettingsError('Error fetching settings!');
             }
             if (!isCancelled) {
                 setSettings(data);
             }
         } catch (err) {
             if (!isCancelled) {
-                throw new Error('Error fetching settings!');
+                setFetchSettingsError('Error fetching settings!');
             }
         }
     }
@@ -91,5 +93,5 @@ export const useSettings = () => {
         return () => setIsCancelled(true);
     }, [])
 
-    return { settings, getSettings, setSettings, handleSelectDefaultCalendar}
+    return { settings, getSettings, setSettings, fetchSettingsError, handleSelectDefaultCalendar}
 }

@@ -9,6 +9,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import TreatmentForm from './pages/TreatmentForm';
 import RoomForm from './pages/RoomForm';
 import ScheduleForm from './pages/ScheduleForm';
+import CalendarForm from './pages/CalendarForm';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -88,7 +89,8 @@ function App() {
               <Route path="/admin/schedules/create" element={<ScheduleForm is_new={true} />} />
               <Route path="/admin/schedules/:id/edit" element={<ScheduleForm is_new={false} />} />
 
-
+              <Route path="/admin/calendars/create" element={<CalendarForm is_new={true} />} />
+              <Route path="/admin/calendars/:id/edit" element={<CalendarForm is_new={false} />} />
             </Route>
 
           </Routes>
