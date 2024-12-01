@@ -44,7 +44,6 @@ export const useLogin = () => {
 
         } catch (err) {
 
-            console.log(err)
             const mapErrors = [
                 ["invalid-email", "Email non valida."],
                 ["missing-password", "Per favore inserisci la password."],

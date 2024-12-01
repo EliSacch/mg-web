@@ -46,9 +46,7 @@ export default function ManageSchedules(props) {
                 {fetchError != null ? (
                     <p>{fetchError}</p>
                 ) : (
-
                     <div className={styles.SchedulesTableWrapper}>
-
                         {props.schedules ? (
                             props.schedules.map(schedule => (
                                 <div className={styles.SchedulesTableCard} key={schedule.id}>
@@ -71,7 +69,7 @@ export default function ManageSchedules(props) {
                             ))
                         ) : (
                             <p>Non ci sono orari al momemento.</p>
-                            )
+                        )
                         }
                     </div>
                 )}

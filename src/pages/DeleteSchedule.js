@@ -18,39 +18,42 @@ export default function DeleteSchedule({ id, handleClose }) {
     const { user } = useAuthContext();
     const navigate = useNavigate();
 
-    const handleClick = () => {
-        if (!isCancelled) {
-            try {
-                const headers = new Headers();
-                headers.append("Authorization", "Bearer " + user.accessToken)
+    const handleClick = async () => {
 
-                const requestOption = {
-                    method: "DELETE",
-                    headers: headers,
-                    credentials: "include",
-                }
+        try {
+            const headers = new Headers();
+            headers.append("Authorization", "Bearer " + user.accessToken)
 
-                fetch(`${process.env.REACT_APP_BACKEND}/admin/schedules/${id}/delete`, requestOption)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.error) {
-                        console.log(data.error);
-                    } else {
-                        handleClose();
-                        setCurrentMessageType("success");
-                        setCurrentMessage("Calendario eliminato con successo");
-                        navigate("/admin");
-                    }
-                })
-                    .catch(error => {
-                        handleClose();
-                        setCurrentMessageType("error");
-                        setCurrentMessage("Non è stato possibile eliminare questo calendario.");
-                    })
-            } catch (err) {
-                console.log(err)
+            const requestOption = {
+                method: "DELETE",
+                headers: headers,
+                credentials: "include",
             }
+
+            const res = await fetch(`${process.env.REACT_APP_BACKEND}/admin/schedules/${id}/delete`, requestOption)
+                .then(res => res.json())
+            if (!res) {
+                if (!isCancelled) {
+                    setCurrentMessageType("error");
+                    setCurrentMessage("Non è stato possibile eliminare questo calendario.");
+                }
+            } else {
+                if (!isCancelled && !res.error) {
+                    setCurrentMessageType("success");
+                    setCurrentMessage("Calendario eliminato con successo");
+                    navigate("/admin");
+                } else {
+                    setCurrentMessageType("error");
+                    setCurrentMessage(res.message);
+                }
+            }
+        } catch (err) {
+            setCurrentMessageType("error");
+            setCurrentMessage(err);
+        } finally {
+            handleClose();
         }
+
     }
 
     useEffect(() => {
@@ -60,8 +63,8 @@ export default function DeleteSchedule({ id, handleClose }) {
 
     return (
         <>
-            <h2>Elimina Calendario</h2>
-            <p>Vuoi eliminare questao calendario?</p>
+            <h2>Elimina Orario?</h2>
+            <p>L'orario non potrà essere recuperato</p>
             <button onClick={() => handleClick()} className={btnStyles.Btn}>Conferma</button>
         </>
     )

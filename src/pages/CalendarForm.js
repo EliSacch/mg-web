@@ -187,8 +187,7 @@ const CalendarForm = ({ is_new }) => {
                                 value={calendar.schedule_id}
                                 options={options}
                                 onChange={handleSelectSchedule}
-                                hideEmptyOptions={false}
-                                placeHolder="Test"
+                                hideEmptyOptions={true}
                                 errorMsg={"Seleziona un orario"}
                                 errorDiv={hasError("schedule") ? "input-error" : "d-none"}
                             />
@@ -206,7 +205,7 @@ const CalendarForm = ({ is_new }) => {
                                         minDate={today}
                                         maxDate={new Date().setMonth(new Date().getMonth() + 12)}
                                         className={formStyles.DatePicker}
-                                        dateFormat="dd/MM/YYYY"
+                                        dateFormat="dd/MM/yyyy"
                                     />
                                     <span className={hasError("start_date") ? "input-error" : "d-none"}>
                                         Seleziona una data di inizio.
@@ -224,7 +223,7 @@ const CalendarForm = ({ is_new }) => {
                                         minDate={today}
                                         maxDate={new Date().setMonth(new Date().getMonth() + 12)}
                                         className={formStyles.DatePicker}
-                                        dateFormat="dd/MM/YYYY"
+                                        dateFormat="dd/MM/yyyy"
                                     />
                                     <span className={hasError("end_date") ? "input-error" : "d-none"}>
                                         Seleziona una data di fine.

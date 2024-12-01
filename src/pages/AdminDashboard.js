@@ -19,8 +19,11 @@ export default function AdminDashboard({
 
     const { authIsReady, user } = useAuthContext();
     const [schedules, setSchedules] = useState();
+    const [isCancelled, setIsCancelled] = useState(false);
+    const [isPending, setIsPending] = useState(true);
 
     useEffect(() => {
+        setIsPending(true)
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
         headers.append("Authorization", "Bearer " + user.accessToken)
@@ -33,12 +36,23 @@ export default function AdminDashboard({
         fetch(`${process.env.REACT_APP_BACKEND}/admin/schedules`, requestOptions)
             .then(res => res.json())
             .then(data => {
-                setSchedules(data);
+                if (!isCancelled) {
+                    setSchedules(data);
+                }
             }).catch(err => {
-                setFetchError("C'è stato un errore a recuperare gli orari dal database.")
-            })
-
+                if (!isCancelled) {
+                    setFetchError("C'è stato un errore a recuperare gli orari dal database.")
+                }
+            }).finally(() => {
+                setIsPending(false)}
+            )
     }, [showModal])
+
+    // cleanup function
+    useEffect(() => {
+        setIsCancelled(false);
+        return () => setIsCancelled(true);
+    }, [])
 
     return (
         authIsReady && user && (
@@ -58,22 +72,22 @@ export default function AdminDashboard({
                     setModalChildren={setModalChildren}
                 />
 
-                <ManageSchedules
+                { !isPending && <ManageSchedules
                     handleOpen={handleOpen}
                     handleClose={handleClose}
                     showModal={showModal}
                     setModalChildren={setModalChildren}
                     user={user}
                     schedules={schedules}
-                />
+                />}
 
-                <ManageCalendar
+                {!isPending && <ManageCalendar
                     handleOpen={handleOpen}
                     handleClose={handleClose}
                     showModal={showModal}
                     setModalChildren={setModalChildren}
                     schedules={schedules}
-                />
+                />}
             </main>
         )
     )

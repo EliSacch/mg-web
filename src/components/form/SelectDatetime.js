@@ -98,7 +98,7 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
                         minDate={today}
                         maxDate={new Date().setMonth(new Date().getMonth() + 6)}
                         className={styles.DatePicker}
-                        dateFormat="dd/MM/YYYY"
+                        dateFormat="dd/MM/yyyy"
                     />
                 </span>
             </div>

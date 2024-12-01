@@ -5,6 +5,7 @@ import { useSettings } from '../hooks/useDefaultSchedule';
 // components
 import Select from '../components/form/Select';
 import { ActionsDropdown } from '../components/ActionsDropdown';
+import DeleteCalendar from './DeleteCalendar';
 // utils
 import { formatDate, formatDatetime } from '../utils/datetimeUtils';
 // styles
@@ -37,9 +38,9 @@ export default function ManageCalendar(props) {
     }
 
     const handleDelete = (id) => {
-        /* props.setModalChildren(
-            <DeleteRoom id={id} handleClose={() => props.handleClose()} />
-        ) */
+        props.setModalChildren(
+            <DeleteCalendar id={id} handleClose={() => props.handleClose()} />
+        )
         props.handleOpen()
     };
 
@@ -63,7 +64,7 @@ export default function ManageCalendar(props) {
                 setIsPending(false);
                 setFetchError("C'è stato un errore a recuperare il calendario dal database.")
             })
-    }, [])
+    }, [props.showModal])
 
     useEffect(() => {
         setOptions(getOptions(props.schedules))
@@ -85,7 +86,7 @@ export default function ManageCalendar(props) {
                         options={options}
                         value={options.filter(opt => opt.value === settings.default_schedule_name)[0]?.id}
                         onChange={e => handleSelectDefaultCalendar(e, options)}
-                        hideEmptyOpyion={true}
+                        hideEmptyOption={true}
                     />}
                 </section>
                 <section className={styles.Section}>
