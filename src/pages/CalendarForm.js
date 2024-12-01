@@ -80,8 +80,6 @@ const CalendarForm = ({ is_new }) => {
                 credentials: "include",
             }
 
-            console.log(requestBody)
-
             const path = is_new ? "create" : `${id}/edit`
             fetch(`${process.env.REACT_APP_BACKEND}/admin/calendars/${path}`, requestOptions)
                 .then(res => res.json())
@@ -140,6 +138,36 @@ const CalendarForm = ({ is_new }) => {
         getOptions();
     }, [])
 
+    useEffect(() => {
+        if (!is_new) {
+          setIsPending(true);
+          try {
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
+            headers.append("Authorization", "Bearer " + user.accessToken)
+    
+            const requestOptions = {
+              method: "GET",
+              headers: headers,
+            }
+    
+            fetch(`${process.env.REACT_APP_BACKEND}/admin/calendars/${id}`, requestOptions)
+              .then(res => res.json())
+              .then(data => setCalendar(data))
+              .catch(err => {
+                console.log(err);
+                setFetchError("Non è stato possibile recuperare i dati di questo calendario.");
+                setIsPending(false);
+              })
+          } catch (err) {
+            console.log(err);
+            setIsPending(false);
+          }
+          setIsPending(false);
+        }
+    
+      }, [id, is_new])
+
     return (
         <main>
             {isPending && <p>Loading...</p>}
@@ -156,6 +184,7 @@ const CalendarForm = ({ is_new }) => {
                             <Select
                                 title="Orario"
                                 name="schedule"
+                                value={calendar.schedule_id}
                                 options={options}
                                 onChange={handleSelectSchedule}
                                 hideEmptyOptions={false}
