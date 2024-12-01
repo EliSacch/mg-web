@@ -8,6 +8,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import Input from "../components/form/Input";
 import TextArea from "../components/form/TextArea";
 import Checkbox from "../components/form/Checkbox";
+import GoBackButton from "../components/GoBackButton";
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
@@ -156,6 +157,7 @@ const RoomForm = ({ is_new }) => {
 
       {!isPending && (
         <section className={formStyles.FormContainer}>
+          <GoBackButton />
           <h2>{is_new ? "Aggiungi Stanza" : "Modifica Stanza"}</h2>
 
           {fetchError != null ? (

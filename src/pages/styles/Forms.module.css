@@ -1,14 +1,15 @@
 .FormContainer {
     text-align: center;
+    margin: 0 auto;
+    width: 96%;
+    max-width: 600px;
+    position: relative;
 }
 
 .Form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin: 0 auto;
-    width: 96%;
-    max-width: 600px;
     margin-bottom: 100px;
 }
 

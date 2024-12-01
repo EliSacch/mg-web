@@ -7,6 +7,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 // components
 import SelectTreatment from '../components/form/SelectTreatment';
 import SelectDatetime from '../components/form/SelectDatetime';
+import GoBackButton from '../components/GoBackButton';
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
@@ -112,6 +113,7 @@ export default function Book() {
     return (
         <main>
             <section className={formStyles.FormContainer}>
+                <GoBackButton />
                 <h2>Prenota</h2>
                 {isPending && <p>Loading...</p>}
                 {

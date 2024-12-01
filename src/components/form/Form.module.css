@@ -7,6 +7,10 @@
     text-align: left;
 }
 
+textarea {
+    background-color: transparent;
+}
+
 input,
 select {
     margin: 10px 0;

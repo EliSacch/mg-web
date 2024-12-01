@@ -10,6 +10,7 @@ import ScheduleWeek from "../components/ScheduleWeek";
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
+import GoBackButton from "../components/GoBackButton";
 
 
 const ScheduleForm = ({ is_new }) => {
@@ -162,6 +163,7 @@ const ScheduleForm = ({ is_new }) => {
 
       {!isPending && (
         <section className={formStyles.FormContainer}>
+          <GoBackButton />
           <h2>{is_new ? "Aggiungi Calendario" : "Modifica Calendario"}</h2>
 
           {fetchError != null ? (

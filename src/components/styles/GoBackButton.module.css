@@ -1,0 +1,16 @@
+.GoBackBtn {
+    border: none;
+    background-color: transparent;
+    color: var(--primary500);
+    position: absolute;
+    left: 0;
+}
+
+.GoBackBtn:hover,
+.GoBackBtn:focus {
+    color: var(--primary400);
+}
+
+.GoBackBtn:focus {
+    outline: var(--primary300) auto 1px;
+}

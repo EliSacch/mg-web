@@ -9,6 +9,7 @@ import Input from "../components/form/Input";
 import TextArea from "../components/form/TextArea";
 import Checkbox from "../components/form/Checkbox";
 import SelectRoom from "../components/form/SelectRoom";
+import GoBackButton from "../components/GoBackButton";
 // style
 import formStyles from './styles/Forms.module.css';
 import btnStyles from './styles/Buttons.module.css';
@@ -200,6 +201,7 @@ const TreatmentForm = ({ is_new }) => {
 
       {!isPending && (
         <section className={formStyles.FormContainer}>
+          <GoBackButton />
           <h2>{is_new ? "Aggiungi Trattamento" : "Modifica Trattamento"}</h2>
 
           {fetchError != null ? (
