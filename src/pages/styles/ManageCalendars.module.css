@@ -1,0 +1,39 @@
+.Section {
+    width: 100%;
+    padding: 2em;
+}
+
+.CalendarsTable {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.CalendarsTable tr > *:nth-child(2) {
+    text-wrap: nowrap;
+    max-width: 10ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.CalendarsTable tr > *:last-child {
+    margin-left: auto;
+    width: 50px;
+    text-align: end;
+}
+
+.CalendarsTable tr.Inactive {
+    background-color: var(--neutral);
+}
+
+.Button {
+    margin-top: -10px;
+    display: flex;
+    justify-content: flex-start;
+    font-size: .8em;
+}
+
+@media only screen and (min-width: 768px) {
+    .Button {
+        justify-content: flex-end;
+    }
+  }

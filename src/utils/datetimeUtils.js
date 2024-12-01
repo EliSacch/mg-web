@@ -9,6 +9,16 @@ export const convertTimestampToDateTime = (timestamp) => {
 }
 
 /**
+ * This function formats datetime to date only
+ * @param {datetime} datetime 
+ * @returns DD-MM-YYYY
+ */
+export const formatDate = (datetime) => { 
+    datetime = datetime.split("T")
+    return datetime[0].split("-").reverse().join("-")
+}
+
+/**
  * This function formats datetime
  * @param {datetime} datetime 
  * @returns DD-MM-YYYY, hh:mm:ss

@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
-import { useSetCurrentMessage, useSetCurrentMessageType } from '../context/MessageContext';
 import { useSettings } from '../hooks/useDefaultSchedule';
 // components
 import Select from '../components/form/Select';
+import { ActionsDropdown } from '../components/ActionsDropdown';
+// utils
+import { formatDate, formatDatetime } from '../utils/datetimeUtils';
 // styles
-import styles from './styles/ManageCalendar.module.css';
+import styles from './styles/ManageCalendars.module.css';
 
 
 export default function ManageCalendar(props) {
-    const [formErrors, setFormErrors] = useState([]);
+    const [fetchError, setFetchError] = useState(null);
     const [isPending, setIsPending] = useState(false);
     const [options, setOptions] = useState([])
+    const [calendars, setCalendars] = useState([])
 
     const { user } = useAuthContext();
-    const {settings, getSettings, setSettings} = useSettings();
-    const setCurrentMessage = useSetCurrentMessage();
-    const setCurrentMessageType = useSetCurrentMessageType();
-    
+    const { settings, getSettings, setSettings, handleSelectDefaultCalendar } = useSettings();
 
     const getOptions = (schedules) => {
+        setIsPending(true);
         let opts = []
         for (let i in schedules) {
             opts.push({ id: schedules[i].id, value: schedules[i].name, disabled: false })
@@ -27,71 +28,31 @@ export default function ManageCalendar(props) {
         return opts;
     }
 
-    const handleSelectDefaultCalendar = e => {
-        e.preventDefault();
+    useEffect(() => {
+        setIsPending(true)
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        headers.append("Authorization", "Bearer " + user.accessToken)
 
-        let errors = [];
-        let required = [
-            { field: e.target.value, name: "default_calendar" },
-        ]
-
-        required.forEach(obj => {
-            if (obj.field == "") {
-                errors.push(obj.name);
-            }
-        })
-
-        setFormErrors(errors);
-        if (errors.length > 0) {
-            return false
+        const requestOptions = {
+            method: "GET",
+            headers: headers,
         }
 
-        const value = options.filter(opt => opt.id === e.target.value)[0]?.value;
-
-        try {
-            const headers = new Headers();
-            headers.append("Content-type", "application/json");
-            headers.append("Authorization", "Bearer " + user.accessToken)
-
-            let requestBody = {
-                id: "default",
-                default_schedule_id: e.target.value,
-                default_schedule_name: value,
-            }
-
-            let requestOptions = {
-                body: JSON.stringify(requestBody),
-                method: "PATCH",
-                headers: headers,
-                credentials: "include",
-            }
-
-            fetch(`${process.env.REACT_APP_BACKEND}/admin/settings/default/edit`, requestOptions)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.error) {
-                        console.log(data.message);
-                    } else {
-                        setSettings({
-                            ...settings,
-                            default_schedule_name: value,
-                        })
-                        setCurrentMessageType("success");
-                        setCurrentMessage("Orario predefinito aggiornato con successo!");
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                    setCurrentMessageType("error");
-                    setCurrentMessage("Non è stato possibile aggiornare l'orario predefinito! Per favore riprova.");
-                })
-        } catch (err) {
-            console.log("error submitting the form: ", err)
-        }
-    }
+        fetch(`${process.env.REACT_APP_BACKEND}/admin/calendars`, requestOptions)
+            .then(res => res.json())
+            .then(data => {
+                setCalendars(data);
+                setIsPending(false);
+            }).catch(err => {
+                setIsPending(false);
+                setFetchError("C'è stato un errore a recuperare il calendario dal database.")
+            })
+    }, [])
 
     useEffect(() => {
         setOptions(getOptions(props.schedules))
+        setIsPending(false);
     }, [props.schedules])
 
     useEffect(() => {
@@ -100,17 +61,64 @@ export default function ManageCalendar(props) {
 
     return (
         !isPending && (
-            <section className={styles.Section}>
-                <h2>Calendario</h2>
-                {<Select
-                    name="default_calendar"
-                    title="Orario predefinito:"
-                    options={options}
-                    value={options.filter(opt => opt.value === settings.default_schedule_name)[0]?.id}
-                    onChange={e => handleSelectDefaultCalendar(e)}
-                    hideEmptyOpyion={true}
-                />}
-            </section>
+            <>
+                <section className={styles.Section}>
+                    <h2>Calendario</h2>
+                    {<Select
+                        name="default_calendar"
+                        title="Orario predefinito:"
+                        options={options}
+                        value={options.filter(opt => opt.value === settings.default_schedule_name)[0]?.id}
+                        onChange={e => handleSelectDefaultCalendar(e, options)}
+                        hideEmptyOpyion={true}
+                    />}
+                </section>
+                <section className={styles.Section}>
+                    {fetchError != null ? (
+                        <p>{fetchError}</p>
+                    ) : (
+                        calendars ? (
+                            <table className={styles.CalendarsTable}>
+                                <thead>
+                                    <tr>
+                                        <th>Orario</th>
+                                        <th>Inizio</th>
+                                        <th>Fine</th>
+                                        <th className="d-none d-md-block">Ultima modifica</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        calendars.map(calendar => (
+
+                                            <tr key={calendar.id}>
+                                                <td>{calendar.schedule_name}</td>
+                                                <td>{formatDate(calendar.start_date)}</td>
+                                                <td>{formatDate(calendar.end_date)}</td>
+                                                <td className="d-none d-md-block">
+                                                    {calendar.updated_at && formatDatetime(calendar.updated_at)}
+                                                    {!calendar.updated_at && formatDatetime(calendar.created_at)}
+                                                </td>
+                                                <td>
+                                                    <ActionsDropdown
+                                                        handleEdit={() => { console.log("Edit", calendar.id) }}
+                                                        handleDelete={() => { console.log("Delete", calendar.Schedule.ID) }}
+                                                        data={calendar.id}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        )
+                                        )
+                                    }
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p>Non ci sono calendari al momemento.</p>
+                        )
+                    )}
+                </section>
+            </>
         )
     )
 }

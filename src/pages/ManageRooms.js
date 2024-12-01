@@ -56,8 +56,7 @@ export default function ManageRooms(props) {
                 setIsPending(false);
                 setFetchError("C'è stato un errore a recuperare le stanze dal database.")
             })
-
-    }, [props.showModal])
+    }, [])
 
     return (
 
