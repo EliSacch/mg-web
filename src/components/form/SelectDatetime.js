@@ -1,7 +1,7 @@
 // hooks
 import { useEffect, useState } from "react";
 // utils
-import { formatIntToHour } from '../../utils/datetimeUtils.js';
+import { unixToTime } from '../../utils/datetimeUtils.js';
 // components
 import Select from "./Select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -23,10 +23,9 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
     const [isPending, setIsPending] = useState(true)
 
     function getOptions(slots) {
-
         let opts = []
         for (let i in slots) {
-            opts.push({ id: slots[i], value: formatIntToHour(slots[i]), disabled: false })
+            opts.push({ id: slots[i], value: unixToTime(slots[i]), disabled: false })
         }
         setOptions(opts);
     }
@@ -45,11 +44,10 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
 
         await fetch(`${process.env.REACT_APP_BACKEND}/calendar/availability`, requestOptions)
             .then(res => res.json())
-            .then(data => {
-                if (data.time_slots.length > 0) {
-                    getOptions(data.time_slots)
+            .then(res => {
+                if (res.data.time_slots?.length > 0) {
+                    getOptions(res.data.time_slots)
                 }
-
             }).catch(err => {
                 console.log(err);
             })

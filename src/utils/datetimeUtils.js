@@ -1,19 +1,9 @@
 /**
- * This function converts a unix timestamp into datetime
- * @param {unix} timestamp 
- * @returns DD-MM-YYYY hh:mm:ss
- */
-export const convertTimestampToDateTime = (timestamp) => {
-    
-    return timestamp.toDate().toLocaleString()
-}
-
-/**
  * This function formats datetime to date only
  * @param {datetime} datetime 
  * @returns DD-MM-YYYY
  */
-export const formatDate = (datetime) => { 
+export const formatDate = (datetime) => {
     datetime = datetime.split("T")
     return datetime[0].split("-").reverse().join("-")
 }
@@ -23,27 +13,30 @@ export const formatDate = (datetime) => {
  * @param {datetime} datetime 
  * @returns DD-MM-YYYY, hh:mm:ss
  */
-export const formatDatetime = (datetime) => { 
+export const formatDatetime = (datetime) => {
     datetime = datetime.split("T")
     const date = datetime[0].split("-").reverse().join("-")
     const time = datetime[1].split(".")[0]
     return date + ", " + time
 }
 
-export const formatIntToHour = (intTime) => {
-    let strTime = intTime.toString();
+/**
+ * This function converts a unix to time only
+ * @param {int} unixTimestamp
+ * @returns hh:mm
+ */
+export const unixToTime = (unixTimestamp) => {
+    const hours =  Math.trunc(unixTimestamp / 60 / 60); 
+    const minutes = ((unixTimestamp / 60 / 60) - hours) * 60; 
 
-    switch(strTime.length) {
-        case 3:
-            strTime = "0" + strTime;
-            break
-        case 4:
-            strTime = strTime;
-            break
-        default:
-            return "--:--"
-    }
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+}
 
-    return strTime.slice(0, 2) + ":" + strTime.slice(2, strTime.lenght)
-
+/**
+ * This function string time to unix
+ * @param {string} time
+ * @returns unix
+ */
+export const timeToUnix = (time) => {
+    return new Date('1970-01-01T' + time + 'Z').getTime() / 1000;
 }

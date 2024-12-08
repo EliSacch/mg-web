@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 // componenets
 import Input from "./Input.js";
 import "react-datepicker/dist/react-datepicker.css";
+// utils
+import { timeToUnix, unixToTime } from "../../utils/datetimeUtils.js";
 // style
 import formStyles from "../../pages/styles/Forms.module.css"
 import styles from './Form.module.css';
@@ -23,7 +25,7 @@ function ScheduleDay({ label, day, formData, setFormData, setFormErrors, hasErro
         ) : []
 
         newDay[i] = {
-            open: event.target.value,
+            open: timeToUnix(event.target.value),
             close: formData.slots[day] ? formData.slots[day][i]?.close : "",
         }
 
@@ -37,7 +39,7 @@ function ScheduleDay({ label, day, formData, setFormData, setFormErrors, hasErro
     }
 
     const handleSelectEndTime = (event, i) => {
-        const close = event.target.value
+        const close = timeToUnix(event.target.value)
         const newDay = formData.slots[day] !== null ? (
             formData.slots[day]
         ) : []
@@ -82,7 +84,7 @@ function ScheduleDay({ label, day, formData, setFormData, setFormErrors, hasErro
                         name="start1"
                         onChange={e => handleSelectStartTime(e, 0)}
                         value={formData.slots[day] !== null && formData.slots[day].length > 0 ? (
-                            formData.slots[day][0].open
+                            unixToTime(formData.slots[day][0].open)
                         ) : ""}
                         errorDiv={hasError("start1") ? "input-error" : "d-none"}
                         errorMsg="Valore invalido"
@@ -94,7 +96,7 @@ function ScheduleDay({ label, day, formData, setFormData, setFormErrors, hasErro
                         name="end1"
                         onChange={e => handleSelectEndTime(e, 0)}
                         value={formData.slots[day] !== null && formData.slots[day].length > 0 ? (
-                            formData.slots[day][0].close
+                            unixToTime(formData.slots[day][0].close)
                         ) : ""}
                         errorDiv={hasError("end1") ? "input-error" : "d-none"}
                         errorMsg="Valore invalido"

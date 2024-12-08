@@ -164,7 +164,7 @@ const ScheduleForm = ({ is_new }) => {
       {!isPending && (
         <section className={formStyles.FormContainer}>
           <GoBackButton />
-          <h2>{is_new ? "Aggiungi Calendario" : "Modifica Calendario"}</h2>
+          <h2>{is_new ? "Aggiungi Orario" : "Modifica Orario"}</h2>
 
           {fetchError != null ? (
             <p>{fetchError}</p>

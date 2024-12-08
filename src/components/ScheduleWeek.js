@@ -5,6 +5,7 @@ import styles from './styles/ScheduleWeek.module.css';
 import btnStyles from '../pages/styles/Buttons.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { unixToTime } from '../utils/datetimeUtils';
 
 const days = {
     mon: "Lunedì",
@@ -34,12 +35,12 @@ function ScheduleWeek({ day, schedule, setSchedule, setFormErrors, hasError }) {
     }
 
     return (
-        <>
-        <div className={styles.Day}  key={`wrapper-${day}`}>
+        <div>
+        <div className={styles.Day}>
             <h3>{days[`${day}`]}</h3>
             <span>
             {schedule.slots[`${day}`] == null ? "Chiusi" : (
-                schedule.slots[`${day}`].map(slot => <span>{`${slot.open} - ${slot.close}`}</span>)
+                schedule.slots[`${day}`].map(slot => <span key={`time-${day}`}>{`${unixToTime(slot.open)} - ${unixToTime(slot.close)}`}</span>)
             )}
             </span>
 
@@ -50,7 +51,7 @@ function ScheduleWeek({ day, schedule, setSchedule, setFormErrors, hasError }) {
                 <FontAwesomeIcon icon={faTrash} size='xl' />
             </button>
         </div>
-        <div id={`slots-${day}`} key={`slots-${day}`} className={styles.SlotsForm}>
+        <div id={`slots-${day}`} className={styles.SlotsForm}>
         <ScheduleDay
                 label=""
                 day={day}
@@ -60,7 +61,7 @@ function ScheduleWeek({ day, schedule, setSchedule, setFormErrors, hasError }) {
                 hasError={hasError}
               />
         </div>
-        </>
+        </div>
     )
 }
 
