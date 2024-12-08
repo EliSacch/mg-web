@@ -13,14 +13,16 @@ import { it } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import formStyles from "../../pages/styles/Forms.module.css"
 import styles from './Form.module.css';
+import { Alert, Spinner } from "react-bootstrap";
 
 
 registerLocale("it", it);
 
-function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentStep }) {
+function SelectDatetime({ today, formData, setFormData }) {
 
     const [options, setOptions] = useState([])
     const [isPending, setIsPending] = useState(true)
+    const [excludeDates, setExcludeDates] = useState([])
 
     function getOptions(slots) {
         let opts = []
@@ -30,30 +32,60 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
         setOptions(opts);
     }
 
-    const fetchAvailability = async (treatment, date) => {
+    const getDaysAvailability = async date => {
         setIsPending(true);
-        const headers = new Headers();
-        headers.append("Content-Type", "application/json");
+        try {
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
 
-        let requestOptions = {
-            body: JSON.stringify({ treatment: treatment, date: date }),
-            method: "PUT",
-            headers: headers,
-            credentials: "include",
+            let requestOptions = {
+                method: "GET",
+                headers: headers,
+                credentials: "include"
+            }
+
+            const res = await fetch(`${process.env.REACT_APP_BACKEND}/calendar/availability/${date.getFullYear()}/${date.getMonth()}`, requestOptions)
+                .then(res => res.json())
+                .catch(err => {
+                    console.log(err)
+                })
+
+            setExcludeDates(res?.data)
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsPending(false);
         }
 
-        await fetch(`${process.env.REACT_APP_BACKEND}/calendar/availability`, requestOptions)
-            .then(res => res.json())
-            .then(res => {
-                if (res.data.time_slots?.length > 0) {
-                    getOptions(res.data.time_slots)
-                }
-            }).catch(err => {
-                console.log(err);
-            })
+    }
 
-        setCurrentStep(date != null ? 2 : 1);
-        setIsPending(false);
+    const getTimeAvailability = async (treatment, date) => {
+        setIsPending(true);
+        try {
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
+
+            let requestOptions = {
+                body: JSON.stringify({ treatment: treatment, date: date }),
+                method: "PUT",
+                headers: headers,
+                credentials: "include",
+            }
+
+            const res = await fetch(`${process.env.REACT_APP_BACKEND}/calendar/availability`, requestOptions)
+                .then(res => res.json())
+                .catch(err => {
+                    console.log(err)
+                })
+
+            getOptions(res.data?.time_slots)
+
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsPending(false);
+        }
     }
 
     const handleSelectDate = data => {
@@ -62,7 +94,7 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
             date: data,
             time: "",
         });
-        fetchAvailability(formData.treatment, data)
+        getTimeAvailability(formData.treatment, data)
     }
 
     const handleSelectTime = e => {
@@ -73,12 +105,16 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
     }
 
     useEffect(() => {
-        setCurrentStep(formData.date != null && formData.date != "" ? 2 : 1);
-    }, [formData.date])
+        getTimeAvailability(formData.treatment, new Date(formData.date))
+    }, [formData.treatment])
 
     useEffect(() => {
-        fetchAvailability(formData.treatment, formData.date)
-    }, [formData.treatment])
+        const today = new Date;
+        setFormData({
+            ...formData,
+            date: today,
+        });
+    }, [])
 
     return (
         <div className={formStyles.FormLine}>
@@ -97,20 +133,31 @@ function SelectDatetime({ today, formData, setFormData, currentStep, setCurrentS
                         maxDate={new Date().setMonth(new Date().getMonth() + 6)}
                         className={styles.DatePicker}
                         dateFormat="dd/MM/yyyy"
+                        onMonthChange={data => getDaysAvailability(data)}
+                        excludeDates={excludeDates}
+                        onCalendarOpen={() => getDaysAvailability(formData.date)}
                     />
                 </span>
             </div>
             {
-                !isPending && currentStep > 1 && (
+                !isPending && formData.treatment && formData.date && options.length > 0 && (
                     <Select
                         name="time"
                         title="Ora"
+                        placeHolder="-:--"
+                        hideEmptyOptions={false}
                         options={options}
                         value={formData.time}
                         onChange={handleSelectTime}
                     />
                 )
             }
+            {!isPending && options.length < 1 && (
+                <Alert variant="warning">Non ci sono orari disponibili</Alert>
+            )}
+
+            {isPending && <Spinner animation="border" size="sm" />}
+
         </div>
     )
 }

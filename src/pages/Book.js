@@ -23,7 +23,6 @@ export default function Book() {
     const setCurrentMessageType = useSetCurrentMessageType();
     const navigate = useNavigate();
 
-    const [currentStep, setCurrentStep] = useState(0);
     const [isPending, setIsPending] = useState(false);
     const [treatments, setTreatments] = useState([]);
     const [formErrors, setFormErrors] = useState([]);
@@ -67,16 +66,6 @@ export default function Book() {
         } catch (err) {
             console.log("error submitting the form: ", err)
         }
-    }
-
-    const handleChange = () => (e) => {
-        let value = e.target.value;
-        let name = e.target.name;
-
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
     }
 
     useEffect(() => {
@@ -126,20 +115,17 @@ export default function Book() {
                                         options={treatments}
                                         formData={formData}
                                         setFormData={setFormData}
-                                        setCurrentStep={setCurrentStep}
                                         hasError={hasError}
                                     />
                                 )
                             }
 
-                            {currentStep > 0 && (
+                            {formData.treatment && (
                                 <SelectDatetime
                                     today={today}
                                     treatment={treatments.filter(t => t.id = formData.treatment)}
                                     formData={formData}
                                     setFormData={setFormData}
-                                    currentStep={currentStep}
-                                    setCurrentStep={setCurrentStep}
                                     hasError={hasError}
                                 />
 

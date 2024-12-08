@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Select from "./Select";
 
-function SelectTreatment({options, formData, setFormData, setCurrentStep, hasError}) {
+function SelectTreatment({options, formData, setFormData, hasError}) {
 
     const [selectTreatmentOptions, setSelectTreatmentOptions] = useState([]);
 
@@ -11,14 +11,6 @@ function SelectTreatment({options, formData, setFormData, setCurrentStep, hasErr
             treatment: e.target.value,
             time: "",
         })
-
-        if(e.target.value == "") {
-            setCurrentStep(0)
-        } else if (formData.date == null) {
-            setCurrentStep(1)
-        } else {
-            setCurrentStep(2)
-        }
     }
 
     useEffect(() => {
@@ -41,8 +33,10 @@ function SelectTreatment({options, formData, setFormData, setCurrentStep, hasErr
             title="Trattamento"
             name="treatment"
             options={selectTreatmentOptions}
+            value={formData.treatment}
             onChange={handleSelectTreatment}
-            placeHolder={"Seleziona un trattamento"}
+            placeHolder="---"
+            hideEmptyOptions={false}
             errorMsg={"Seleziona un trattamento"}
             errorDiv={hasError("treatment") ? "input-error" : "d-none"}
         />

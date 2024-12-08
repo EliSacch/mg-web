@@ -25,14 +25,15 @@
 .FormLine {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-end;
     gap: 1em;
     margin: 10px 0;
-    align-items: center;
 }
 
-.FormLine>div {
+.FormLine > div {
     display: flex;
     column-gap: 1em;
+    margin-bottom: 0;
 }
 
 .DatePicker {
