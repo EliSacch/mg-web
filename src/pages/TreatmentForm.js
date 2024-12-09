@@ -158,12 +158,11 @@ const TreatmentForm = ({ is_new }) => {
           .then(res => res.json())
           .then(data => setTreatment(data))
           .catch(err => {
-            console.log(err);
             setFetchError("Non è stato possibile recuperare i dati di questo trattamento.");
             setIsPending(false);
           })
       } catch (err) {
-        console.log(err);
+        setFetchError("Non è stato possibile recuperare i dati di questo trattamento.");
         setIsPending(false);
       }
       setIsPending(false);

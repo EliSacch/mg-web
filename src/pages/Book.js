@@ -33,13 +33,16 @@ export default function Book() {
         treatment: "",
         date: today,
         time: "",
-        user: user
+        user: {
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+        }
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // if there are no errors, then submit
         try {
             const headers = new Headers();
             headers.append("Content-type", "application/json");
@@ -51,20 +54,24 @@ export default function Book() {
                 credentials: "include",
             }
 
-            fetch(`${process.env.REACT_APP_BACKEND}/appointment/book`, requestOptions)
+            const res = await fetch(`${process.env.REACT_APP_BACKEND}/appointment/book`, requestOptions)
                 .then(res => res.json())
-                .then(data => {
-                    navigate("/");
-                    setCurrentMessageType("success");
-                    setCurrentMessage("Appuntamento prenotato con successo!");
-                })
                 .catch(err => {
-                    console.log(err)
-                    setCurrentMessageType("error");
-                    setCurrentMessage("Non è stato possibile eseguire la richiesta! Per favore riprova.");
+                    throw new Error(err)
                 })
+            if (res.error && res.message.includes("conflict")) {
+                throw new Error("Questo orario non è disponibile.")
+            } else if (res.error) {
+                throw new Error("Non è stato possibile eseguire la richiesta! Per favore riprova.")
+            } else {
+                navigate("/");
+                setCurrentMessageType("success");
+                setCurrentMessage("Appuntamento prenotato con successo!");
+            }
+
         } catch (err) {
-            console.log("error submitting the form: ", err)
+            setCurrentMessageType("error");
+            setCurrentMessage(err.message);
         }
     }
 
@@ -88,7 +95,6 @@ export default function Book() {
                 console.log(err);
                 setIsPending(false);
             })
-
     }, [])
 
     useEffect(() => {

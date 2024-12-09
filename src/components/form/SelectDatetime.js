@@ -145,7 +145,7 @@ function SelectDatetime({ today, formData, setFormData }) {
                         name="time"
                         title="Ora"
                         placeHolder="-:--"
-                        hideEmptyOptions={false}
+                        hideEmptyOption={false}
                         options={options}
                         value={formData.time}
                         onChange={handleSelectTime}

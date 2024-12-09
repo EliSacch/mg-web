@@ -36,7 +36,7 @@ function SelectTreatment({options, formData, setFormData, hasError}) {
             value={formData.treatment}
             onChange={handleSelectTreatment}
             placeHolder="---"
-            hideEmptyOptions={false}
+            hideEmptyOption={false}
             errorMsg={"Seleziona un trattamento"}
             errorDiv={hasError("treatment") ? "input-error" : "d-none"}
         />

@@ -6,7 +6,7 @@ function SelectRoom({options, formData, setFormData, hasError}) {
     const [selectRoomOptions, setSelectRoomOptions] = useState([]);
 
     const handleSelectRoom = e => {
-        const roomName = options.filter(room => room.id == e.target.value)[0].name
+        const roomName = e.target.value ? options.filter(room => room.id == e.target.value)[0].name : ""
         setFormData({
             ...formData,
             room: roomName,
@@ -33,8 +33,10 @@ function SelectRoom({options, formData, setFormData, hasError}) {
             title="Stanza"
             name="room"
             options={selectRoomOptions}
+            value={selectRoomOptions.filter(room => room.value == formData.room)[0]?.id}
             onChange={handleSelectRoom}
-            placeHolder={"Seleziona una stanza"}
+            hideEmptyOption={false}
+            placeHolder={"-----"}
             errorMsg={"Seleziona una stanza"}
             errorDiv={hasError("room") ? "input-error" : "d-none"}
         />

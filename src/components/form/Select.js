@@ -13,7 +13,7 @@ const Select = (props) => {
                 value={props.value}
                 onChange={props.onChange}
             >
-                {props.hideEmptyOptions===false && <option value="">{props.placeHolder}</option>}
+                {props.hideEmptyOption===false && <option value="">{props.placeHolder}</option>}
                 {props.options.map((option) => {
                     return (
                         <option

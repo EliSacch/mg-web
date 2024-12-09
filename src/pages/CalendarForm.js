@@ -187,7 +187,7 @@ const CalendarForm = ({ is_new }) => {
                                 value={calendar.schedule_id}
                                 options={options}
                                 onChange={handleSelectSchedule}
-                                hideEmptyOptions={true}
+                                hideEmptyOption={true}
                                 errorMsg={"Seleziona un orario"}
                                 errorDiv={hasError("schedule") ? "input-error" : "d-none"}
                             />
