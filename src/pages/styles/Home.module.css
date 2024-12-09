@@ -19,8 +19,8 @@
 
 .CallToAction h2 {
     font-family: var(--serif);
-    font-size: 1.5em;
-    color: var(--secondary300);
+    font-size: 1.8em;
+    color: var(--primary100);
     margin: 0;
 }
 
@@ -43,6 +43,10 @@
 
 .Section {
     padding: 2em;
+}
+
+.Services {
+    background-color: var(--grey);
 }
 
 .Section:has(> div:nth-child(2)) {

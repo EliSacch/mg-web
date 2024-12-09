@@ -142,7 +142,7 @@ export default function Signup() {
           />
 
           {isPending && <p>Loading...</p>}
-          {!isPending && <button id="signup" className={btnStyles.Btn}>Sign up</button>}
+          {!isPending && <button id="signup" className={btnStyles.Btn}>Registrati</button>}
 
         </form>
       </section>

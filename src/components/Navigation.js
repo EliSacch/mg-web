@@ -49,8 +49,8 @@ export default function Navigation(props) {
             <span className={styles.MoveRight}>
                 {!user && (
                     <>
-                        <NavLink to="/login">Login</NavLink>
-                        <NavLink to="/signup">Sign up</NavLink>
+                        <NavLink to="/login">Accedi</NavLink>
+                        <NavLink to="/signup">Registrati</NavLink>
                     </>
                 )}
                 { user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}

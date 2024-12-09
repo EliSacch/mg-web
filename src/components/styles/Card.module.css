@@ -3,7 +3,8 @@
     padding: 2em 1.5em;
     border: 1px solid var(--light);
     border-radius: 8px;
-    box-shadow: 5px 5px 25px grey;
+    box-shadow: 0 25px 25px -25px rgb(205, 203, 203);
+    background-color: var(--light);
 }
 
 .Card h3 {

@@ -79,7 +79,7 @@ export default function ManageCalendar(props) {
         !isPending && !fetchSettingsError && (
             <>
                 <section className={styles.Section}>
-                    <h2>Calendario</h2>
+                    <h2>Impostazioni</h2>
                     {<Select
                         name="default_calendar"
                         title="Orario predefinito:"
@@ -89,7 +89,7 @@ export default function ManageCalendar(props) {
                         hideEmptyOption={true}
                     />}
                 </section>
-                <section className={styles.Section}>
+                {/* <section className={styles.Section}>
                     <div className={styles.Button}>
                         <Link to="/admin/calendars/create" className={btnStyles.Btn}>Nuovo Calendario</Link>
                     </div>
@@ -137,7 +137,7 @@ export default function ManageCalendar(props) {
                             <p>Non ci sono calendari al momemento.</p>
                         )
                     )}
-                </section>
+                </section> */}
             </>
         )
     )

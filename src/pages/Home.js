@@ -104,7 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.Section}>
+      <section className={`${styles.Section} ${styles.Services}`}>
         <div>
           <h2>I Nostri Servizi</h2>
           {isPending && <p>Loading...</p>}

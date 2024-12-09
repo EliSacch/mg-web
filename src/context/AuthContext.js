@@ -21,7 +21,7 @@ export const authReducer = (state, action) => {
 
 const checkAdminStatus = async uid => {
     let isAdmin = false
-    const headers = new Headers();
+    /* const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
     const requestOptions = {
@@ -34,7 +34,7 @@ const checkAdminStatus = async uid => {
         .then(json => {
             isAdmin = json.is_admin}
             )
-        .catch(err => console.log(err))
+        .catch(err => console.log(err)) */
 
     return isAdmin
 }

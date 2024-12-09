@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useSetCurrentMessage, useSetCurrentMessageType } from "../context/MessageContext.js";
 import { useAuthContext } from "./useAuthContext.js";
 // firebase
-import { db, auth } from "../firebase/config.js";
+import { db, auth, timestamp } from "../firebase/config.js";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
@@ -22,6 +22,30 @@ export const useSignup = () => {
 
     const navigate = useNavigate();
 
+    const createProfile = async (uid) => {
+        try {
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
+
+            const requestOptions = {
+                body: JSON.stringify({ user: uid }),
+                method: "PUT",
+                headers: headers,
+            }
+            const res = await fetch(`${process.env.REACT_APP_BACKEND}/profiles/create`, requestOptions)
+                .then(res => res.json())
+
+            if (!res || res?.error) {
+                throw new Error("Errore nella creazione del profilo")
+            }
+
+            return res.data
+
+        } catch (error) {
+            throw new Error("Errore nella creazione del profilo")
+        }
+    }
+
     const signup = async (email, password, displayName) => {
         setError(null);
         setIsPending(true);
@@ -29,16 +53,13 @@ export const useSignup = () => {
         try {
             // signup
             const res = await createUserWithEmailAndPassword(auth, email, password)
-            if (!res) {
+            if (!res || res.error) {
                 throw new Error("Firebase error")
             }
+            
+            await createProfile(res.user.uid)
 
             await updateProfile(res.user, { displayName })
- 
-            await addDoc(collection(db, "profiles"), {
-                user: res.user.uid,
-                is_admin: false
-            })
 
             // dispatch login 
             dispatch({ type: "LOGIN", payload: res.user })

@@ -5,6 +5,7 @@
   --serif: 'Josefin Slab', serif;
 
   --light: rgb(254, 252, 250);
+  --grey: rgb(248, 245, 243);
   --neutral: rgb(246, 224, 224);
   --dark: rgb(36, 35, 35);
 
@@ -14,9 +15,9 @@
   --primary400: rgb(143, 115, 111);
   --primary500: rgb(107, 73, 68);
   --primary600: rgb(89, 58, 53);
-  --primary700: rgb(70, 52, 49);
+  --primary700: rgb(43, 38, 37);
 
-  --secondary300: rgb(215, 157, 49);
+  --secondary300: rgb(222, 164, 55);
 
   --success: rgb(168, 224, 168);
   --error: rgb(224, 99, 136);
